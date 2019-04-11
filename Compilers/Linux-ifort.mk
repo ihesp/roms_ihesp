@@ -48,6 +48,7 @@
 ifdef USE_NETCDF4
         NC_CONFIG ?= nc-config
     NETCDF_INCDIR ?= $(shell $(NC_CONFIG) --prefix)/include
+    NETCDFF_INCDIR ?= /software/tamusc/netCDF-Fortran/4.4.2-intel-2015B/include
              LIBS := $(shell $(NC_CONFIG) --flibs)
 else
     NETCDF_INCDIR ?= /usr/local/include
