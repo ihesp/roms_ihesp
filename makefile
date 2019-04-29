@@ -509,6 +509,10 @@ $(SCRATCH_DIR)/$(NETCDF_MODFILE): | $(SCRATCH_DIR)
 $(SCRATCH_DIR)/$(TYPESIZES_MODFILE): | $(SCRATCH_DIR)
 	cp -f $(NETCDF_INCDIR)/$(TYPESIZES_MODFILE) $(SCRATCH_DIR)
 
+#--- previous cp may fail on ada because TYPESIZES_MODFILE is not in normal location ---
+$(SCRATCH_DIR)/$(TYPESIZES_MODFILE): | $(SCRATCH_DIR)
+	cp -f $(NETCDFF_INCDIR)/$(TYPESIZES_MODFILE) $(SCRATCH_DIR)
+
 $(SCRATCH_DIR)/MakeDepend: makefile \
                            $(SCRATCH_DIR)/$(NETCDF_MODFILE) \
                            $(SCRATCH_DIR)/$(TYPESIZES_MODFILE) \
