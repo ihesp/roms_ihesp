@@ -507,11 +507,11 @@ $(SCRATCH_DIR)/$(NETCDF_MODFILE): | $(SCRATCH_DIR)
 	cp -f $(NETCDF_INCDIR)/$(NETCDF_MODFILE) $(SCRATCH_DIR)
 
 $(SCRATCH_DIR)/$(TYPESIZES_MODFILE): | $(SCRATCH_DIR)
+ifeq "$(MACH)" "ada"
+ 	cp -f $(NETCDFF_INCDIR)/$(TYPESIZES_MODFILE) $(SCRATCH_DIR)
+else
 	cp -f $(NETCDF_INCDIR)/$(TYPESIZES_MODFILE) $(SCRATCH_DIR)
-
-#--- previous cp may fail on ada because TYPESIZES_MODFILE is not in normal location ---
-$(SCRATCH_DIR)/$(TYPESIZES_MODFILE): | $(SCRATCH_DIR)
-	cp -f $(NETCDFF_INCDIR)/$(TYPESIZES_MODFILE) $(SCRATCH_DIR)
+endif
 
 $(SCRATCH_DIR)/MakeDepend: makefile \
                            $(SCRATCH_DIR)/$(NETCDF_MODFILE) \
