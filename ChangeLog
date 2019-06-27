@@ -1,0 +1,26 @@
+Tag Creator: kauff
+Developers:  kauff
+Tag Date:    2019 June 27
+Tag Name:    embedded-master_190627
+Tag Summary: add mods necessary for roms to be a subroutine of ocpl
+
+Testing: none
+
+wrt build via ocpl bld...
+#	modified:   buildlib
+#	modified:   buildnml
+#	deleted:    cime_config/buildnmlc
+
+wrt avoiding namespace conflicts...
+#	modified:   ROMS/Nonlinear/main2d.F
+#	modified:   ROMS/Nonlinear/main3d.F
+#	new file:   ROMS/Nonlinear/roms_forcing.F
+#	new file:   ROMS/Nonlinear/roms_initial.F
+#	new file:   ROMS/Nonlinear/roms_output.F
+#	deleted:    ROMS/Nonlinear/forcing.F
+#	deleted:    ROMS/Nonlinear/initial.F
+#	deleted:    ROMS/Nonlinear/output.F
+
+===============================================================================
+branch:   embedded-master  -> roms is subroutine to ocpl (ocn coupler)
+===============================================================================
