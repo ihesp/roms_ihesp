@@ -31,7 +31,8 @@ def _build_roms():
         srcroot = case.get_value("SRCROOT")
         gmake_j = case.get_value("GMAKE_J")
         gmake = case.get_value("GMAKE")
-        ocn_grid = case.get_value("OCN_GRID")
+        #cn_grid = case.get_value("OCN_GRID") BK: need new roms grid variable
+        ocn_grid = "gom3"
         mach = case.get_value("MACH")
         compiler = case.get_value("COMPILER")
         casename = case.get_value("CASE")
@@ -49,11 +50,10 @@ def _build_roms():
         os.environ['DEBUG'] = str(debug).upper()
         logger.info("     debug environ set to "+str(os.environ['DEBUG']))
 
-        debugdir="debug"
-        #if debug: 
-        #    debugdir="debug" 
-        #else: 
-        #    debugdir="nodebug"
+        if debug: 
+            debugdir="debug" 
+        else: 
+            debugdir="nodebug"
 
         #-------------------------------------------------------
         # Call roms's buildexe.csh

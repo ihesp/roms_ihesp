@@ -42,7 +42,8 @@ def buildnml(case, caseroot, compname):
     casename = case.get_value("CASE")
     get_refcase = case.get_value("GET_REF_CASE")
     ninst = case.get_value("NINST_OCN")
-    ocn_grid = case.get_value("OCN_GRID")
+    #cn_grid = case.get_value("OCN_GRID")  BK: need a ocn grid var for roms
+    ocn_grid = "gom3"
     run_type = case.get_value("RUN_TYPE")
     run_refcase = case.get_value("RUN_REF CASE")
     run_refdate = case.get_value("RUN_REFDATE")
@@ -91,27 +92,27 @@ def buildnml(case, caseroot, compname):
     	# ------------------------------------------------------------------------------
     	# determine the directory containing build-namelist script
     	# first check to see if build-namelist exists in SourceMods, if it exists use it
-        bldnml_dir = os.path.join(srcroot,"components","roms","bld")
+    	bldnml_dir = os.path.join(srcroot,"components","roms","bld")
  
-        # now call build-namelist
-        cmd = os.path.join(bldnml_dir, "roms.buildnml.csh")
-        if inst_string:
-           command = "%s -ntasks %s -continue %s -startdate %s -starttod %s -ocngrid %s -coderoot %s \
-                -rundir %s -dinlocroot %s -inst_string %s -domfile %s" \
-                % (cmd, ntasks, continue_run, startdate, starttod, ocn_grid, srcroot, \
-                   rundir, dinlocroot, inst_string, ddomain)
-        else:
-           command = "%s -ntasks %s -continue %s -startdate %s -starttod %s -ocngrid %s -coderoot %s \
-                  -rundir %s -dinlocroot %s -domfile %s" \
-                  % (cmd, ntasks, continue_run, startdate, starttod, ocn_grid, srcroot, \
-                    rundir, dinlocroot, ddomain)      
+    # now call build-namelist
+    cmd = os.path.join(bldnml_dir, "roms.buildnml.csh")
+    if inst_string:
+      command = "%s -ntasks %s -continue %s -startdate %s -starttod %s -ocngrid %s -coderoot %s \
+               -rundir %s -dinlocroot %s -inst_string %s -domfile %s" \
+              % (cmd, ntasks, continue_run, startdate, starttod, ocn_grid, srcroot, \
+                 rundir, dinlocroot, inst_string, ddomain)
+    else:
+      command = "%s -ntasks %s -continue %s -startdate %s -starttod %s -ocngrid %s -coderoot %s \
+               -rundir %s -dinlocroot %s -domfile %s" \
+              % (cmd, ntasks, continue_run, startdate, starttod, ocn_grid, srcroot, \
+                 rundir, dinlocroot, ddomain)      
         
-        rc, out, err = run_cmd(command, from_dir=confdir)
-        expect(rc==0,"Command %s failed rc=%d\nout=%s\nerr=%s"%(cmd,rc,out,err))
-        if out is not None:
-           logger.debug("     %s"%out)
-        if err is not None:
-           logger.debug("     %s"%err)
+    rc, out, err = run_cmd(command, from_dir=confdir)
+    expect(rc==0,"Command %s failed rc=%d\nout=%s\nerr=%s"%(cmd,rc,out,err))
+    if out is not None:
+        logger.debug("     %s"%out)
+    if err is not None:
+        logger.debug("     %s"%err)
 
     # copy pop namelist files from confdir to rundir
     #if os.path.isdir(rundir):
