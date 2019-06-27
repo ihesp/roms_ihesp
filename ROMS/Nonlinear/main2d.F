@@ -32,7 +32,7 @@
 # endif
 # if defined W4DPSAS || defined NLM_OUTER || \
      defined W4DPSAS_SENSITIVITY
-      USE forcing_mod, ONLY : forcing
+      USE roms_forcing_mod, ONLY : forcing
 # endif
 # ifdef ADJUST_WSTRESS
       USE frc_adjust_mod, ONLY : frc_adjust
