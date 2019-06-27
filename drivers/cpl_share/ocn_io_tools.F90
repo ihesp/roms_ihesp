@@ -208,8 +208,9 @@ contains
        ! --- Open log file in model IO namelist, if present ---
 
        if (log_task) then
-          stdout = shr_file_getUnit()
-          call shr_file_setIO(trim(io_file) // trim(inst_suffix), stdout)
+       !  BK: in ECESM context, ocpl sets/opens stdout
+       !  stdout = shr_file_getUnit()
+       !  call shr_file_setIO(trim(io_file) // trim(inst_suffix), stdout)
        else
           stdout = ocn_stdout
        end if
