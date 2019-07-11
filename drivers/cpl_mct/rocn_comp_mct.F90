@@ -146,14 +146,17 @@ contains
                    errorCode
 
         character (len = shr_kind_cl)  :: starttype
+        character(shr_kind_cl) :: timestr
 
         type(mct_gsMap), pointer :: gsMap_o
 
         type(mct_gGrid), pointer :: dom_o
 
-        character(len = *), parameter :: subname = 'rocn_init_mct'
+        character(len = *), parameter :: subname = '(rocn_init_mct) '
 
+!-------------------------------------------------------------------------------
         !--- Begin
+        write(stdout,*) subname,"ENTER"
 
         ! --- Set cdata pointers ---
 
@@ -168,8 +171,8 @@ contains
 
         ! --- Set shr logging to my log file ---
 
-        call ocn_log_init(mpicom_o, OCNID)
-        call ocn_set_logging(stdout)
+!       call ocn_log_init(mpicom_o, OCNID) BK: ocpl mangages ocn log units
+!       call ocn_set_logging(stdout)       BK: ocpl mangages ocn log units
 
         ! --- Set field index values ---
 
@@ -327,11 +330,14 @@ contains
 
         ! --- Reset shr logging to original units ---
 
-        call ocn_reset_logging
+!       call ocn_reset_logging   BK: ocpl manages ocn log units
 
         ! --- Output delimiter to log file ---
 
         call ocn_log_delim (" End of initialization")
+        call ocn_timemgr_getClock(timeString=timestr)
+        write(stdout,*) subname,"EXIT","model time = ",trim(timestr)
+        call shr_sys_flush(stdout)
 
 !EOC
     end subroutine rocn_init_mct
@@ -377,14 +383,17 @@ contains
 
         type(ESMF_Time) :: drv_CurrTime, ocn_CurrTime
 
-        character(len = *), parameter :: subname = 'rocn_run_mct'
+        character(*), parameter :: subname = '(rocn_run_mct) '
 
+!-------------------------------------------------------------------------------
+!
+!-------------------------------------------------------------------------------
 
-        !--- Begin
+!       write(stdout,*) subname,"ENTER"  ! debug
 
         ! --- Reset shr logging to my log file ---
 
-        call ocn_set_logging(stdout)
+!       call ocn_set_logging(stdout) BK: ocpl manages stdout/log units
 
         ! --- Get driver clock
 
@@ -493,7 +502,10 @@ contains
 
         ! --- Reset shr logging to original units ---
 
-        call ocn_reset_logging
+!       call ocn_reset_logging  BK: ocpl manages stdout/log units
+        call ocn_timemgr_getClock(timeString=timestr)
+        write(stdout,*) subname,"EXIT model time = ",trim(timestr)
+        call shr_sys_flush(stdout)
 
 !EOC
     end subroutine rocn_run_mct
@@ -524,11 +536,14 @@ contains
 !EOP
         ! --- Local variables ---
 
-        character(len = *), parameter :: subname = 'rocn_final_mct'
+        character(len = *), parameter :: subname = '(rocn_final_mct)'
 
+!-------------------------------------------------------------------------------
+        write(stdout,*) subname,"ENTER"
 !BOC
         ! --- Finalize model ---
         call roms_finalize
+        write(stdout,*) subname,"EXIT"
 !EOC
     end subroutine rocn_final_mct
 
