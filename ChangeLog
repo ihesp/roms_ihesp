@@ -1,5 +1,16 @@
 Tag Creator: kauff
 Developers:  kauff
+Tag Date:    2019 July 711
+Tag Name:    embedded-master_190711
+Tag Summary: builds, runs, blows up on cheyenne
+
+Testing: With all non-ihesp code from cesm2.1.1 
+         builds & runs on cheyenne, roms blows up
+
+===============================================================================
+
+Tag Creator: kauff
+Developers:  kauff
 Tag Date:    2019 June 27
 Tag Name:    embedded-master_190627
 Tag Summary: add mods necessary for roms to be a subroutine of ocpl
