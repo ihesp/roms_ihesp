@@ -5,7 +5,7 @@
  fillmask = 'nomask'
  mapalgo = 'bilinear'
  mapmask = 'dstmask'
- streams = "docn.streams.txt.prescribed 2010 2010 2010"
+ streams = "docn.streams.txt.prescribed replaceyr replaceyr replaceyr"
  taxmode = 'limit'
  tintalgo = 'linear'
 /

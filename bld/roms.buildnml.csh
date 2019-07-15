@@ -149,23 +149,6 @@ else
   echo "roms decomp for ${NTASKS_OCN} tasks is $ntif $ntjf"
 endif
 
-set oinfile = "$CODEROOT/${ocn_dir}/Apps/${OCN_GRID}/ocean.in"
-set ofile = ${RUNDIR}/ocean.in
-set input_data_dir = ${DIN_LOC_ROOT}/ocn/roms/gom3/
-
-if !(-e $oinfile) then
-  echo "$oinfile roms input file not found"
-  exit -2
-endif
-
-set tfile = tmpfile1
-cat $oinfile | sed "s/\(^\s*NtileI\s*==\s*\)[0-9]*/\1 $ntif /g" >! $tfile
-cat $tfile   | sed "s/\(^\s*NtileJ\s*==\s*\)[0-9]*/\1 $ntjf /g" >! $ofile
-rm -f $tfile
-
-cp -f $CODEROOT/${ocn_dir}/Apps/${OCN_GRID}/ocn_in ${RUNDIR} || exit -2
-cp -f $CODEROOT/${ocn_dir}/ROMS/External/varinfo.dat ${RUNDIR} || exit -2
-
 # Calculate start date and if this run is a restart.
 set contrunupper = ` echo $CONTINUE_RUN | tr "[a-z]" "[A-Z]" `
 echo "contrunupper = $contrunupper"
@@ -185,6 +168,25 @@ set st_tod  = `echo $date | cut -d "-" -f 4`
 @ st_min = ( ${st_tod} % 3600 ) / 60
 @ st_sec = ( ${st_tod} % 3600 ) % 60
 
+set input_data_dir = ${DIN_LOC_ROOT}/ocn/roms/gom3/
+#set oinfile = "$CODEROOT/${ocn_dir}/Apps/${OCN_GRID}/ocean.in"
+set oinfile = "${input_data_dir}/${st_year}/ocean.in"
+set ofile = ${RUNDIR}/ocean.in
+
+if !(-e $oinfile) then
+  echo "$oinfile roms input file not found"
+  exit -2
+endif
+
+set tfile = tmpfile1
+cat $oinfile | sed "s/\(^\s*NtileI\s*==\s*\)[0-9]*/\1 $ntif /g" >! $tfile
+cat $tfile   | sed "s/\(^\s*NtileJ\s*==\s*\)[0-9]*/\1 $ntjf /g" >! $ofile
+rm -f $tfile
+
+cp -f $CODEROOT/${ocn_dir}/Apps/${OCN_GRID}/ocn_in ${RUNDIR} || exit -2
+cp -f $CODEROOT/${ocn_dir}/ROMS/External/varinfo.dat ${RUNDIR} || exit -2
+
+
 sed -i "s/CASE_ST_YR/${st_year}/" ${RUNDIR}/ocn_in
 sed -i "s/CASE_ST_MO/${st_mon}/" ${RUNDIR}/ocn_in
 sed -i "s/CASE_ST_DA/${st_day}/" ${RUNDIR}/ocn_in
@@ -195,20 +197,24 @@ sed -i "s/CASE_ST_SE/${st_sec}/" ${RUNDIR}/ocn_in
 
 ### Move over grid and boundary data for a given compset
 if (($OCN_GRID == gom3)||($OCN_GRID == gom3x)) then
-    echo "gom3 or gom3x boundary data copied to run dir"
-    cp -f ${input_data_dir}/gom03_grd_N050_md15m.nc ${RUNDIR} || exit -2
-    cp -f ${input_data_dir}/gom03_N050_md15m_bry_HYCOM_GBL_19p1_2010_01.nc ${RUNDIR} || exit -2
-    cp -f ${input_data_dir}/gom03_N050_md15m_ini_HYCOM_GBL_19p1_201001.nc ${RUNDIR} || exit -2
-    cp -f ${input_data_dir}/gom03_N050_md15m_nudg_HYCOM_GBL_19p1_201001.nc ${RUNDIR} || exit -2
+#    echo "gom3 or gom3x boundary data copied to run dir"
+#    cp -f ${input_data_dir}/gom03_grd_N050_md15m.nc ${RUNDIR} || exit -2
+#    cp -f ${input_data_dir}/gom03_N050_md15m_bry_HYCOM_GBL_19p1_2010_01.nc ${RUNDIR} || exit -2
+#    cp -f ${input_data_dir}/gom03_N050_md15m_ini_HYCOM_GBL_19p1_201001.nc ${RUNDIR} || exit -2
+#    cp -f ${input_data_dir}/gom03_N050_md15m_nudg_HYCOM_GBL_19p1_201001.nc ${RUNDIR} || exit -2
+     echo "gom3 or gom3x boundary data linked to run dir"
+     ln -sf ${input_data_dir}/${st_year}/*.nc ${RUNDIR} || exit -2 
 endif
 if ($OCN_GRID == gom3x) then
     echo "docn support data copied to run dir"
-    cp -f ${input_data_dir}/gom03_xroms_sstice.nc ${RUNDIR}
-    cp -f ${input_data_dir}/docn.streams.txt.prescribed ${RUNDIR}
+#    cp -f ${input_data_dir}/gom03_xroms_sstice.nc ${RUNDIR}    # already linked
+    cp -f ${input_data_dir}/${st_year}/docn.streams.txt.prescribed ${RUNDIR}
     cp -f $CODEROOT/${ocn_dir}/Apps/${OCN_GRID}/docn_in ${RUNDIR}/docn_in${INST_STR}
-    cp -f $CODEROOT/${ocn_dir}/Apps/${OCN_GRID}/docn_ocn_in ${RUNDIR}/docn_ocn_in${INST_STR}
+#    cp -f $CODEROOT/${ocn_dir}/Apps/${OCN_GRID}/docn_ocn_in ${RUNDIR}/docn_ocn_in${INST_STR}
+    cp -f  ${input_data_dir}/${st_year}/docn_ocn_in ${RUNDIR}/docn_ocn_in${INST_STR}
     sed -i "s/docn_ocn_in/docn_ocn_in${INST_STR}/" ${RUNDIR}/docn_in${INST_STR}
     sed -i "s%replacedomainfile%${domainfilepath}%" ${RUNDIR}/docn_ocn_in${INST_STR}
+    sed -i "s%replaceyr%${st_year}%g" ${RUNDIR}/docn_ocn_in${INST_STR}
 endif
 
 #cp -f /pic/scratch/tcraig/IRESM/inputdata/ocn/roms/${OCN_GRID}/* ${RUNDIR} || exit -2
