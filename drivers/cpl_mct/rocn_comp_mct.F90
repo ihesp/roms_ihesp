@@ -336,7 +336,7 @@ contains
 
         call ocn_log_delim (" End of initialization")
         call ocn_timemgr_getClock(timeString=timestr)
-        write(stdout,*) subname,"EXIT","model time = ",trim(timestr)
+        write(stdout,*) subname,"EXIT model time = ",trim(timestr)
         call shr_sys_flush(stdout)
 
 !EOC
