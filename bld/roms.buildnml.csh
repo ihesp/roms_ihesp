@@ -170,7 +170,7 @@ set st_tod  = `echo $date | cut -d "-" -f 4`
 
 set input_data_dir = ${DIN_LOC_ROOT}/ocn/roms/gom3/
 #set oinfile = "$CODEROOT/${ocn_dir}/Apps/${OCN_GRID}/ocean.in"
-set oinfile = "${input_data_dir}/${st_year}/ocean.in"
+set oinfile = "${input_data_dir}/${st_year}${st_mon}/ocean.in"
 set ofile = ${RUNDIR}/ocean.in
 
 if !(-e $oinfile) then
@@ -197,21 +197,16 @@ sed -i "s/CASE_ST_SE/${st_sec}/" ${RUNDIR}/ocn_in
 
 ### Move over grid and boundary data for a given compset
 if (($OCN_GRID == gom3)||($OCN_GRID == gom3x)) then
-#    echo "gom3 or gom3x boundary data copied to run dir"
-#    cp -f ${input_data_dir}/gom03_grd_N050_md15m.nc ${RUNDIR} || exit -2
-#    cp -f ${input_data_dir}/gom03_N050_md15m_bry_HYCOM_GBL_19p1_2010_01.nc ${RUNDIR} || exit -2
-#    cp -f ${input_data_dir}/gom03_N050_md15m_ini_HYCOM_GBL_19p1_201001.nc ${RUNDIR} || exit -2
-#    cp -f ${input_data_dir}/gom03_N050_md15m_nudg_HYCOM_GBL_19p1_201001.nc ${RUNDIR} || exit -2
      echo "gom3 or gom3x boundary data linked to run dir"
-     ln -sf ${input_data_dir}/${st_year}/*.nc ${RUNDIR} || exit -2 
+     ln -sf ${input_data_dir}/${st_year}${st_mon}/*.nc ${RUNDIR} || exit -2 
 endif
 if ($OCN_GRID == gom3x) then
     echo "docn support data copied to run dir"
 #    cp -f ${input_data_dir}/gom03_xroms_sstice.nc ${RUNDIR}    # already linked
-    cp -f ${input_data_dir}/${st_year}/docn.streams.txt.prescribed ${RUNDIR}
+    cp -f ${input_data_dir}/${st_year}${st_mon}/docn.streams.txt.prescribed ${RUNDIR}
     cp -f $CODEROOT/${ocn_dir}/Apps/${OCN_GRID}/docn_in ${RUNDIR}/docn_in${INST_STR}
 #    cp -f $CODEROOT/${ocn_dir}/Apps/${OCN_GRID}/docn_ocn_in ${RUNDIR}/docn_ocn_in${INST_STR}
-    cp -f  ${input_data_dir}/${st_year}/docn_ocn_in ${RUNDIR}/docn_ocn_in${INST_STR}
+    cp -f  ${input_data_dir}/${st_year}${st_mon}/docn_ocn_in ${RUNDIR}/docn_ocn_in${INST_STR}
     sed -i "s/docn_ocn_in/docn_ocn_in${INST_STR}/" ${RUNDIR}/docn_in${INST_STR}
     sed -i "s%replacedomainfile%${domainfilepath}%" ${RUNDIR}/docn_ocn_in${INST_STR}
     sed -i "s%replaceyr%${st_year}%g" ${RUNDIR}/docn_ocn_in${INST_STR}

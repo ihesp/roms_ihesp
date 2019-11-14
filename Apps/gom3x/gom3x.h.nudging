@@ -174,12 +174,10 @@
 # define ANA_BTFLUX				/* analytical bottom temperature flux */
 
 /* define water mass relaxation */
-
-# undef TCLIMATOLOGY
-# undef TCLM_NUDGING
+# define TCLIMATOLOGY
+# define TCLM_NUDGING
 # undef  M3CLM_NUDGING
 # undef  M3CLIMATOLOGY
-
 
 /* define coupling within CESM/CCSM */
 #define CCSMCOUPLED
