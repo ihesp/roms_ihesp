@@ -56,6 +56,31 @@
       integer :: LBi, UBi, LBj, UBj
       integer :: i
 
+      real(R8)     :: BC_min, BC_max ! BC min/max vals          ~ CESM/iHesp/ocpl
+      integer      :: Tindex         ! UB t-slice index         ~ CESM/iHesp/ocpl
+      logical      :: Lonerec        ! T => only one t-slice    ~ CESM/iHesp/ocpl
+      logical      :: newdata        ! T => new ocpl data       ~ CESM/iHesp/ocpl
+      logical      :: bypass         ! T => don't use ocpl data ~ CESM/iHesp/ocpl
+      integer      :: debug          ! turns on debug info      ~ CESM/iHesp/ocpl
+      character(48):: str            ! text string              ~ CESM/iHesp/ocpl
+      character(*),parameter :: subName = "(roms:get_data) " !  ~ CESM/iHesp/ocpl
+
+!-------------------------------------------------------------------------------
+!
+!-------------------------------------------------------------------------------
+
+      !--- control flags from CESM ocpl ---
+      debug   = BOUNDARY_OCPL(ng) % debug
+      bypass  = BOUNDARY_OCPL(ng) % bypass
+      newdata = BOUNDARY_OCPL(ng) % newdata
+      BOUNDARY_OCPL(ng) % newdata = .false.
+
+      IF (debug>0) THEN
+         write(stdout,'(2a,L2,a,L2,a,i2))') subName, &
+            "Enter, CESM ocpl: newdata = ",newdata , &
+            ", bypass = ",bypass, ", debug = ",debug 
+      END IF
+
 #ifdef OBC
 !
 !  Lower and upper bounds for nontiled boundary arrays.
@@ -647,6 +672,7 @@
 !  Read in open boundary conditions from BOUNDARY NetCDF file.
 !=======================================================================
 !
+
 # ifndef ANA_FSOBC
 #  ifdef WEST_FSOBC
       CALL get_ngfld (ng, iNLM, idZbry(iwest), BRY(ng)%ncid,            &
@@ -654,6 +680,37 @@
      &                JLB, JUB, 1, 2, 0, Mm(ng)+1, 1,                   &
      &                BOUNDARY(ng) % zetaG_west(JLB,1))
       IF (exit_flag.ne.NoError) RETURN
+
+      !----- clobber BC data with data from ocpl (CESM/iHESP/ocpl)  -----
+      IF ( (newdata .or. update(1)) ) THEN 
+         IF (debug == 1) THEN
+            write(stdout,'(2a)') subName,"mod west  zeta"
+         ELSE IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%zetaG_west (:,:))
+            BC_max = maxval(BOUNDARY(ng)%zetaG_west (:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "old west  zeta: min,max=",BC_min,BC_max
+         END IF
+         IF (bypass) THEN
+            write(stdout,'(2a)') subName,"bypass west  zeta"
+         ELSE
+            Tindex  = Iinfo(8,idZbry(iwest ),ng) 
+            LoneRec = Linfo(3,idZbry(iwest ),ng)
+            BOUNDARY(ng) % zetaG_west (:,Tindex) = &
+            BOUNDARY_OCPL(ng) % zeta_west (:)  ! clobber data  
+            IF (.not. LoneRec) THEN            ! clobber both time slices
+               BOUNDARY(ng) % zetaG_west (:,3-Tindex) = &
+               BOUNDARY(ng) % zetaG_west (:,  Tindex)
+            END IF
+         END IF
+         IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%zetaG_west (:,:))
+            BC_max = maxval(BOUNDARY(ng)%zetaG_west (:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "new west  zeta: min,max=",BC_min,BC_max
+         END IF
+      END IF 
+      !------------------------------------------------------------------
 #  endif
 
 #  ifdef EAST_FSOBC
@@ -662,6 +719,37 @@
      &                JLB, JUB, 1, 2, 0, Mm(ng)+1, 1,                   &
      &                BOUNDARY(ng) % zetaG_east(JLB,1))
       IF (exit_flag.ne.NoError) RETURN
+
+      !----- clobber BC data with data from ocpl (CESM/iHESP/ocpl)  -----
+      IF ( (newdata .or. update(1)) ) THEN 
+         IF (debug == 1) THEN
+            write(stdout,'(2a)') subName,"mod east  zeta"
+         ELSE IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%zetaG_east (:,:))
+            BC_max = maxval(BOUNDARY(ng)%zetaG_east (:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "old east  zeta: min,max=",BC_min,BC_max
+         END IF
+         IF (bypass) THEN
+            write(stdout,'(2a)') subName,"bypass east  zeta"
+         ELSE
+            Tindex  = Iinfo(8,idZbry(ieast ),ng) 
+            LoneRec = Linfo(3,idZbry(ieast ),ng)
+            BOUNDARY(ng) % zetaG_east (:,Tindex) = &
+            BOUNDARY_OCPL(ng) % zeta_east (:)  ! clobber data  
+            IF (.not. LoneRec) THEN            ! clobber both time slices
+               BOUNDARY(ng) % zetaG_east (:,3-Tindex) = &
+               BOUNDARY(ng) % zetaG_east (:,  Tindex)
+            END IF
+         END IF
+         IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%zetaG_east (:,:))
+            BC_max = maxval(BOUNDARY(ng)%zetaG_east (:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "new east  zeta: min,max=",BC_min,BC_max
+         END IF
+      END IF 
+      !------------------------------------------------------------------
 #  endif
 
 #  ifdef SOUTH_FSOBC
@@ -670,6 +758,37 @@
      &                ILB, IUB, 1, 2, 0, Lm(ng)+1, 1,                   &
      &                BOUNDARY(ng) % zetaG_south(ILB,1))
       IF (exit_flag.ne.NoError) RETURN
+
+      !----- clobber BC data with data from ocpl (CESM/iHESP/ocpl)  -----
+      IF ( (newdata .or. update(1)) ) THEN 
+         IF (debug == 1) THEN
+            write(stdout,'(2a)') subName,"mod south zeta"
+         ELSE IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%zetaG_south(:,:))
+            BC_max = maxval(BOUNDARY(ng)%zetaG_south(:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "old south zeta: min,max=",BC_min,BC_max
+         END IF
+         IF (bypass) THEN
+            write(stdout,'(2a)') subName,"bypass south zeta"
+         ELSE
+            Tindex  = Iinfo(8,idZbry(isouth),ng) 
+            LoneRec = Linfo(3,idZbry(isouth),ng)
+            BOUNDARY(ng) % zetaG_south(:,Tindex) = &
+            BOUNDARY_OCPL(ng) % zeta_south(:)  ! clobber data  
+            IF (.not. LoneRec) THEN            ! clobber both time slices
+               BOUNDARY(ng) % zetaG_south(:,3-Tindex) = &
+               BOUNDARY(ng) % zetaG_south(:,  Tindex)
+            END IF
+         END IF
+         IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%zetaG_south(:,:))
+            BC_max = maxval(BOUNDARY(ng)%zetaG_south(:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "new south zeta: min,max=",BC_min,BC_max
+         END IF
+      END IF 
+      !------------------------------------------------------------------
 #  endif
 
 #  ifdef NORTH_FSOBC
@@ -678,6 +797,37 @@
      &                ILB, IUB, 1, 2, 0, Lm(ng)+1, 1,                   &
      &                BOUNDARY(ng) % zetaG_north(ILB,1))
       IF (exit_flag.ne.NoError) RETURN
+
+      !----- clobber BC data with data from ocpl (CESM/iHESP/ocpl)  -----
+      IF ( (newdata .or. update(1)) ) THEN 
+         IF (debug == 1) THEN
+            write(stdout,'(2a)') subName,"mod north zeta"
+         ELSE IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%zetaG_north(:,:))
+            BC_max = maxval(BOUNDARY(ng)%zetaG_north(:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "old north zeta: min,max=",BC_min,BC_max
+         END IF
+         IF (bypass) THEN
+            write(stdout,'(2a)') subName,"bypass north zeta"
+         ELSE
+            Tindex  = Iinfo(8,idZbry(inorth),ng) 
+            LoneRec = Linfo(3,idZbry(inorth),ng)
+            BOUNDARY(ng) % zetaG_north(:,Tindex) = &
+            BOUNDARY_OCPL(ng) % zeta_north(:)  ! clobber data  
+            IF (.not. LoneRec) THEN            ! clobber both time slices
+               BOUNDARY(ng) % zetaG_north(:,3-Tindex) = &
+               BOUNDARY(ng) % zetaG_north(:,  Tindex)
+            END IF
+         END IF
+         IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%zetaG_north(:,:))
+            BC_max = maxval(BOUNDARY(ng)%zetaG_north(:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "new north zeta: min,max=",BC_min,BC_max
+         END IF
+      END IF 
+      !------------------------------------------------------------------
 #  endif
 # endif
 
@@ -689,11 +839,73 @@
      &                BOUNDARY(ng) % ubarG_west(JLB,1))
       IF (exit_flag.ne.NoError) RETURN
 
+      !----- clobber BC data with data from ocpl (CESM/iHESP/ocpl)  -----
+      IF ( (newdata .or. update(1)) ) THEN 
+         IF (debug == 1) THEN
+            write(stdout,'(2a)') subName,"mod west  ubar"
+         ELSE IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%ubarG_west (:,:))
+            BC_max = maxval(BOUNDARY(ng)%ubarG_west (:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "old west  ubar: min,max=",BC_min,BC_max
+         END IF
+         IF (bypass) THEN
+            write(stdout,'(2a)') subName,"bypass west  ubar"
+         ELSE
+            Tindex  = Iinfo(8,idU2bc(iwest ),ng) 
+            LoneRec = Linfo(3,idU2bc(iwest ),ng)
+            BOUNDARY(ng) % ubarG_west (:,Tindex) = &
+            BOUNDARY_OCPL(ng) % ubar_west (:)  ! clobber data  
+            IF (.not. LoneRec) THEN            ! clobber both time slices
+               BOUNDARY(ng) % ubarG_west (:,3-Tindex) = &
+               BOUNDARY(ng) % ubarG_west (:,  Tindex)
+            END IF
+         END IF
+         IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%ubarG_west (:,:))
+            BC_max = maxval(BOUNDARY(ng)%ubarG_west (:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "new west  ubar: min,max=",BC_min,BC_max
+         END IF
+      END IF 
+      !------------------------------------------------------------------
+
       CALL get_ngfld (ng, iNLM, idV2bc(iwest), BRY(ng)%ncid,            &
      &                1, BRY(ng), update(1),                            &
      &                JLB, JUB, 1, 2, 1, Mm(ng)+1, 1,                   &
      &                BOUNDARY(ng) % vbarG_west(JLB,1))
       IF (exit_flag.ne.NoError) RETURN
+
+      !----- clobber BC data with data from ocpl (CESM/iHESP/ocpl)  -----
+      IF ( (newdata .or. update(1)) ) THEN 
+         IF (debug == 1) THEN
+            write(stdout,'(2a)') subName,"mod west  vbar"
+         ELSE IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%vbarG_west (:,:))
+            BC_max = maxval(BOUNDARY(ng)%vbarG_west (:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "old west  vbar: min,max=",BC_min,BC_max
+         END IF
+         IF (bypass) THEN
+            write(stdout,'(2a)') subName,"bypass west  vbar"
+         ELSE
+            Tindex  = Iinfo(8,idV2bc(iwest ),ng) 
+            LoneRec = Linfo(3,idV2bc(iwest ),ng)
+            BOUNDARY(ng) % vbarG_west (:,Tindex) = &
+            BOUNDARY_OCPL(ng) % vbar_west (:)  ! clobber data  
+            IF (.not. LoneRec) THEN            ! clobber both time slices
+               BOUNDARY(ng) % vbarG_west (:,3-Tindex) = &
+               BOUNDARY(ng) % vbarG_west (:,  Tindex)
+            END IF
+         END IF
+         IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%vbarG_west (:,:))
+            BC_max = maxval(BOUNDARY(ng)%vbarG_west (:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "new west  vbar: min,max=",BC_min,BC_max
+         END IF
+      END IF 
+      !------------------------------------------------------------------
 #  endif
 
 #  ifdef EAST_M2OBC
@@ -703,11 +915,73 @@
      &                BOUNDARY(ng) % ubarG_east(JLB,1))
       IF (exit_flag.ne.NoError) RETURN
 
+      !----- clobber BC data with data from ocpl (CESM/iHESP/ocpl)  -----
+      IF ( (newdata .or. update(1)) ) THEN 
+         IF (debug == 1) THEN
+            write(stdout,'(2a)') subName,"mod east  ubar"
+         ELSE IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%ubarG_east (:,:))
+            BC_max = maxval(BOUNDARY(ng)%ubarG_east (:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "old east  ubar: min,max=",BC_min,BC_max
+         END IF
+         IF (bypass) THEN
+            write(stdout,'(2a)') subName,"bypass east  ubar"
+         ELSE
+            Tindex  = Iinfo(8,idU2bc(ieast ),ng) 
+            LoneRec = Linfo(3,idU2bc(ieast ),ng)
+            BOUNDARY(ng) % ubarG_east (:,Tindex) = &
+            BOUNDARY_OCPL(ng) % ubar_east (:)  ! clobber data  
+            IF (.not. LoneRec) THEN            ! clobber both time slices
+               BOUNDARY(ng) % ubarG_east (:,3-Tindex) = &
+               BOUNDARY(ng) % ubarG_east (:,  Tindex)
+            END IF
+         END IF
+         IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%ubarG_east (:,:))
+            BC_max = maxval(BOUNDARY(ng)%ubarG_east (:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "new east  ubar: min,max=",BC_min,BC_max
+         END IF
+      END IF 
+      !------------------------------------------------------------------
+
       CALL get_ngfld (ng, iNLM, idV2bc(ieast), BRY(ng)%ncid,            &
      &                1, BRY(ng), update(1),                            &
      &                JLB, JUB, 1, 2, 1, Mm(ng)+1, 1,                   &
      &                BOUNDARY(ng) % vbarG_east(JLB,1))
       IF (exit_flag.ne.NoError) RETURN
+
+      !----- clobber BC data with data from ocpl (CESM/iHESP/ocpl)  -----
+      IF ( (newdata .or. update(1)) ) THEN 
+         IF (debug == 1) THEN
+            write(stdout,'(2a)') subName,"mod east  vbar"
+         ELSE IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%vbarG_east (:,:))
+            BC_max = maxval(BOUNDARY(ng)%vbarG_east (:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "old east  vbar: min,max=",BC_min,BC_max
+         END IF
+         IF (bypass) THEN
+            write(stdout,'(2a)') subName,"bypass east  vbar"
+         ELSE
+            Tindex  = Iinfo(8,idV2bc(ieast ),ng) 
+            LoneRec = Linfo(3,idV2bc(ieast ),ng)
+            BOUNDARY(ng) % vbarG_east (:,Tindex) = &
+            BOUNDARY_OCPL(ng) % vbar_east (:)  ! clobber data  
+            IF (.not. LoneRec) THEN            ! clobber both time slices
+               BOUNDARY(ng) % vbarG_east (:,3-Tindex) = &
+               BOUNDARY(ng) % vbarG_east (:,  Tindex)
+            END IF
+         END IF
+         IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%vbarG_east (:,:))
+            BC_max = maxval(BOUNDARY(ng)%vbarG_east (:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "new east  vbar: min,max=",BC_min,BC_max
+         END IF
+      END IF 
+      !------------------------------------------------------------------
 #  endif
 
 #  ifdef SOUTH_M2OBC
@@ -717,11 +991,73 @@
      &                BOUNDARY(ng) % ubarG_south(ILB,1))
       IF (exit_flag.ne.NoError) RETURN
 
+      !----- clobber BC data with data from ocpl (CESM/iHESP/ocpl)  -----
+      IF ( (newdata .or. update(1)) ) THEN 
+         IF (debug == 1) THEN
+            write(stdout,'(2a)') subName,"mod south ubar"
+         ELSE IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%ubarG_south(:,:))
+            BC_max = maxval(BOUNDARY(ng)%ubarG_south(:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "old south ubar: min,max=",BC_min,BC_max
+         END IF
+         IF (bypass) THEN
+            write(stdout,'(2a)') subName,"bypass south ubar"
+         ELSE
+            Tindex  = Iinfo(8,idU2bc(isouth),ng) 
+            LoneRec = Linfo(3,idU2bc(isouth),ng)
+            BOUNDARY(ng) % ubarG_south(:,Tindex) = &
+            BOUNDARY_OCPL(ng) % ubar_south(:)  ! clobber data  
+            IF (.not. LoneRec) THEN            ! clobber both time slices
+               BOUNDARY(ng) % ubarG_south(:,3-Tindex) = &
+               BOUNDARY(ng) % ubarG_south(:,  Tindex)
+            END IF
+         END IF
+         IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%ubarG_south(:,:))
+            BC_max = maxval(BOUNDARY(ng)%ubarG_south(:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "new south ubar: min,max=",BC_min,BC_max
+         END IF
+      END IF 
+      !------------------------------------------------------------------
+
       CALL get_ngfld (ng, iNLM, idV2bc(isouth), BRY(ng)%ncid,           &
      &                1, BRY(ng), update(1),                            &
      &                ILB, IUB, 1, 2, 0, Lm(ng)+1, 1,                   &
      &                BOUNDARY(ng) % vbarG_south(ILB,1))
       IF (exit_flag.ne.NoError) RETURN
+
+      !----- clobber BC data with data from ocpl (CESM/iHESP/ocpl)  -----
+      IF ( (newdata .or. update(1)) ) THEN 
+         IF (debug == 1) THEN
+            write(stdout,'(2a)') subName,"mod south vbar"
+         ELSE IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%vbarG_south(:,:))
+            BC_max = maxval(BOUNDARY(ng)%vbarG_south(:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "old south vbar: min,max=",BC_min,BC_max
+         END IF
+         IF (bypass) THEN
+            write(stdout,'(2a)') subName,"bypass south vbar"
+         ELSE
+            Tindex  = Iinfo(8,idV2bc(isouth),ng) 
+            LoneRec = Linfo(3,idV2bc(isouth),ng)
+            BOUNDARY(ng) % vbarG_south(:,Tindex) = &
+            BOUNDARY_OCPL(ng) % vbar_south(:)  ! clobber data  
+            IF (.not. LoneRec) THEN            ! clobber both time slices
+               BOUNDARY(ng) % vbarG_south(:,3-Tindex) = &
+               BOUNDARY(ng) % vbarG_south(:,  Tindex)
+            END IF
+         END IF
+         IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%vbarG_south(:,:))
+            BC_max = maxval(BOUNDARY(ng)%vbarG_south(:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "new south vbar: min,max=",BC_min,BC_max
+         END IF
+      END IF 
+      !------------------------------------------------------------------
 #  endif
 
 #  ifdef NORTH_M2OBC
@@ -731,11 +1067,73 @@
      &                BOUNDARY(ng) % ubarG_north(ILB,1))
       IF (exit_flag.ne.NoError) RETURN
 
+      !----- clobber BC data with data from ocpl (CESM/iHESP/ocpl)  -----
+      IF ( (newdata .or. update(1)) ) THEN 
+         IF (debug == 1) THEN
+            write(stdout,'(2a)') subName,"mod north ubar"
+         ELSE IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%ubarG_north(:,:))
+            BC_max = maxval(BOUNDARY(ng)%ubarG_north(:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "old north ubar: min,max=",BC_min,BC_max
+         END IF
+         IF (bypass) THEN
+            write(stdout,'(2a)') subName,"bypass north ubar"
+         ELSE
+            Tindex  = Iinfo(8,idU2bc(inorth),ng) 
+            LoneRec = Linfo(3,idU2bc(inorth),ng)
+            BOUNDARY(ng) % ubarG_north(:,Tindex) = &
+            BOUNDARY_OCPL(ng) % ubar_north(:)  ! clobber data  
+            IF (.not. LoneRec) THEN            ! clobber both time slices
+               BOUNDARY(ng) % ubarG_north(:,3-Tindex) = &
+               BOUNDARY(ng) % ubarG_north(:,  Tindex)
+            END IF
+         END IF
+         IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%ubarG_north(:,:))
+            BC_max = maxval(BOUNDARY(ng)%ubarG_north(:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "new north ubar: min,max=",BC_min,BC_max
+         END IF
+      END IF 
+      !------------------------------------------------------------------
+
       CALL get_ngfld (ng, iNLM, idV2bc(inorth), BRY(ng)%ncid,           &
      &                1, BRY(ng), update(1),                            &
      &                ILB, IUB, 1, 2, 0, Lm(ng)+1, 1,                   &
      &                BOUNDARY(ng) % vbarG_north(ILB,1))
       IF (exit_flag.ne.NoError) RETURN
+
+      !----- clobber BC data with data from ocpl (CESM/iHESP/ocpl)  -----
+      IF ( (newdata .or. update(1)) ) THEN 
+         IF (debug == 1) THEN
+            write(stdout,'(2a)') subName,"mod north vbar"
+         ELSE IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%vbarG_north(:,:))
+            BC_max = maxval(BOUNDARY(ng)%vbarG_north(:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "old north vbar: min,max=",BC_min,BC_max
+         END IF
+         IF (bypass) THEN
+            write(stdout,'(2a)') subName,"bypass north vbar"
+         ELSE
+            Tindex  = Iinfo(8,idV2bc(inorth),ng) 
+            LoneRec = Linfo(3,idV2bc(inorth),ng)
+            BOUNDARY(ng) % vbarG_north(:,Tindex) = &
+            BOUNDARY_OCPL(ng) % vbar_north(:)  ! clobber data  
+            IF (.not. LoneRec) THEN            ! clobber both time slices
+               BOUNDARY(ng) % vbarG_north(:,3-Tindex) = &
+               BOUNDARY(ng) % vbarG_north(:,  Tindex)
+            END IF
+         END IF
+         IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%vbarG_north(:,:))
+            BC_max = maxval(BOUNDARY(ng)%vbarG_north(:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "new north vbar: min,max=",BC_min,BC_max
+         END IF
+      END IF 
+      !------------------------------------------------------------------
 #  endif
 # endif
 
@@ -748,11 +1146,73 @@
      &                BOUNDARY(ng) % uG_west(JLB,1,1))
       IF (exit_flag.ne.NoError) RETURN
 
+      !----- clobber BC data with data from ocpl (CESM/iHESP/ocpl)  -----
+      IF ( (newdata .or. update(1)) ) THEN 
+         IF (debug == 1) THEN
+            write(stdout,'(2a)') subName,"mod west  u"
+         ELSE IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%uG_west (:,:,:))
+            BC_max = maxval(BOUNDARY(ng)%uG_west (:,:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "old west  u   : min,max=",BC_min,BC_max
+         END IF
+         IF (bypass) THEN
+            write(stdout,'(2a)') subName,"bypass west  u"
+         ELSE
+            Tindex  = Iinfo(8,idU3bc(iwest ),ng) 
+            LoneRec = Linfo(3,idU3bc(iwest ),ng)
+            BOUNDARY(ng) % uG_west (:,:,Tindex) = &
+            BOUNDARY_OCPL(ng) % u_west (:,:)  ! clobber data  
+            IF (.not. LoneRec) THEN            ! clobber both time slices
+               BOUNDARY(ng) % uG_west (:,:,3-Tindex) = &
+               BOUNDARY(ng) % uG_west (:,:,  Tindex)
+            END IF
+         END IF
+         IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%uG_west (:,:,:))
+            BC_max = maxval(BOUNDARY(ng)%uG_west (:,:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "new west  u   : min,max=",BC_min,BC_max
+         END IF
+      END IF
+      !------------------------------------------------------------------
+
       CALL get_ngfld (ng, iNLM, idV3bc(iwest), BRY(ng)%ncid,            &
      &                1, BRY(ng), update(1),                            &
      &                JLB, JUB, N(ng), 2, 1, Mm(ng)+1, N(ng),           &
      &                BOUNDARY(ng) % vG_west(JLB,1,1))
       IF (exit_flag.ne.NoError) RETURN
+
+      !----- clobber BC data with data from ocpl (CESM/iHESP/ocpl)  -----
+      IF ( (newdata .or. update(1)) ) THEN 
+         IF (debug == 1) THEN
+            write(stdout,'(2a)') subName,"mod west  v"
+         ELSE IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%vG_west (:,:,:))
+            BC_max = maxval(BOUNDARY(ng)%vG_west (:,:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "old west  v   : min,max=",BC_min,BC_max
+         END IF
+         IF (bypass) THEN
+            write(stdout,'(2a)') subName,"bypass west  vbar"
+         ELSE
+            Tindex  = Iinfo(8,idV3bc(iwest ),ng) 
+            LoneRec = Linfo(3,idV3bc(iwest ),ng)
+            BOUNDARY(ng) % vG_west (:,:,Tindex) = &
+            BOUNDARY_OCPL(ng) % v_west (:,:)   ! clobber data  
+            IF (.not. LoneRec) THEN            ! clobber both time slices
+               BOUNDARY(ng) % vG_west (:,:,3-Tindex) = &
+               BOUNDARY(ng) % vG_west (:,:,  Tindex)
+            END IF
+         END IF
+         IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%vG_west (:,:,:))
+            BC_max = maxval(BOUNDARY(ng)%vG_west (:,:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "new west  v   : min,max=",BC_min,BC_max
+         END IF
+      END IF
+      !------------------------------------------------------------------
 #   endif
 
 #   ifdef EAST_M3OBC
@@ -762,11 +1222,73 @@
      &                BOUNDARY(ng) % uG_east(JLB,1,1))
       IF (exit_flag.ne.NoError) RETURN
 
+      !----- clobber BC data with data from ocpl (CESM/iHESP/ocpl)  -----
+      IF ( (newdata .or. update(1)) ) THEN 
+         IF (debug == 1) THEN
+            write(stdout,'(2a)') subName,"mod east  u"
+         ELSE IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%uG_east (:,:,:))
+            BC_max = maxval(BOUNDARY(ng)%uG_east (:,:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "old east  u   : min,max=",BC_min,BC_max
+         END IF
+         IF (bypass) THEN
+            write(stdout,'(2a)') subName,"bypass east  u"
+         ELSE
+            Tindex  = Iinfo(8,idU3bc(ieast ),ng) 
+            LoneRec = Linfo(3,idU3bc(ieast ),ng)
+            BOUNDARY(ng) % uG_east (:,:,Tindex) = &
+            BOUNDARY_OCPL(ng) % u_east (:,:)  ! clobber data  
+            IF (.not. LoneRec) THEN            ! clobber both time slices
+               BOUNDARY(ng) % uG_east (:,:,3-Tindex) = &
+               BOUNDARY(ng) % uG_east (:,:,  Tindex)
+            END IF
+         END IF
+         IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%uG_east (:,:,:))
+            BC_max = maxval(BOUNDARY(ng)%uG_east (:,:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "new east  u   : min,max=",BC_min,BC_max
+         END IF
+      END IF
+      !------------------------------------------------------------------
+
       CALL get_ngfld (ng, iNLM, idV3bc(ieast), BRY(ng)%ncid,            &
      &                1, BRY(ng), update(1),                            &
      &                JLB, JUB, N(ng), 2, 1, Mm(ng)+1, N(ng),           &
      &                BOUNDARY(ng) % vG_east(JLB,1,1))
       IF (exit_flag.ne.NoError) RETURN
+
+      !----- clobber BC data with data from ocpl (CESM/iHESP/ocpl)  -----
+      IF ( (newdata .or. update(1)) ) THEN 
+         IF (debug == 1) THEN
+            write(stdout,'(2a)') subName,"mod east  v"
+         ELSE IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%vG_east (:,:,:))
+            BC_max = maxval(BOUNDARY(ng)%vG_east (:,:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "old east  v   : min,max=",BC_min,BC_max
+         END IF
+         IF (bypass) THEN
+            write(stdout,'(2a)') subName,"bypass east  vbar"
+         ELSE
+            Tindex  = Iinfo(8,idV3bc(ieast ),ng) 
+            LoneRec = Linfo(3,idV3bc(ieast ),ng)
+            BOUNDARY(ng) % vG_east (:,:,Tindex) = &
+            BOUNDARY_OCPL(ng) % v_east (:,:)   ! clobber data  
+            IF (.not. LoneRec) THEN            ! clobber both time slices
+               BOUNDARY(ng) % vG_east (:,:,3-Tindex) = &
+               BOUNDARY(ng) % vG_east (:,:,  Tindex)
+            END IF
+         END IF
+         IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%vG_east (:,:,:))
+            BC_max = maxval(BOUNDARY(ng)%vG_east (:,:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "new east  v   : min,max=",BC_min,BC_max
+         END IF
+      END IF
+      !------------------------------------------------------------------
 #   endif
 
 #   ifdef SOUTH_M3OBC
@@ -776,11 +1298,73 @@
      &                BOUNDARY(ng) % uG_south(ILB,1,1))
       IF (exit_flag.ne.NoError) RETURN
 
+      !----- clobber BC data with data from ocpl (CESM/iHESP/ocpl)  -----
+      IF ( (newdata .or. update(1)) ) THEN 
+         IF (debug == 1) THEN
+            write(stdout,'(2a)') subName,"mod south u"
+         ELSE IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%uG_south(:,:,:))
+            BC_max = maxval(BOUNDARY(ng)%uG_south(:,:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "old south u   : min,max=",BC_min,BC_max
+         END IF
+         IF (bypass) THEN
+            write(stdout,'(2a)') subName,"bypass south u"
+         ELSE
+            Tindex  = Iinfo(8,idU3bc(isouth),ng) 
+            LoneRec = Linfo(3,idU3bc(isouth),ng)
+            BOUNDARY(ng) % uG_south(:,:,Tindex) = &
+            BOUNDARY_OCPL(ng) % u_south(:,:)  ! clobber data  
+            IF (.not. LoneRec) THEN            ! clobber both time slices
+               BOUNDARY(ng) % uG_south(:,:,3-Tindex) = &
+               BOUNDARY(ng) % uG_south(:,:,  Tindex)
+            END IF
+         END IF
+         IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%uG_south(:,:,:))
+            BC_max = maxval(BOUNDARY(ng)%uG_south(:,:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "new south u   : min,max=",BC_min,BC_max
+         END IF
+      END IF
+      !------------------------------------------------------------------
+
       CALL get_ngfld (ng, iNLM, idV3bc(isouth), BRY(ng)%ncid,           &
      &                1, BRY(ng), update(1),                            &
      &                ILB, IUB, N(ng), 2, 0, Lm(ng)+1, N(ng),           &
      &                BOUNDARY(ng) % vG_south(ILB,1,1))
       IF (exit_flag.ne.NoError) RETURN
+
+      !----- clobber BC data with data from ocpl (CESM/iHESP/ocpl)  -----
+      IF ( (newdata .or. update(1)) ) THEN 
+         IF (debug == 1) THEN
+            write(stdout,'(2a)') subName,"mod south v"
+         ELSE IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%vG_south(:,:,:))
+            BC_max = maxval(BOUNDARY(ng)%vG_south(:,:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "old south v   : min,max=",BC_min,BC_max
+         END IF
+         IF (bypass) THEN
+            write(stdout,'(2a)') subName,"bypass south vbar"
+         ELSE
+            Tindex  = Iinfo(8,idV3bc(isouth),ng) 
+            LoneRec = Linfo(3,idV3bc(isouth),ng)
+            BOUNDARY(ng) % vG_south(:,:,Tindex) = &
+            BOUNDARY_OCPL(ng) % v_south(:,:)   ! clobber data  
+            IF (.not. LoneRec) THEN            ! clobber both time slices
+               BOUNDARY(ng) % vG_south(:,:,3-Tindex) = &
+               BOUNDARY(ng) % vG_south(:,:,  Tindex)
+            END IF
+         END IF
+         IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%vG_south(:,:,:))
+            BC_max = maxval(BOUNDARY(ng)%vG_south(:,:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "new south v   : min,max=",BC_min,BC_max
+         END IF
+      END IF
+      !------------------------------------------------------------------
 #   endif
 
 #   ifdef NORTH_M3OBC
@@ -790,11 +1374,73 @@
      &                BOUNDARY(ng) % uG_north(ILB,1,1))
       IF (exit_flag.ne.NoError) RETURN
 
+      !----- clobber BC data with data from ocpl (CESM/iHESP/ocpl)  -----
+      IF ( (newdata .or. update(1)) ) THEN 
+         IF (debug == 1) THEN
+            write(stdout,'(2a)') subName,"mod north u"
+         ELSE IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%uG_north(:,:,:))
+            BC_max = maxval(BOUNDARY(ng)%uG_north(:,:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "old north u   : min,max=",BC_min,BC_max
+         END IF
+         IF (bypass) THEN
+            write(stdout,'(2a)') subName,"bypass north u"
+         ELSE
+            Tindex  = Iinfo(8,idU3bc(inorth),ng) 
+            LoneRec = Linfo(3,idU3bc(inorth),ng)
+            BOUNDARY(ng) % uG_north(:,:,Tindex) = &
+            BOUNDARY_OCPL(ng) % u_north(:,:)  ! clobber data  
+            IF (.not. LoneRec) THEN            ! clobber both time slices
+               BOUNDARY(ng) % uG_north(:,:,3-Tindex) = &
+               BOUNDARY(ng) % uG_north(:,:,  Tindex)
+            END IF
+         END IF
+         IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%uG_north(:,:,:))
+            BC_max = maxval(BOUNDARY(ng)%uG_north(:,:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "new north u   : min,max=",BC_min,BC_max
+         END IF
+      END IF
+      !------------------------------------------------------------------
+
       CALL get_ngfld (ng, iNLM, idV3bc(inorth), BRY(ng)%ncid,           &
      &                1, BRY(ng), update(1),                            &
      &                ILB, IUB, N(ng), 2, 0, Lm(ng)+1, N(ng),           &
      &                BOUNDARY(ng) % vG_north(ILB,1,1))
       IF (exit_flag.ne.NoError) RETURN
+
+      !----- clobber BC data with data from ocpl (CESM/iHESP/ocpl)  -----
+      IF ( (newdata .or. update(1)) ) THEN 
+         IF (debug == 1) THEN
+            write(stdout,'(2a)') subName,"mod north v"
+         ELSE IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%vG_north(:,:,:))
+            BC_max = maxval(BOUNDARY(ng)%vG_north(:,:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "old north v   : min,max=",BC_min,BC_max
+         END IF
+         IF (bypass) THEN
+            write(stdout,'(2a)') subName,"bypass north vbar"
+         ELSE
+            Tindex  = Iinfo(8,idV3bc(inorth),ng) 
+            LoneRec = Linfo(3,idV3bc(inorth),ng)
+            BOUNDARY(ng) % vG_north(:,:,Tindex) = &
+            BOUNDARY_OCPL(ng) % v_north(:,:)   ! clobber data  
+            IF (.not. LoneRec) THEN            ! clobber both time slices
+               BOUNDARY(ng) % vG_north(:,:,3-Tindex) = &
+               BOUNDARY(ng) % vG_north(:,:,  Tindex)
+            END IF
+         END IF
+         IF (debug > 1) THEN
+            BC_min = minval(BOUNDARY(ng)%vG_north(:,:,:))
+            BC_max = maxval(BOUNDARY(ng)%vG_north(:,:,:))
+            write(stdout,'(2a,2es12.4)') subName,&
+                "new north v   : min,max=",BC_min,BC_max
+         END IF
+      END IF
+      !------------------------------------------------------------------
 #   endif
 #  endif
 
@@ -806,8 +1452,48 @@
      &                  JLB, JUB, N(ng), 2, 0, Mm(ng)+1, N(ng),         &
      &                  BOUNDARY(ng) % tG_west(JLB,1,1,i))
         IF (exit_flag.ne.NoError) RETURN
+        !----- clobber BC data with data from ocpl (CESM/iHESP/ocpl)  -----
+        IF ( (newdata .or. update(1)) ) THEN 
+           IF (debug == 1) THEN
+              write(stdout,'(2a,i2)') subName,"mod west  T(i), i=",i
+           ELSE IF (debug > 1) THEN
+              IF (i == 1) str = "old west  temp: min,max="
+              IF (i == 2) str = "old west  salt: min,max="
+              BC_min = minval(BOUNDARY(ng)%tG_west (:,:,:,i))
+              BC_max = maxval(BOUNDARY(ng)%tG_west (:,:,:,i))
+              write(stdout,'(2a,2es12.4)') subName,&
+                  trim(str)                 ,BC_min,BC_max
+           END IF
+           IF (bypass) THEN
+              write(stdout,'(2a,i2)') subName,"bypass west  T(i),i=",i
+           ELSE  ! clobber BC data
+              Tindex  = Iinfo(8,idTbry(iwest ,i),ng) 
+              LoneRec = Linfo(3,idTbry(iwest ,i),ng)
+              IF (i == 1) THEN       ! i==1 => temperature
+                 BOUNDARY(ng) % tG_west (:,:,Tindex,i) = &
+                 BOUNDARY_OCPL(ng) % temp_west (:,:)     ! clobber data  
+              ELSE IF (i == 2) THEN  ! i==2 => salinity
+                 BOUNDARY(ng) % tG_west (:,:,Tindex,i) = &
+                 BOUNDARY_OCPL(ng) % salt_west (:,:)     ! clobber data  
+              END IF
+              IF (.not. LoneRec .and. i<3) THEN ! clobber both time slices
+                 BOUNDARY(ng) % tG_west (:,:,3-Tindex,i) = &
+                 BOUNDARY(ng) % tG_west (:,:,  Tindex,i)
+              END IF
+           END IF
+           IF (debug > 1) THEN
+              IF (i == 1) str = "new west  temp: min,max="
+              IF (i == 2) str = "new west  salt: min,max="
+              BC_min = minval(BOUNDARY(ng)%tG_west (:,:,:,i))
+              BC_max = maxval(BOUNDARY(ng)%tG_west (:,:,:,i))
+              write(stdout,'(2a,2es12.4)') subName,&
+                  trim(str)                 ,BC_min,BC_max
+           END IF
+        END IF 
+        !------------------------------------------------------------------
       END DO
 #   endif
+
 
 #   ifdef EAST_TOBC
       DO i=1,NT(ng)
@@ -816,6 +1502,45 @@
      &                  JLB, JUB, N(ng), 2, 0, Mm(ng)+1, N(ng),         &
      &                  BOUNDARY(ng) % tG_east(JLB,1,1,i))
         IF (exit_flag.ne.NoError) RETURN
+        !----- clobber BC data with data from ocpl (CESM/iHESP/ocpl)  -----
+        IF ( (newdata .or. update(1)) ) THEN 
+           IF (debug == 1) THEN
+              write(stdout,'(2a,i2)') subName,"mod east  T(i), i=",i
+           ELSE IF (debug > 1) THEN
+              IF (i == 1) str = "old east  temp: min,max="
+              IF (i == 2) str = "old east  salt: min,max="
+              BC_min = minval(BOUNDARY(ng)%tG_east (:,:,:,i))
+              BC_max = maxval(BOUNDARY(ng)%tG_east (:,:,:,i))
+              write(stdout,'(2a,2es12.4)') subName,&
+                  trim(str)                 ,BC_min,BC_max
+           END IF
+           IF (bypass) THEN
+              write(stdout,'(2a,i2)') subName,"bypass east  T(i),i=",i
+           ELSE  ! clobber BC data
+              Tindex  = Iinfo(8,idTbry(ieast ,i),ng) 
+              LoneRec = Linfo(3,idTbry(ieast ,i),ng)
+              IF (i == 1) THEN       ! i==1 => temperature
+                 BOUNDARY(ng) % tG_east (:,:,Tindex,i) = &
+                 BOUNDARY_OCPL(ng) % temp_east (:,:)     ! clobber data  
+              ELSE IF (i == 2) THEN  ! i==2 => salinity
+                 BOUNDARY(ng) % tG_east (:,:,Tindex,i) = &
+                 BOUNDARY_OCPL(ng) % salt_east (:,:)     ! clobber data  
+              END IF
+              IF (.not. LoneRec .and. i<3) THEN ! clobber both time slices
+                 BOUNDARY(ng) % tG_east (:,:,3-Tindex,i) = &
+                 BOUNDARY(ng) % tG_east (:,:,  Tindex,i)
+              END IF
+           END IF
+           IF (debug > 1) THEN
+              IF (i == 1) str = "new east  temp: min,max="
+              IF (i == 2) str = "new east  salt: min,max="
+              BC_min = minval(BOUNDARY(ng)%tG_east (:,:,:,i))
+              BC_max = maxval(BOUNDARY(ng)%tG_east (:,:,:,i))
+              write(stdout,'(2a,2es12.4)') subName,&
+                  trim(str)                 ,BC_min,BC_max
+           END IF
+        END IF 
+        !------------------------------------------------------------------
       END DO
 #   endif
 
@@ -826,6 +1551,46 @@
      &                  ILB, IUB, N(ng), 2, 0, Lm(ng)+1, N(ng),         &
      &                  BOUNDARY(ng) % tG_south(ILB,1,1,i))
         IF (exit_flag.ne.NoError) RETURN
+
+        !----- clobber BC data with data from ocpl (CESM/iHESP/ocpl)  -----
+        IF ( (newdata .or. update(1)) ) THEN 
+           IF (debug == 1) THEN
+              write(stdout,'(2a,i2)') subName,"mod south T(i), i=",i
+           ELSE IF (debug > 1) THEN
+              IF (i == 1) str = "old south temp: min,max="
+              IF (i == 2) str = "old south salt: min,max="
+              BC_min = minval(BOUNDARY(ng)%tG_south(:,:,:,i))
+              BC_max = maxval(BOUNDARY(ng)%tG_south(:,:,:,i))
+              write(stdout,'(2a,2es12.4)') subName,&
+                  trim(str)                 ,BC_min,BC_max
+           END IF
+           IF (bypass) THEN
+              write(stdout,'(2a,i2)') subName,"bypass south T(i),i=",i
+           ELSE  ! clobber BC data
+              Tindex  = Iinfo(8,idTbry(isouth,i),ng) 
+              LoneRec = Linfo(3,idTbry(isouth,i),ng)
+              IF (i == 1) THEN       ! i==1 => temperature
+                 BOUNDARY(ng) % tG_south(:,:,Tindex,i) = &
+                 BOUNDARY_OCPL(ng) % temp_south(:,:)     ! clobber data  
+              ELSE IF (i == 2) THEN  ! i==2 => salinity
+                 BOUNDARY(ng) % tG_south(:,:,Tindex,i) = &
+                 BOUNDARY_OCPL(ng) % salt_south(:,:)     ! clobber data  
+              END IF
+              IF (.not. LoneRec .and. i<3) THEN ! clobber both time slices
+                 BOUNDARY(ng) % tG_south(:,:,3-Tindex,i) = &
+                 BOUNDARY(ng) % tG_south(:,:,  Tindex,i)
+              END IF
+           END IF
+           IF (debug > 1) THEN
+              IF (i == 1) str = "new south temp: min,max="
+              IF (i == 2) str = "new south salt: min,max="
+              BC_min = minval(BOUNDARY(ng)%tG_south(:,:,:,i))
+              BC_max = maxval(BOUNDARY(ng)%tG_south(:,:,:,i))
+              write(stdout,'(2a,2es12.4)') subName,&
+                  trim(str)                 ,BC_min,BC_max
+           END IF
+        END IF 
+        !------------------------------------------------------------------
       END DO
 #   endif
 
@@ -836,6 +1601,45 @@
      &                  ILB, IUB, N(ng), 2, 0, Lm(ng)+1, N(ng),         &
      &                  BOUNDARY(ng) % tG_north(ILB,1,1,i))
         IF (exit_flag.ne.NoError) RETURN
+        !----- clobber BC data with data from ocpl (CESM/iHESP/ocpl)  -----
+        IF ( (newdata .or. update(1)) ) THEN 
+           IF (debug == 1) THEN
+              write(stdout,'(2a,i2)') subName,"mod north T(i), i=",i
+           ELSE IF (debug > 1) THEN
+              IF (i == 1) str = "old north temp: min,max="
+              IF (i == 2) str = "old north salt: min,max="
+              BC_min = minval(BOUNDARY(ng)%tG_north(:,:,:,i))
+              BC_max = maxval(BOUNDARY(ng)%tG_north(:,:,:,i))
+              write(stdout,'(2a,2es12.4)') subName,&
+                  trim(str)                 ,BC_min,BC_max
+           END IF
+           IF (bypass) THEN
+              write(stdout,'(2a,i2)') subName,"bypass north T(i),i=",i
+           ELSE  ! clobber BC data
+              Tindex  = Iinfo(8,idTbry(inorth,i),ng) 
+              LoneRec = Linfo(3,idTbry(inorth,i),ng)
+              IF (i == 1) THEN       ! i==1 => temperature
+                 BOUNDARY(ng) % tG_north(:,:,Tindex,i) = &
+                 BOUNDARY_OCPL(ng) % temp_north(:,:)     ! clobber data  
+              ELSE IF (i == 2) THEN  ! i==2 => salinity
+                 BOUNDARY(ng) % tG_north(:,:,Tindex,i) = &
+                 BOUNDARY_OCPL(ng) % salt_north(:,:)     ! clobber data  
+              END IF
+              IF (.not. LoneRec .and. i<3) THEN ! clobber both time slices
+                 BOUNDARY(ng) % tG_north(:,:,3-Tindex,i) = &
+                 BOUNDARY(ng) % tG_north(:,:,  Tindex,i)
+              END IF
+           END IF
+           IF (debug > 1) THEN
+              IF (i == 1) str = "new north temp: min,max="
+              IF (i == 2) str = "new north salt: min,max="
+              BC_min = minval(BOUNDARY(ng)%tG_north(:,:,:,i))
+              BC_max = maxval(BOUNDARY(ng)%tG_north(:,:,:,i))
+              write(stdout,'(2a,2es12.4)') subName,&
+                  trim(str)                 ,BC_min,BC_max
+           END IF
+        END IF 
+        !------------------------------------------------------------------
       END DO
 #   endif
 #  endif

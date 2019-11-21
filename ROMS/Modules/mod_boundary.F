@@ -806,7 +806,42 @@
 
         END TYPE T_BOUNDARY
 
+        TYPE T_BOUNDARY_OCPL ! for CESM/iHESP/ocpl embedded ocn coupling
+          logical           :: bypass  = .true.  ! T => don't use this data
+          logical           :: newdata = .false. ! T => ocpl updated this data
+          integer           :: debug   = 1       ! T => ocpl requests debug output
+          real(r8), pointer :: zeta_west (:)
+          real(r8), pointer :: zeta_east (:)
+          real(r8), pointer :: zeta_south(:)
+          real(r8), pointer :: zeta_north(:)
+          real(r8), pointer :: ubar_west (:)
+          real(r8), pointer :: vbar_west (:)
+          real(r8), pointer :: ubar_east (:)
+          real(r8), pointer :: vbar_east (:)
+          real(r8), pointer :: ubar_south(:)
+          real(r8), pointer :: vbar_south(:)
+          real(r8), pointer :: ubar_north(:)
+          real(r8), pointer :: vbar_north(:)
+          real(r8), pointer :: u_west    (:,:)
+          real(r8), pointer :: v_west    (:,:)
+          real(r8), pointer :: u_east    (:,:)
+          real(r8), pointer :: v_east    (:,:)
+          real(r8), pointer :: u_south   (:,:)
+          real(r8), pointer :: v_south   (:,:)
+          real(r8), pointer :: u_north   (:,:)
+          real(r8), pointer :: v_north   (:,:)
+          real(r8), pointer :: temp_west (:,:)
+          real(r8), pointer :: temp_east (:,:)
+          real(r8), pointer :: temp_south(:,:)
+          real(r8), pointer :: temp_north(:,:)
+          real(r8), pointer :: salt_west (:,:)
+          real(r8), pointer :: salt_east (:,:)
+          real(r8), pointer :: salt_south(:,:)
+          real(r8), pointer :: salt_north(:,:)
+        END TYPE T_BOUNDARY_OCPL
+
         TYPE (T_BOUNDARY), allocatable ::BOUNDARY(:)
+        TYPE (T_BOUNDARY_OCPL), allocatable ::BOUNDARY_OCPL(:) ! for CESM/iHESP/ocpl embedded ocn coupling
 
       CONTAINS
 
@@ -961,6 +996,36 @@
       allocate ( BOUNDARY(ng) % vbarG_north(XI_DIM,2) )
 #  endif
 # endif
+
+      IF (ng.eq.1) allocate ( BOUNDARY_OCPL(Ngrids) ) ! for CESM/iHESP/ocpl embedded ocn coupling
+      allocate ( BOUNDARY_OCPL(ng) % zeta_west(ETA_DIM) )
+      allocate ( BOUNDARY_OCPL(ng) % zeta_east(ETA_DIM) )
+      allocate ( BOUNDARY_OCPL(ng) % zeta_south(XI_DIM) )
+      allocate ( BOUNDARY_OCPL(ng) % zeta_north(XI_DIM) )
+      allocate ( BOUNDARY_OCPL(ng) % ubar_west(ETA_DIM) )
+      allocate ( BOUNDARY_OCPL(ng) % ubar_east(ETA_DIM) )
+      allocate ( BOUNDARY_OCPL(ng) % ubar_south(XI_DIM) )
+      allocate ( BOUNDARY_OCPL(ng) % ubar_north(XI_DIM) )
+      allocate ( BOUNDARY_OCPL(ng) % vbar_west(ETA_DIM) )
+      allocate ( BOUNDARY_OCPL(ng) % vbar_east(ETA_DIM) )
+      allocate ( BOUNDARY_OCPL(ng) % vbar_south(XI_DIM) )
+      allocate ( BOUNDARY_OCPL(ng) % vbar_north(XI_DIM) )
+      allocate ( BOUNDARY_OCPL(ng) %    u_west(ETA_DIM,N(ng)) )
+      allocate ( BOUNDARY_OCPL(ng) %    u_east(ETA_DIM,N(ng)) )
+      allocate ( BOUNDARY_OCPL(ng) %    u_south(XI_DIM,N(ng)) )
+      allocate ( BOUNDARY_OCPL(ng) %    u_north(XI_DIM,N(ng)) )
+      allocate ( BOUNDARY_OCPL(ng) %    v_west(ETA_DIM,N(ng)) )
+      allocate ( BOUNDARY_OCPL(ng) %    v_east(ETA_DIM,N(ng)) )
+      allocate ( BOUNDARY_OCPL(ng) %    v_south(XI_DIM,N(ng)) )
+      allocate ( BOUNDARY_OCPL(ng) %    v_north(XI_DIM,N(ng)) )
+      allocate ( BOUNDARY_OCPL(ng) % temp_west(ETA_DIM,N(ng)) )
+      allocate ( BOUNDARY_OCPL(ng) % temp_east(ETA_DIM,N(ng)) )
+      allocate ( BOUNDARY_OCPL(ng) % temp_south(XI_DIM,N(ng)) )
+      allocate ( BOUNDARY_OCPL(ng) % temp_north(XI_DIM,N(ng)) )
+      allocate ( BOUNDARY_OCPL(ng) % salt_west(ETA_DIM,N(ng)) )
+      allocate ( BOUNDARY_OCPL(ng) % salt_east(ETA_DIM,N(ng)) )
+      allocate ( BOUNDARY_OCPL(ng) % salt_south(XI_DIM,N(ng)) )
+      allocate ( BOUNDARY_OCPL(ng) % salt_north(XI_DIM,N(ng)) )
 
 # ifdef SOLVE3D
 #  ifdef WEST_M3OBC
@@ -1579,6 +1644,35 @@
 # endif
 
       END IF
+
+      BOUNDARY_OCPL(ng) % zeta_west  = IniVal  ! for CESM/iHESP/ocpl embedded ocn coupling
+      BOUNDARY_OCPL(ng) % zeta_east  = IniVal
+      BOUNDARY_OCPL(ng) % zeta_south = IniVal
+      BOUNDARY_OCPL(ng) % zeta_north = IniVal
+      BOUNDARY_OCPL(ng) % ubar_west  = IniVal
+      BOUNDARY_OCPL(ng) % ubar_east  = IniVal
+      BOUNDARY_OCPL(ng) % ubar_south = IniVal
+      BOUNDARY_OCPL(ng) % ubar_north = IniVal
+      BOUNDARY_OCPL(ng) % vbar_west  = IniVal
+      BOUNDARY_OCPL(ng) % vbar_east  = IniVal
+      BOUNDARY_OCPL(ng) % vbar_south = IniVal
+      BOUNDARY_OCPL(ng) % vbar_north = IniVal
+      BOUNDARY_OCPL(ng) %    u_west  = IniVal
+      BOUNDARY_OCPL(ng) %    u_east  = IniVal
+      BOUNDARY_OCPL(ng) %    u_south = IniVal
+      BOUNDARY_OCPL(ng) %    u_north = IniVal
+      BOUNDARY_OCPL(ng) %    v_west  = IniVal
+      BOUNDARY_OCPL(ng) %    v_east  = IniVal
+      BOUNDARY_OCPL(ng) %    v_south = IniVal
+      BOUNDARY_OCPL(ng) %    v_north = IniVal
+      BOUNDARY_OCPL(ng) % temp_west  = IniVal
+      BOUNDARY_OCPL(ng) % temp_east  = IniVal
+      BOUNDARY_OCPL(ng) % temp_south = IniVal
+      BOUNDARY_OCPL(ng) % temp_north = IniVal
+      BOUNDARY_OCPL(ng) % salt_west  = IniVal
+      BOUNDARY_OCPL(ng) % salt_east  = IniVal
+      BOUNDARY_OCPL(ng) % salt_south = IniVal
+      BOUNDARY_OCPL(ng) % salt_north = IniVal
 
 # if defined TANGENT || defined TL_IOMS
 !
