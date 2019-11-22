@@ -1,3 +1,15 @@
+===============================================================================
+Tag Creator: kauff
+Developers:  kauff
+Tag Date:    2019 Nov 22
+Tag Name:    embedded-master_191122
+Tag Summary: ocpl -> roms BC data clobbers get_data() input
+
+Testing: builds & runs on cheyenne, appears to work, needs more testing
+new roms internal data types that hold alternate BC data (from ocpl)
+requires associated change in ocpl to set value of new roms internal data types
+
+===============================================================================
 Tag Creator: kauff
 Developers:  kauff
 Tag Date:    2019 July 711
