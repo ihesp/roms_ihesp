@@ -98,8 +98,8 @@
 ! shared-memory configurations used to determine tile horizontal range
 ! indices (Istr,Iend) and (Jstr,Jend), [1:Ngrids].
 
-      NtileI == 12                              ! I-direction partition
-      NtileJ == 18                               ! J-direction partition
+      NtileI ==  24                               ! I-direction partition
+      NtileJ ==  20                                ! J-direction partition
 
 ! Time-Stepping parameters.
 
@@ -628,7 +628,7 @@ Dout(iTvdif) == F F T T T T    ! temp_vdiff, ...    vertical diffusion
 ! Input NetCDF file names, [1:Ngrids].
 
      GRDNAME == ./gom03_grd_N050_md15m.nc
-     ININAME == ./gom03_N050_md15m_ini_HYCOM_GBL_19p1_201001.nc
+     ININAME == ./gom03_N050_md15m_ini_POP_JRA55_20100101.nc
      ITLNAME == /dev/null
      IRPNAME == /dev/null
      IADNAME == /dev/null
