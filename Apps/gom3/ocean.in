@@ -633,7 +633,7 @@ Dout(iTvdif) == F F T T T T    ! temp_vdiff, ...    vertical diffusion
      IRPNAME == /dev/null
      IADNAME == /dev/null
      CLMNAME == ./gom03_N050_md15m_nudg_HYCOM_GBL_19p1_201001.nc
-     BRYNAME == ./gom03_N050_md15m_bry_HYCOM_GBL_19p1_2010_01.nc
+     BRYNAME == ./gom03_N050_coast_bry_COPERNICUS_RA025_2010.nc
      FWDNAME == /dev/null
      ADSNAME == /dev/null
 
