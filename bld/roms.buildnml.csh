@@ -197,9 +197,10 @@ sed -i "s/CASE_ST_SE/${st_sec}/" ${RUNDIR}/ocn_in
 if (($OCN_GRID == gom3)||($OCN_GRID == gom3x)) then
     echo "gom3 or gom3x boundary data copied to run dir"
     cp -f ${input_data_dir}/gom03_grd_N050_md15m.nc ${RUNDIR} || exit -2
-    cp -f ${input_data_dir}/gom03_N050_md15m_bry_HYCOM_GBL_19p1_2010_01.nc ${RUNDIR} || exit -2
-    cp -f ${input_data_dir}/gom03_N050_md15m_ini_HYCOM_GBL_19p1_201001.nc ${RUNDIR} || exit -2
+    cp -f ${input_data_dir}/gom03_N050_coast_bry_COPERNICUS_RA025_2010.nc ${RUNDIR} || exit -2
+    cp -f ${input_data_dir}/gom03_N050_md15m_ini_POP_JRA55_20100101.nc ${RUNDIR} || exit -2
     cp -f ${input_data_dir}/gom03_N050_md15m_nudg_HYCOM_GBL_19p1_201001.nc ${RUNDIR} || exit -2
+    cp -f ${input_data_dir}/ocpl_maps.rc             ${RUNDIR} || exit -2
 endif
 if ($OCN_GRID == gom3x) then
     echo "docn support data copied to run dir"
