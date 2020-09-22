@@ -167,6 +167,7 @@ set st_tod  = `echo $date | cut -d "-" -f 4`
 @ st_hr = ${st_tod} / 3600
 @ st_min = ( ${st_tod} % 3600 ) / 60
 @ st_sec = ( ${st_tod} % 3600 ) % 60
+set st_hr = `printf %02d $st_hr`    # set $st_hr as XX
 
 set input_data_dir = ${DIN_LOC_ROOT}/ocn/roms/gom3/
 #set oinfile = "$CODEROOT/${ocn_dir}/Apps/${OCN_GRID}/ocean.in"
