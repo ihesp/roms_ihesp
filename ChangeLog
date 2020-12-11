@@ -1,6 +1,18 @@
 ===============================================================================
 Tag Creator: kauff
 Developers:  kauff
+Tag Date:    2020 Dec 11
+Tag Name:    embedded-master_201211
+Tag Summary: new gom09 domain, used in C_OC.g09g17_g09g17.02 BAMS run
+
+New gom09 domain, created for composite g09g17 E-CESM domain
+
+This code was used in case C_OC.g09g17_g09g17.02 -- 2020-Sep composite grid,
+clean 2-year run for BAMS paper.  
+
+===============================================================================
+Tag Creator: kauff
+Developers:  kauff
 Tag Date:    2019 Nov 22
 Tag Name:    embedded-master_191122
 Tag Summary: ocpl -> roms BC data clobbers get_data() input
