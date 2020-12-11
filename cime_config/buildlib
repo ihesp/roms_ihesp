@@ -32,7 +32,7 @@ def _build_roms():
         gmake_j = case.get_value("GMAKE_J")
         gmake = case.get_value("GMAKE")
         #cn_grid = case.get_value("OCN_GRID") BK: need new roms grid variable
-        ocn_grid = "gom3"
+        ocn_grid = "gom09"
         mach = case.get_value("MACH")
         compiler = case.get_value("COMPILER")
         casename = case.get_value("CASE")
