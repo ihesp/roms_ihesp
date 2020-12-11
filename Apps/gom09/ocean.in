@@ -627,13 +627,13 @@ Dout(iTvdif) == F F T T T T    ! temp_vdiff, ...    vertical diffusion
 
 ! Input NetCDF file names, [1:Ngrids].
 
-     GRDNAME == ./gom09_POPemb_grd_Ugridh.nc
-     ININAME == ./gom09_N050_emb_Ugridh_ini_POP_JRA55_20100101.nc
+     GRDNAME == ./gom09_v3_grd_200910.nc
+     ININAME == ./gom09_v3_ini_POP_JRA55_20100101.nc
      ITLNAME == /dev/null
      IRPNAME == /dev/null
      IADNAME == /dev/null
      CLMNAME == /dev/null
-     BRYNAME == ./gom09_N050_emb_Ugridh_bry_POP_JRA55_2010.nc
+     BRYNAME == ./gom09_v3_bry_POP_JRA55_2010.nc
      FWDNAME == /dev/null
      ADSNAME == /dev/null
 
