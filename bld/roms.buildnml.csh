@@ -82,6 +82,9 @@ end
 if ($OCN_GRID =~ gom3) then
     set OCN_NX = 655
     set OCN_NY = 489
+else if ($OCN_GRID =~ gom09) then
+    set OCN_NX = 261
+    set OCN_NY = 277
 else if ($OCN_GRID =~ gom3x) then
     set OCN_NX = 856
     set OCN_NY = 811
@@ -151,7 +154,8 @@ endif
 
 set oinfile = "$CODEROOT/${ocn_dir}/Apps/${OCN_GRID}/ocean.in"
 set ofile = ${RUNDIR}/ocean.in
-set input_data_dir = ${DIN_LOC_ROOT}/ocn/roms/gom3/
+#set input_data_dir = ${DIN_LOC_ROOT}/ocn/roms/gom3/
+set input_data_dir = ${DIN_LOC_ROOT}/ocn/roms/$OCN_GRID
 
 if !(-e $oinfile) then
   echo "$oinfile roms input file not found"
@@ -200,7 +204,26 @@ if (($OCN_GRID == gom3)||($OCN_GRID == gom3x)) then
     cp -f ${input_data_dir}/gom03_N050_coast_bry_COPERNICUS_RA025_2010.nc ${RUNDIR} || exit -2
     cp -f ${input_data_dir}/gom03_N050_md15m_ini_POP_JRA55_20100101.nc ${RUNDIR} || exit -2
     cp -f ${input_data_dir}/gom03_N050_md15m_nudg_HYCOM_GBL_19p1_201001.nc ${RUNDIR} || exit -2
+    #--- ECESM KLUDGE/TO-DO: ocpl & pop data should not be staged in roms script ---
     cp -f ${input_data_dir}/ocpl_maps.rc             ${RUNDIR} || exit -2
+    cp -f ${input_data_dir}/nrcm_pt_interior_restore.130624.nc         ${RUNDIR} || exit -2
+    cp -f ${input_data_dir}/nrcm_s_interior_restore.150804.nc          ${RUNDIR} || exit -2
+    cp -f ${input_data_dir}/PHC2_TEMP_gx1v6_ann_avg.110511.nc          ${RUNDIR} || exit -2
+    cp -f ${input_data_dir}/NRCM_SALT_gx1v6_ann_avg.120820.nc          ${RUNDIR} || exit -2
+else if ($OCN_GRID == gom09) then
+    echo "gom09 boundary data copied to run dir"
+    cp -f ${input_data_dir}/gom09_v3_grd_200910.nc                     ${RUNDIR} || exit -2
+    cp -f ${input_data_dir}/gom09_v3_bry_POP_JRA55_2010.nc             ${RUNDIR} || exit -2
+    cp -f ${input_data_dir}/gom09_v3_ini_POP_JRA55_20100101.nc         ${RUNDIR} || exit -2
+#   cp -f ${input_data_dir}/gom03_N050_md15m_nudg_HYCOM_GBL_19p1_201001.nc ${RUNDIR} || exit -2   don't need this for ECESM
+    #--- ECESM KLUDGE/TO-DO: ocpl & pop data should not be staged in roms script ---
+    cp -f ${input_data_dir}/ocpl_maps.rc             ${RUNDIR} || exit -2
+    cp -f ${input_data_dir}/nrcm_pt_interior_restore.130624.nc         ${RUNDIR} || exit -2
+    cp -f ${input_data_dir}/nrcm_s_interior_restore.150804.nc          ${RUNDIR} || exit -2
+    cp -f ${input_data_dir}/PHC2_TEMP_gx1v6_ann_avg.110511.nc          ${RUNDIR} || exit -2
+    cp -f ${input_data_dir}/NRCM_SALT_gx1v6_ann_avg.120820.nc          ${RUNDIR} || exit -2
+else 
+    echo "ERROR: unrecognized grid: $OCN_GRID"
 endif
 if ($OCN_GRID == gom3x) then
     echo "docn support data copied to run dir"
