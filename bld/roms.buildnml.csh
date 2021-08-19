@@ -85,6 +85,9 @@ if ($OCN_GRID =~ gom3) then
 else if ($OCN_GRID =~ gom3x) then
     set OCN_NX = 856
     set OCN_NY = 811
+else if ($OCN_GRID =~ gom27k) then
+    set OCN_NX = 208
+    set OCN_NY = 154
 else
     echo "Unknown OCN grid \[$OCN_GRID\], unable to calculate ROMS decomposition"
     exit 1
@@ -167,10 +170,12 @@ set st_tod  = `echo $date | cut -d "-" -f 4`
 @ st_hr = ${st_tod} / 3600
 @ st_min = ( ${st_tod} % 3600 ) / 60
 @ st_sec = ( ${st_tod} % 3600 ) % 60
+set st_hr = `printf %02d $st_hr`    # set $st_hr as XX
 
-set input_data_dir = ${DIN_LOC_ROOT}/ocn/roms/gom3/
+set input_data_dir = ${DIN_LOC_ROOT}/ocn/roms/gom27k
+#set input_data_dir = ${DIN_LOC_ROOT}/ocn/roms/gom3/
 #set oinfile = "$CODEROOT/${ocn_dir}/Apps/${OCN_GRID}/ocean.in"
-set oinfile = "${input_data_dir}/${st_year}${st_mon}/ocean.in"
+set oinfile = "${input_data_dir}/${st_year}${st_mon}${st_day}_${st_hr}/ocean.in"
 set ofile = ${RUNDIR}/ocean.in
 
 if !(-e $oinfile) then
@@ -196,17 +201,27 @@ sed -i "s/CASE_ST_SE/${st_sec}/" ${RUNDIR}/ocn_in
 
 
 ### Move over grid and boundary data for a given compset
-if (($OCN_GRID == gom3)||($OCN_GRID == gom3x)) then
+if (($OCN_GRID == gom3)||($OCN_GRID == gom3x)||($OCN_GRID == gom27k)) then
      echo "gom3 or gom3x boundary data linked to run dir"
-     ln -sf ${input_data_dir}/${st_year}${st_mon}/*.nc ${RUNDIR} || exit -2 
+     ln -sf ${input_data_dir}/${st_year}${st_mon}${st_day}_${st_hr}/*.nc ${RUNDIR} || exit -2 
 endif
 if ($OCN_GRID == gom3x) then
     echo "docn support data copied to run dir"
 #    cp -f ${input_data_dir}/gom03_xroms_sstice.nc ${RUNDIR}    # already linked
-    cp -f ${input_data_dir}/${st_year}${st_mon}/docn.streams.txt.prescribed ${RUNDIR}
+    cp -f ${input_data_dir}/${st_year}${st_mon}${st_day}_${st_hr}/docn.streams.txt.prescribed ${RUNDIR}
     cp -f $CODEROOT/${ocn_dir}/Apps/${OCN_GRID}/docn_in ${RUNDIR}/docn_in${INST_STR}
 #    cp -f $CODEROOT/${ocn_dir}/Apps/${OCN_GRID}/docn_ocn_in ${RUNDIR}/docn_ocn_in${INST_STR}
-    cp -f  ${input_data_dir}/${st_year}${st_mon}/docn_ocn_in ${RUNDIR}/docn_ocn_in${INST_STR}
+    cp -f  ${input_data_dir}/${st_year}${st_mon}${st_day}_${st_hr}/docn_ocn_in ${RUNDIR}/docn_ocn_in${INST_STR}
+    sed -i "s/docn_ocn_in/docn_ocn_in${INST_STR}/" ${RUNDIR}/docn_in${INST_STR}
+    sed -i "s%replacedomainfile%${domainfilepath}%" ${RUNDIR}/docn_ocn_in${INST_STR}
+    sed -i "s%replaceyr%${st_year}%g" ${RUNDIR}/docn_ocn_in${INST_STR}
+else if ($OCN_GRID == gom27k) then
+#    echo "docn support data copied to run dir"
+     #cp -f ${input_data_dir}/${st_year}${st_mon}${st_day}_${st_hr}/gom_lr_xroms_sstice_2010??_ocn.nc ${RUNDIR}   
+     cp -f ${input_data_dir}/${st_year}${st_mon}${st_day}_${st_hr}/docn.streams.txt.prescribed ${RUNDIR}
+     cp -f $CODEROOT/${ocn_dir}/Apps/${OCN_GRID}/docn_in ${RUNDIR}/docn_in${INST_STR}
+#    cp -f $CODEROOT/${ocn_dir}/Apps/${OCN_GRID}/docn_ocn_in ${RUNDIR}/docn_ocn_in${INST_STR}
+    cp -f  ${input_data_dir}/${st_year}${st_mon}${st_day}_${st_hr}/docn_ocn_in ${RUNDIR}/docn_ocn_in${INST_STR}
     sed -i "s/docn_ocn_in/docn_ocn_in${INST_STR}/" ${RUNDIR}/docn_in${INST_STR}
     sed -i "s%replacedomainfile%${domainfilepath}%" ${RUNDIR}/docn_ocn_in${INST_STR}
     sed -i "s%replaceyr%${st_year}%g" ${RUNDIR}/docn_ocn_in${INST_STR}
