@@ -102,7 +102,7 @@ set COMPILERS = ${MY_ROMS_SRC}/Compilers
 #setenv which_MPI           openmpi     # compile with OpenMPI library    
  set FORT  = ifort
  set USE_LARGE = on          # activate 64-bit compilation 
-#setenv USE_DEBUG           on          # use Fortran debugging flags        
+setenv USE_DEBUG           on          # use Fortran debugging flags        
 
 # The rest of this script sets the path to the users header file and                          
 # analytical source files, if any. See the templates in User/Functionals.                     

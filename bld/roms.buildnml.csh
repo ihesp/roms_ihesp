@@ -88,6 +88,9 @@ else if ($OCN_GRID =~ gom09) then
 else if ($OCN_GRID =~ gom3x) then
     set OCN_NX = 856
     set OCN_NY = 811
+else if ($OCN_GRID =~ gst03) then
+    set OCN_NX = 805  # Lm + 2
+    set OCN_NY = 914  # Mm + 2
 else
     echo "Unknown OCN grid \[$OCN_GRID\], unable to calculate ROMS decomposition"
     exit 1
@@ -163,8 +166,9 @@ if !(-e $oinfile) then
 endif
 
 set tfile = tmpfile1
-cat $oinfile | sed "s/\(^\s*NtileI\s*==\s*\)[0-9]*/\1 $ntif /g" >! $tfile
-cat $tfile   | sed "s/\(^\s*NtileJ\s*==\s*\)[0-9]*/\1 $ntjf /g" >! $ofile
+# cat $oinfile | sed "s/\(^\s*NtileI\s*==\s*\)[0-9]*/\1 $ntif /g" >! $tfile   # BK HACK, don't replace NtileI/J
+# cat $tfile   | sed "s/\(^\s*NtileJ\s*==\s*\)[0-9]*/\1 $ntjf /g" >! $ofile
+cat $oinfile >! $ofile  # BK HACK, don't sed replace NtileI/J
 rm -f $tfile
 
 cp -f $CODEROOT/${ocn_dir}/Apps/${OCN_GRID}/ocn_in ${RUNDIR} || exit -2
@@ -222,6 +226,22 @@ else if ($OCN_GRID == gom09) then
     cp -f ${input_data_dir}/nrcm_s_interior_restore.150804.nc          ${RUNDIR} || exit -2
     cp -f ${input_data_dir}/PHC2_TEMP_gx1v6_ann_avg.110511.nc          ${RUNDIR} || exit -2
     cp -f ${input_data_dir}/NRCM_SALT_gx1v6_ann_avg.120820.nc          ${RUNDIR} || exit -2
+else if ($OCN_GRID == gst03) then
+    echo "gst03 boundary data copied to run dir"
+    cp -f ${input_data_dir}/gst03_v1_201120_grd.nc                          ${RUNDIR} || exit -2
+    cp -f ${input_data_dir}/gst03_v1_201120_bry_TL319_t13_Agrid_2010.nc     ${RUNDIR} || exit -2
+    cp -f ${input_data_dir}/gst03_v1_201120_ini_TL319_t13_Agrid_20100101.nc ${RUNDIR} || exit -2
+    #--- ECESM KLUDGE/TO-DO: ocpl & pop data should not be staged in roms script ---
+    cp -f ${input_data_dir}/ocpl_maps.rc             ${RUNDIR} || exit -2
+    cp -f ${input_data_dir}/ecesm_t13_pt_interior_restore.210422.nc    ${RUNDIR} || exit -2 
+    cp -f ${input_data_dir}/ecesm_t13_s_interior_restore.210422.nc     ${RUNDIR} || exit -2
+    cp -f ${input_data_dir}/ecesm_TEMP_t13_ann_avg.210422.nc           ${RUNDIR} || exit -2
+    cp -f ${input_data_dir}/ecesm_SALT_t13_ann_avg.210422.nc           ${RUNDIR} || exit -2
+#   cp -f ${input_data_dir}/nrcm_pt_interior_restore.130624.nc         ${RUNDIR} || exit -2    need tx0.1v3 versions of these
+#   cp -f ${input_data_dir}/nrcm_s_interior_restore.150804.nc          ${RUNDIR} || exit -2
+#   cp -f ${input_data_dir}/PHC2_TEMP_gx1v6_ann_avg.110511.nc          ${RUNDIR} || exit -2
+#   cp -f ${input_data_dir}/NRCM_SALT_gx1v6_ann_avg.120820.nc          ${RUNDIR} || exit -2
+else 
 else 
     echo "ERROR: unrecognized grid: $OCN_GRID"
 endif

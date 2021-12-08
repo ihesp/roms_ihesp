@@ -138,7 +138,7 @@ MY_CPP_FLAGS ?=
 #  NetCDF and so on.
 #--------------------------------------------------------------------------
 
-        FORT ?= ifort
+        FORT ?= mpiifort
 
 #--------------------------------------------------------------------------
 #  Set directory for executable.
@@ -503,15 +503,21 @@ libraries: $(libraries)
 #  Target to create ROMS/TOMS dependecies.
 #--------------------------------------------------------------------------
 
+
 $(SCRATCH_DIR)/$(NETCDF_MODFILE): | $(SCRATCH_DIR)
+ifeq "$(MACH)" "grace"
+	cp -f $(NETCDFF_INCDIR)/$(NETCDF_MODFILE) $(SCRATCH_DIR)
+else
 	cp -f $(NETCDF_INCDIR)/$(NETCDF_MODFILE) $(SCRATCH_DIR)
+endif
 
 $(SCRATCH_DIR)/$(TYPESIZES_MODFILE): | $(SCRATCH_DIR)
-ifeq "$(MACH)" "ada"
- 	cp -f $(NETCDFF_INCDIR)/$(TYPESIZES_MODFILE) $(SCRATCH_DIR)
+ifeq "$(MACH)" "grace"
+	cp -f $(NETCDFF_INCDIR)/$(TYPESIZES_MODFILE) $(SCRATCH_DIR)
 else
 	cp -f $(NETCDF_INCDIR)/$(TYPESIZES_MODFILE) $(SCRATCH_DIR)
 endif
+
 
 $(SCRATCH_DIR)/MakeDepend: makefile \
                            $(SCRATCH_DIR)/$(NETCDF_MODFILE) \

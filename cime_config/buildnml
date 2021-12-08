@@ -43,7 +43,7 @@ def buildnml(case, caseroot, compname):
     get_refcase = case.get_value("GET_REF_CASE")
     ninst = case.get_value("NINST_OCN")
     #cn_grid = case.get_value("OCN_GRID")  BK: need a ocn grid var for roms
-    ocn_grid = "gom09"
+    ocn_grid = "gst03"
     run_type = case.get_value("RUN_TYPE")
     run_refcase = case.get_value("RUN_REF CASE")
     run_refdate = case.get_value("RUN_REFDATE")
