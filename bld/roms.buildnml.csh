@@ -18,60 +18,60 @@ while ($# > 0)
 
     echo "argv[1]=$argv[1]"
     switch( $argv[1] )
-	case "-ntasks":
-	    set NTASKS_OCN = $2
-	    echo "ntasks=$NTASKS_OCN"
-	    shift
-	    breaksw
-	case "-continue":
-	    set CONTINUE_RUN = $2
-	    echo "continue=$CONTINUE_RUN"
-	    shift
-	    breaksw
-	case "-startdate":
-	    set RUN_STARTDATE = $2
-	    echo "startdate=$RUN_STARTDATE"
-	    shift
-	    breaksw
-	case "-starttod":
-	    set RUN_STARTTOD = $2
-	    echo "run_starttod=$RUN_STARTTOD"
-	    shift
-	    breaksw
-	case "-ocngrid":
-	    set OCN_GRID = $2
-	    echo "ocngrid=$OCN_GRID"
-	    shift
-	    breaksw
-	case "-coderoot":
-	    set CODEROOT = $2
-	    echo "coderoot=$CODEROOT"
-	    shift
-	    breaksw
-	case "-rundir":
-	    set RUNDIR = $2
-	    echo "rundir=$RUNDIR"
-	    shift
-	    breaksw
-	case "-dinlocroot":
-	    set DIN_LOC_ROOT = $2
-	    echo "dinlocroot=$DIN_LOC_ROOT"
-	    shift
-	    breaksw
-	case "-inst_string":
-	    set INST_STR = $2
-	    echo "inst_string=$INST_STR"
-	    shift
-	    breaksw
-	case "-domfile":
-	    set domainfilepath = $2
-	    echo "domainfilepath=$domainfilepath"
-	    shift
-	    breaksw
-	default:
-	    echo "NO MATCH"
-	    shift
-	    breaksw
+        case "-ntasks":
+            set NTASKS_OCN = $2
+            echo "ntasks=$NTASKS_OCN"
+            shift
+            breaksw
+        case "-continue":
+            set CONTINUE_RUN = $2
+            echo "continue=$CONTINUE_RUN"
+            shift
+            breaksw
+        case "-startdate":
+            set RUN_STARTDATE = $2
+            echo "startdate=$RUN_STARTDATE"
+            shift
+            breaksw
+        case "-starttod":
+            set RUN_STARTTOD = $2
+            echo "run_starttod=$RUN_STARTTOD"
+            shift
+            breaksw
+        case "-ocngrid":
+            set OCN_GRID = $2
+            echo "ocngrid=$OCN_GRID"
+            shift
+            breaksw
+        case "-coderoot":
+            set CODEROOT = $2
+            echo "coderoot=$CODEROOT"
+            shift
+            breaksw
+        case "-rundir":
+            set RUNDIR = $2
+            echo "rundir=$RUNDIR"
+            shift
+            breaksw
+        case "-dinlocroot":
+            set DIN_LOC_ROOT = $2
+            echo "dinlocroot=$DIN_LOC_ROOT"
+            shift
+            breaksw
+        case "-inst_string":
+            set INST_STR = $2
+            echo "inst_string=$INST_STR"
+            shift
+            breaksw
+        case "-domfile":
+            set domainfilepath = $2
+            echo "domainfilepath=$domainfilepath"
+            shift
+            breaksw
+        default:
+            echo "NO MATCH"
+            shift
+            breaksw
     endsw
     shift
 

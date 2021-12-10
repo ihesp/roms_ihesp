@@ -1,0 +1,699 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet type="text/xsl" href="namelist_definition.xsl"?>
+
+<entry_id version="2.0">
+
+  <!-- ========================================================================================  -->
+  <!-- ROMS Namelist -->
+  <!-- ========================================================================================  -->
+
+
+  <entry id="input_script">
+    <type>char</type>
+    <category>roms</category>
+    <group>ocn_io</group>
+    <desc></desc>
+    <values>
+      <value>ocean.in</value>
+    </values>
+  </entry>
+
+  <entry id="diag_level">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocn_io</group>
+    <desc></desc>
+    <values>
+      <value>0</value>
+    </values>
+  </entry>
+
+  <entry id="calendar" modify_via_xml="CALENDAR">
+    <type>char</type>
+    <category>roms</category>
+    <group>ocn_timemgr</group>
+    <desc></desc>
+    <values>
+      <value>GREGORIAN</value>
+    </values>
+  </entry>
+
+  <entry id="start_year">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocn_timemgr</group>
+    <desc></desc>
+    <values>
+      <value>1</value>
+    </values>
+  </entry>
+
+  <entry id="start_month">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocn_timemgr</group>
+    <desc></desc>
+    <values>
+      <value>1</value>
+    </values>
+  </entry>
+
+  <entry id="start_day">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocn_timemgr</group>
+    <desc></desc>
+    <values>
+      <value>1</value>
+    </values>
+  </entry>
+
+  <entry id="start_hour">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocn_timemgr</group>
+    <desc></desc>
+    <values>
+      <value>0</value>
+    </values>
+  </entry>
+
+  <entry id="start_minute">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocn_timemgr</group>
+    <desc></desc>
+    <values>
+      <value>0</value>
+    </values>
+  </entry>
+
+  <entry id="start_second">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocn_timemgr</group>
+    <desc></desc>
+    <values>
+      <value>0</value>
+    </values>
+  </entry>
+
+
+  <entry id="title">
+    <type>char</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Application title</desc>
+    <values>
+      <value>roms e-cesm</value>
+    </values>
+  </entry>
+
+  <entry id="myappcpp">
+    <type>char</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>C-preprocessing Flag</desc>
+    <values>
+      <value>gst03</value>
+    </values>
+  </entry>
+
+  <entry id="varname">
+    <type>char</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Input variable information file name.  This file needs to be processed
+    first so all information arrays can be initialized properly. 
+    </desc>
+    <values>
+      <value>./varinfo.dat</value>
+    </values>
+  </entry>
+
+  <entry id="ngrids">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Number of nested grids.</desc>
+    <values>
+      <value>1</value>
+    </values>
+  </entry>
+
+  <entry id="grdname">
+    <type>char</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Input NetCDF file names</desc>
+    <values>
+      <value ocn_grid="gom3">$DIN_LOC_ROOT/ocn/roms/gom3/gom03_grd_n050_md15m.nc</value>
+      <value ocn_grid="g09g17">$DIN_LOC_ROOT/ocn/roms/gom09/gom09_v3_grd_200910.nc</value>
+      <value ocn_grid="gs03t13">$DIN_LOC_ROOT/ocn/roms/gst03/gst03_v1_201120_grd.nc</value>
+    </values>
+  </entry>
+ 
+  <entry id="ininame">
+    <type>char</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Input NetCDF file names</desc>
+    <values>
+      <value ocn_grid="gom3">$DIN_LOC_ROOT/ocn/roms/gom3/gom03_n050_md15m_ini_pop_jra55_20100101.nc</value>
+      <value ocn_grid="g09g17">$DIN_LOC_ROOT/ocn/roms/gom09/gom09_v3_ini_pop_jra55_20100101.nc</value>
+      <value ocn_grid="gs03t13">$DIN_LOC_ROOT/ocn/roms/gst03/gst03_v1_201120_ini_TL319_t13_Agrid_20100101.nc</value>
+    </values>
+  </entry>
+
+  <entry id="lm">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Number of I-direction INTERIOR RHO-points</desc>
+    <values>
+      <value>803</value>
+    </values>
+  </entry>
+  
+  <entry id="mm">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Number of J-direction INTERIOR RHO-points</desc>
+    <values>
+      <value>914</value>
+    </values>
+  </entry>
+  
+  <entry id="n">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Number of vertical levels</desc>
+    <values>
+      <value>50</value>
+    </values>
+  </entry>
+
+  <entry id="nbed">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Number of sediment bed layers</desc>
+    <values>
+      <value>0</value>
+    </values>
+  </entry>
+  
+  <entry id="nat">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Number of active tracers (usually, 2)</desc>
+    <values>
+      <value>2</value>
+    </values>
+  </entry>
+  
+  <entry id="npt">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Number of inactive passive tracers</desc>
+    <values>
+      <value>0</value>
+    </values>
+  </entry>
+  
+  <entry id="ncs">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Number of cohesive (mud) sediment tracers</desc>
+    <values>
+      <value>0</value>
+    </values>
+  </entry>
+  
+  <entry id="nns">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Number of non-cohesive (sand) sediment tracers</desc>
+    <values>
+      <value>0</value>
+    </values>
+  </entry>
+
+<!-- Domain decomposition parameters for serial, distributed-memory or
+     shared-memory configurations used to determine tile horizontal range
+     indices (Istr,Iend) and (Jstr,Jend), [1:Ngrids]. -->
+
+  
+  <entry id="ntilei">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>I-direction partition</desc>
+    <values>
+      <value>32</value>
+    </values>
+  </entry>
+  
+  <entry id="ntilej">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>J-direction partition</desc>
+    <values>
+      <value>32</value>
+    </values>
+  </entry>
+  
+  <entry id="ntimes">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>90  days after model initial. if DT = 30</desc>
+    <values>
+      <value>259200</value>
+    </values>
+  </entry>
+  
+  <entry id="dt">
+    <type>real</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Time-Stepping parameters.</desc>
+    <values>
+      <value>30.0</value>
+    </values>
+  </entry>
+  
+  <entry id="ndtfast">
+    <type>real</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Time-Stepping parameters. </desc>
+    <values>
+      <value>30.0</value>
+    </values>
+  </entry>
+  
+  <entry id="erstr">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Model iteration loops parameters</desc>
+    <values>
+      <value>1</value>
+    </values>
+  </entry>
+
+  <entry id="erend">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Model iteration loops parameters</desc>
+    <values>
+      <value>1</value>
+    </values>
+  </entry>
+
+  <entry id="nouter">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Model iteration loops parameters</desc>
+    <values>
+      <value>1</value>
+    </values>
+  </entry>
+
+  <entry id="ninner">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Model iteration loops parameters</desc>
+    <values>
+      <value>1</value>
+    </values>
+  </entry>
+
+  <entry id="nintervals">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Model iteration loops parameters</desc>
+    <values>
+      <value>1</value>
+    </values>
+  </entry>
+  
+<!-- Number of eigenvalues (NEV) and eigenvectors (NCV) to compute for the
+     Lanczos/Arnoldi problem in the Generalized Stability Theory (GST)
+     analysis. NCV must be greater than NEV (see documentation below). -->
+
+  <entry id="nev">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Number of eigenvalues</desc>
+    <values>
+      <value>2</value>
+    </values>
+  </entry>
+
+  <entry id="ncv">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>number of eigenvectors</desc>
+    <values>
+      <value>10</value>
+    </values>
+  </entry>
+
+  <entry id="nrrec">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>IO parameters</desc>
+    <values>
+      <value>0</value>
+    </values>
+  </entry>
+
+  <entry id="lcyclerst">
+    <type>logical</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>IO parameters</desc>
+    <values>
+      <value>FALSE</value>
+    </values>
+  </entry>
+
+  <entry id="nrst">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>IO parameters</desc>
+    <values>
+      <value>86400</value>
+    </values>
+  </entry>
+
+  <entry id="nsta">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>IO parameters</desc>
+    <values>
+      <value>1</value>
+    </values>
+  </entry>
+
+  <entry id="nflt">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>IO parameters</desc>
+    <values>
+      <value>1</value>
+    </values>
+  </entry>
+
+  <entry id="ninfo">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>IO parameters</desc>
+    <values>
+      <value>1</value>
+    </values>
+  </entry>
+
+  <entry id="ldefout">
+    <type>logical</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Output history, average, diagnostic files parameters. </desc>
+    <values>
+      <value>T</value>
+    </values>
+  </entry>
+
+  <entry id="nhis">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Output history, average, diagnostic files parameters. </desc>
+    <values>
+      <value>360</value>
+    </values>
+  </entry>
+
+  <entry id="ndefhis">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Output history, average, diagnostic files parameters. </desc>
+    <values>
+      <value>2880</value>
+    </values>
+  </entry>
+
+  <entry id="ntsavg">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Output history, average, diagnostic files parameters. </desc>
+    <values>
+      <value>1</value>
+    </values>
+  </entry>
+
+  <entry id="navg">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Output history, average, diagnostic files parameters. </desc>
+    <values>
+      <value>360</value>
+    </values>
+  </entry>
+
+  <entry id="ndefavg">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Output history, average, diagnostic files parameters. </desc>
+    <values>
+      <value>2880</value>
+    </values>
+  </entry>
+
+  <entry id="ntsdia">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Output history, average, diagnostic files parameters. </desc>
+    <values>
+      <value>1</value>
+    </values>
+  </entry>
+
+  <entry id="ndia">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Output history, average, diagnostic files parameters. </desc>
+    <values>
+      <value>360</value>
+    </values>
+  </entry>
+
+  <entry id="ndefdia">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Output history, average, diagnostic files parameters. </desc>
+    <values>
+      <value>2880</value>
+    </values>
+  </entry>
+
+  <entry id="lcycletlm">
+    <type>logical</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Output tangent linear and adjoint models parameters </desc>
+    <values>
+      <value>F</value>
+    </values>
+  </entry>
+  <entry id="ntlm">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Output tangent linear and adjoint models parameters </desc>
+    <values>
+      <value>480</value>
+    </values>
+  </entry>
+
+  <entry id="ndeftlm">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Output tangent linear and adjoint models parameters </desc>
+    <values>
+      <value>0</value>
+    </values>
+  </entry>
+
+
+  <entry id="lcycletadj">
+    <type>logical</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Output tangent linear and adjoint models parameters </desc>
+    <values>
+      <value>F</value>
+    </values>
+  </entry>
+
+  <entry id="nadj">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Output tangent linear and adjoint models parameters </desc>
+    <values>
+      <value>480</value>
+    </values>
+  </entry>
+
+  <entry id="ndefadj">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Output tangent linear and adjoint models parameters </desc>
+    <values>
+      <value>0</value>
+    </values>
+  </entry>
+
+  <entry id="nsff">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Output tangent linear and adjoint models parameters </desc>
+    <values>
+      <value>480</value>
+    </values>
+  </entry>
+
+  <entry id="nobc">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Output tangent linear and adjoint models parameters </desc>
+    <values>
+      <value>480</value>
+    </values>
+  </entry>
+
+  <entry id="lmultigst">
+    <type>logical</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+   <desc>GST output and check pointing restart parameters. </desc>
+    <values>
+      <value>F</value>
+    </values>
+  </entry>
+
+  <entry id="lrstgst">
+    <type>logical</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+   <desc>GST output and check pointing restart parameters. </desc>
+    <values>
+      <value>F</value>
+    </values>
+  </entry>
+
+  <entry id="maxitergst">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+   <desc>GST output and check pointing restart parameters. </desc>
+    <values>
+      <value>500</value>
+    </values>
+  </entry>
+
+  <entry id="ngst">
+    <type>integer</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+   <desc>GST output and check pointing restart parameters. </desc>
+    <values>
+      <value>10</value>
+    </values>
+  </entry>
+
+  <entry id="ritz_tol">
+    <type>real</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+   <desc> Relative accuracy of the Ritz values computed in the GST analysis. </desc>
+    <values>
+      <value>1.0e-15</value>
+    </values>
+  </entry>
+
+  <entry id="tnu2">
+    <type>real</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+   <desc>Harmonic/biharmonic horizontal diffusion of tracer for nonlinear model and adjoint-based algorithms </desc>
+    <values>
+      <value>15.0</value>
+    </values>
+  </entry>
+
+  <entry id="tnu4">
+    <type>real</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Harmonic/biharmonic horizontal diffusion of tracer for nonlinear model and adjoint-based algorithms </desc>
+    <values>
+      <value>500.0</value>
+    </values>
+  </entry>
+
+  <entry id="ad_tnu2">
+    <type>real</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Harmonic/biharmonic horizontal diffusion of tracer for nonlinear model and adjoint-based algorithms </desc>
+    <values>
+      <value>0.0</value>
+    </values>
+  </entry>
+
+  <entry id="ad_tnu4">
+    <type>real</type>
+    <category>roms</category>
+    <group>ocean.in</group>
+    <desc>Harmonic/biharmonic horizontal diffusion of tracer for nonlinear model and adjoint-based algorithms </desc>
+    <values>
+      <value>0.0</value>
+    </values>
+  </entry>
+
+
+</entry_id>

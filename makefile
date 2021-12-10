@@ -188,7 +188,7 @@ endif
 
 %.f90: %.F
 	$(CPP) $(CPPFLAGS) $(MY_CPP_FLAGS) $< > $*.f90
-	$(CLEAN) $*.f90
+#	 $(CLEAN) $*.f90
 
 CLEAN := ROMS/Bin/cpp_clean
 
