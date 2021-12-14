@@ -935,6 +935,19 @@
       RETURN
       END SUBROUTINE read_CouplePar
 #endif
+      pure function getLowerCase(string) result(output)
+        ! convert string to lower-case
+        character(*), intent(in)    :: string
+        integer, parameter          :: DUC = ichar('A') - ichar('a')
+        character(len(string))      :: output
+        character                   :: ch
+        integer                     :: i
+        do i = 1,len(string)
+            ch = string(i:i)
+            if (ch>='A' .and. ch<='Z') ch = char(ichar(ch)-DUC)
+            output(i:i) = ch
+        end do
+      end function getLowerCase
 
       SUBROUTINE read_PhyPar (model, inp, out, Lwrite)
 !

@@ -47,10 +47,18 @@ def _create_namelists(case, confdir, inst_string, infile, nmlgen, data_list_path
     # Write output files
     #----------------------------------------------------
     namelist_file = os.path.join(confdir, "ocn_in")
+    #----------------------------------------------------
+    # Standard fortran namelists
+    #----------------------------------------------------
     nmlgen.write_output_file(namelist_file, data_list_path, groups=['ocn_io', 'ocn_timemgr'])
 
+    #----------------------------------------------------
+    # Non-Standard Roms name value pairs list
+    #----------------------------------------------------
     namelist_file = os.path.join(confdir, "ocean.in")
-    nmlgen.write_output_file(namelist_file, data_list_path, groups=['ocean.in'])
+
+    nmlgen.write_output_file(namelist_file, data_list_path, groups=['ocean.in'], format_="roms")
+
     # set rundir
     rundir = case.get_value("RUNDIR")
 
@@ -72,7 +80,7 @@ def buildnml(case, caseroot, compname):
     srcroot = case.get_value("SRCROOT")
     continue_run = case.get_value("CONTINUE_RUN")
     ninst = case.get_value("NINST_OCN")
-    ocn_grid = case.get_value("OCN_GRID")  BK: need a ocn grid var for roms
+    ocn_grid = case.get_value("OCN_GRID")  # BK: need a ocn grid var for roms
 
     rundir = case.get_value("RUNDIR")
     startdate = case.get_value("RUN_STARTDATE")

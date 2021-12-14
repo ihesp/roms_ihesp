@@ -133,7 +133,7 @@
   </entry>
 
   <entry id="ngrids">
-    <type>integer</type>
+    <type>integer(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Number of nested grids.</desc>
@@ -143,7 +143,7 @@
   </entry>
 
   <entry id="lm">
-    <type>integer</type>
+    <type>integer(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Number of I-direction INTERIOR RHO-points</desc>
@@ -153,7 +153,7 @@
   </entry>
   
   <entry id="mm">
-    <type>integer</type>
+    <type>integer(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Number of J-direction INTERIOR RHO-points</desc>
@@ -163,7 +163,7 @@
   </entry>
   
   <entry id="n">
-    <type>integer</type>
+    <type>integer(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Number of vertical levels</desc>
@@ -228,7 +228,7 @@
 
   
   <entry id="ntilei">
-    <type>integer</type>
+    <type>integer(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>I-direction partition</desc>
@@ -238,7 +238,7 @@
   </entry>
   
   <entry id="ntilej">
-    <type>integer</type>
+    <type>integer(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>J-direction partition</desc>
@@ -248,7 +248,7 @@
   </entry>
   
   <entry id="ntimes">
-    <type>integer</type>
+    <type>integer(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>90  days after model initial. if DT = 30</desc>
@@ -258,7 +258,7 @@
   </entry>
   
   <entry id="dt">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Time-Stepping parameters.</desc>
@@ -268,7 +268,7 @@
   </entry>
   
   <entry id="ndtfast">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Time-Stepping parameters. </desc>
@@ -352,7 +352,7 @@
   </entry>
 
   <entry id="nrrec">
-    <type>integer</type>
+    <type>integer(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>IO parameters</desc>
@@ -362,7 +362,7 @@
   </entry>
 
   <entry id="lcyclerst">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>IO parameters</desc>
@@ -372,7 +372,7 @@
   </entry>
 
   <entry id="nrst">
-    <type>integer</type>
+    <type>integer(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>IO parameters</desc>
@@ -382,7 +382,7 @@
   </entry>
 
   <entry id="nsta">
-    <type>integer</type>
+    <type>integer(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>IO parameters</desc>
@@ -392,7 +392,7 @@
   </entry>
 
   <entry id="nflt">
-    <type>integer</type>
+    <type>integer(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>IO parameters</desc>
@@ -402,7 +402,7 @@
   </entry>
 
   <entry id="ninfo">
-    <type>integer</type>
+    <type>integer(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>IO parameters</desc>
@@ -412,7 +412,7 @@
   </entry>
 
   <entry id="ldefout">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Output history, average, diagnostic files parameters. </desc>
@@ -422,7 +422,7 @@
   </entry>
 
   <entry id="nhis">
-    <type>integer</type>
+    <type>integer(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Output history, average, diagnostic files parameters. </desc>
@@ -432,7 +432,7 @@
   </entry>
 
   <entry id="ndefhis">
-    <type>integer</type>
+    <type>integer(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Output history, average, diagnostic files parameters. </desc>
@@ -442,7 +442,7 @@
   </entry>
 
   <entry id="ntsavg">
-    <type>integer</type>
+    <type>integer(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Output history, average, diagnostic files parameters. </desc>
@@ -452,7 +452,7 @@
   </entry>
 
   <entry id="navg">
-    <type>integer</type>
+    <type>integer(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Output history, average, diagnostic files parameters. </desc>
@@ -462,7 +462,7 @@
   </entry>
 
   <entry id="ndefavg">
-    <type>integer</type>
+    <type>integer(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Output history, average, diagnostic files parameters. </desc>
@@ -472,7 +472,7 @@
   </entry>
 
   <entry id="ntsdia">
-    <type>integer</type>
+    <type>integer(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Output history, average, diagnostic files parameters. </desc>
@@ -482,7 +482,7 @@
   </entry>
 
   <entry id="ndia">
-    <type>integer</type>
+    <type>integer(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Output history, average, diagnostic files parameters. </desc>
@@ -492,7 +492,7 @@
   </entry>
 
   <entry id="ndefdia">
-    <type>integer</type>
+    <type>integer(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Output history, average, diagnostic files parameters. </desc>
@@ -502,7 +502,7 @@
   </entry>
 
   <entry id="lcycletlm">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Output tangent linear and adjoint models parameters </desc>
@@ -511,7 +511,7 @@
     </values>
   </entry>
   <entry id="ntlm">
-    <type>integer</type>
+    <type>integer(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Output tangent linear and adjoint models parameters </desc>
@@ -521,7 +521,7 @@
   </entry>
 
   <entry id="ndeftlm">
-    <type>integer</type>
+    <type>integer(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Output tangent linear and adjoint models parameters </desc>
@@ -532,7 +532,7 @@
 
 
   <entry id="lcycletadj">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Output tangent linear and adjoint models parameters </desc>
@@ -542,7 +542,7 @@
   </entry>
 
   <entry id="nadj">
-    <type>integer</type>
+    <type>integer(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Output tangent linear and adjoint models parameters </desc>
@@ -552,7 +552,7 @@
   </entry>
 
   <entry id="ndefadj">
-    <type>integer</type>
+    <type>integer(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Output tangent linear and adjoint models parameters </desc>
@@ -562,7 +562,7 @@
   </entry>
 
   <entry id="nsff">
-    <type>integer</type>
+    <type>integer(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Output tangent linear and adjoint models parameters </desc>
@@ -572,7 +572,7 @@
   </entry>
 
   <entry id="nobc">
-    <type>integer</type>
+    <type>integer(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Output tangent linear and adjoint models parameters </desc>
@@ -632,7 +632,7 @@
   </entry>
 
   <entry id="tnu2">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
    <desc>Harmonic/biharmonic horizontal diffusion of tracer for nonlinear model and adjoint-based algorithms </desc>
@@ -642,7 +642,7 @@
   </entry>
 
   <entry id="tnu4">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Harmonic/biharmonic horizontal diffusion of tracer for nonlinear model and adjoint-based algorithms </desc>
@@ -652,7 +652,7 @@
   </entry>
 
   <entry id="ad_tnu2">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Harmonic/biharmonic horizontal diffusion of tracer for nonlinear model and adjoint-based algorithms </desc>
@@ -662,7 +662,7 @@
   </entry>
 
   <entry id="ad_tnu4">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Harmonic/biharmonic horizontal diffusion of tracer for nonlinear model and adjoint-based algorithms </desc>
@@ -672,7 +672,7 @@
   </entry>
 
   <entry id="visc2">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Harmonic/biharmonic, horizontal viscosity coefficient for nonlinear model
@@ -683,7 +683,7 @@
   </entry>
 
   <entry id="visc4">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Harmonic/biharmonic, horizontal viscosity coefficient for nonlinear model
@@ -695,7 +695,7 @@
   </entry>
 
   <entry id="ad_visc2">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Harmonic/biharmonic, horizontal viscosity coefficient for nonlinear model
@@ -707,7 +707,7 @@
   </entry>
 
   <entry id="ad_visc4">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Harmonic/biharmonic, horizontal viscosity coefficient for nonlinear model
@@ -719,31 +719,31 @@
   </entry>
 
   <entry id="akt_bak">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Vertical mixing coefficients for tracers in nonlinear model and
            basic state scale factor in adjoint-based algorithms: [1:NAT+NPT,Ngrids]
     </desc>
     <values>
-      <value>1.0e-6</value>
+      <value>1.0e-6, 1.0e-6</value>
     </values>
   </entry>
 
   <entry id="ad_akt_fac">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Vertical mixing coefficients for tracers in nonlinear model and
            basic state scale factor in adjoint-based algorithms: [1:NAT+NPT,Ngrids]
     </desc>
     <values>
-      <value>1.0</value>
+      <value>1.0, 1.0</value>
     </values>
   </entry>
 
   <entry id="avk_bak">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Vertical mixing coefficient for momentum for nonlinear model and
@@ -755,7 +755,7 @@
   </entry>
 
   <entry id="ad_avk_fac">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Vertical mixing coefficient for momentum for nonlinear model and
@@ -767,7 +767,7 @@
   </entry>
 
   <entry id="akk_bak">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Turbulent closure parameters.
@@ -778,7 +778,7 @@
   </entry>
 
   <entry id="akp_bak">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Turbulent closure parameters.
@@ -789,7 +789,7 @@
   </entry>
 
   <entry id="tkenu2">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Turbulent closure parameters.
@@ -800,7 +800,7 @@
   </entry>
 
   <entry id="tkenu4">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Turbulent closure parameters.
@@ -811,7 +811,7 @@
   </entry>
 
   <entry id="gls_p">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Generic length-scale turbulence closure parameters.
@@ -823,7 +823,7 @@
 
 
   <entry id="gls_m">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Generic length-scale turbulence closure parameters.
@@ -834,7 +834,7 @@
   </entry>
 
   <entry id="gls_n">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Generic length-scale turbulence closure parameters.
@@ -845,7 +845,7 @@
   </entry>
 
   <entry id="gls_kmin">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Generic length-scale turbulence closure parameters.
@@ -856,7 +856,7 @@
   </entry>
 
   <entry id="gls_pmin">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Generic length-scale turbulence closure parameters.
@@ -867,7 +867,7 @@
   </entry>
 
   <entry id="gls_cmu0">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Generic length-scale turbulence closure parameters.
@@ -878,7 +878,7 @@
   </entry>
 
   <entry id="gls_c1">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Generic length-scale turbulence closure parameters.
@@ -889,7 +889,7 @@
   </entry>
 
   <entry id="gls_c2">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Generic length-scale turbulence closure parameters.
@@ -900,7 +900,7 @@
   </entry>
 
   <entry id="gls_c3m">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Generic length-scale turbulence closure parameters.
@@ -911,7 +911,7 @@
   </entry>
 
   <entry id="gls_c3p">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Generic length-scale turbulence closure parameters.
@@ -922,7 +922,7 @@
   </entry>
 
   <entry id="gls_sigk">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Generic length-scale turbulence closure parameters.
@@ -933,7 +933,7 @@
   </entry>
 
   <entry id="gls_sigp">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Generic length-scale turbulence closure parameters.
@@ -945,7 +945,7 @@
 
  <!-- Constants used in surface turbulent kinetic energy flux computation.  -->
   <entry id="charnok_alpha">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Charnok surface roughness   
@@ -955,7 +955,7 @@
     </values>
   </entry>
   <entry id="zos_hsig_alpha">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>roughness from wave amplitude 
@@ -966,7 +966,7 @@
   </entry>
 
   <entry id="sz_alpha">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>roughness from wave dissipation
@@ -977,7 +977,7 @@
   </entry>
 
   <entry id="crgban_cw">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Craig and Banner wave breaking 
@@ -988,7 +988,7 @@
   </entry>
 
   <entry id="rdrg">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Constants used in momentum stress computation.
@@ -1000,7 +1000,7 @@
 
 
   <entry id="rdrg2">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Constants used in momentum stress computation.
@@ -1012,7 +1012,7 @@
 
 
   <entry id="zob">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Constants used in momentum stress computation.
@@ -1024,7 +1024,7 @@
 
 
   <entry id="zos">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Constants used in momentum stress computation.
@@ -1037,7 +1037,7 @@
 <!--  Height (m) of atmospheric measurements for Bulk fluxes parameterization. -->
 
   <entry id="blk_zq">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>air humidity
@@ -1048,7 +1048,7 @@
   </entry>
 
   <entry id="blk_zt">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>air temperature
@@ -1059,7 +1059,7 @@
   </entry>
 
   <entry id="blk_zw">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>winds
@@ -1070,7 +1070,7 @@
   </entry>
 
   <entry id="dcrit">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Minimum depth for wetting and drying.
@@ -1081,7 +1081,7 @@
   </entry>
 
   <entry id="wtype">
-    <type>integer</type>
+    <type>integer(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> Jerlov water type: an integer value from 1 to 5.   
@@ -1092,7 +1092,7 @@
   </entry>
 
   <entry id="levsfrc">
-    <type>integer</type>
+    <type>integer(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Deepest level to apply surface momentum stress as a body-force.
@@ -1103,7 +1103,7 @@
   </entry>
 
   <entry id="levbfrc">
-    <type>integer</type>
+    <type>integer(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Shallowest level to apply bottom momentum stress as a body-force.
@@ -1114,7 +1114,7 @@
   </entry>
 
   <entry id="vtransform">
-    <type>integer</type>
+    <type>integer(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Vertical transformation equation
@@ -1126,7 +1126,7 @@
 
 
   <entry id="vstretching">
-    <type>integer</type>
+    <type>integer(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Vstretching Vertical stretching function
@@ -1137,7 +1137,7 @@
   </entry>
 
   <entry id="theta_s">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>surface stretching parameter    
@@ -1148,7 +1148,7 @@
   </entry>
 
   <entry id="theta_b">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>bottom stretching parameter    
@@ -1159,7 +1159,7 @@
   </entry>
 
   <entry id="tcline">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>critical depth
@@ -1170,7 +1170,7 @@
   </entry>
 
   <entry id="rho0">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>mean density
@@ -1181,7 +1181,7 @@
   </entry>
 
   <entry id="bvf_bak">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Brunt-Vaisala frequency.
@@ -1226,7 +1226,7 @@
   </entry>
 
   <entry id="tnudg">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Nudging/relaxation time scales, inverse scales will be computed 
@@ -1238,7 +1238,7 @@
 
 
   <entry id="znudg">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Nudging/relaxation time scales, inverse scales will be computed 
@@ -1250,7 +1250,7 @@
 
 
   <entry id="m2nudg">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Nudging/relaxation time scales, inverse scales will be computed 
@@ -1262,7 +1262,7 @@
 
 
   <entry id="m3nudg">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Nudging/relaxation time scales, inverse scales will be computed 
@@ -1273,7 +1273,7 @@
   </entry>
 
   <entry id="obcfac">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Factor between passive (outflow) and active (inflow) open boundary
@@ -1286,7 +1286,7 @@
   </entry>
 
   <entry id="r0">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>
@@ -1297,7 +1297,7 @@
   </entry>
 
   <entry id="t0">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>
@@ -1308,7 +1308,7 @@
   </entry>
 
   <entry id="s0">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>
@@ -1319,7 +1319,7 @@
   </entry>
 
   <entry id="tcoef">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>
@@ -1330,7 +1330,7 @@
   </entry>
 
   <entry id="scoef">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>
@@ -1341,7 +1341,7 @@
   </entry>
 
   <entry id="gamma2">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Slipperiness parameter: 1.0 (free slip) or -1.0 (no slip) 
@@ -1352,19 +1352,19 @@
   </entry>
 
   <entry id="ltracersrc">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Logical switches (TRUE/FALSE) to specify which variables to consider on
           tracers point Sources/Sinks (like river runoff): [1:NAT+NPT,Ngrids].
     </desc>
     <values>
-      <value>T T T T T T</value>
+      <value>T, T, T, T, T, T</value>
     </values>
   </entry>
 
   <entry id="dstrs">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Starting (DstrS) and ending (DendS) day for adjoint sensitivity forcing.
@@ -1375,7 +1375,7 @@
   </entry>
 
   <entry id="dends">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Starting (DstrS) and ending (DendS) day for adjoint sensitivity forcing.
@@ -1386,7 +1386,7 @@
   </entry>
 
   <entry id="kstrs">
-    <type>integer</type>
+    <type>integer(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Starting (kstrS) and ending (kendS) vertical levels for adjoint sensitivity forcing.
@@ -1397,7 +1397,7 @@
   </entry>
 
   <entry id="kends">
-    <type>integer</type>
+    <type>integer(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Starting (kstrS) and ending (kendS) vertical levels for adjoint sensitivity forcing.
@@ -1408,7 +1408,7 @@
   </entry>
 
   <entry id="lstate(isfsur)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Logical switches (TRUE/FALSE) to specify the adjoint state variables
@@ -1421,7 +1421,7 @@
 
 
   <entry id="lstate(isubar)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Logical switches (TRUE/FALSE) to specify the adjoint state variables
@@ -1434,7 +1434,7 @@
 
 
   <entry id="lstate(isvbar)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Logical switches (TRUE/FALSE) to specify the adjoint state variables
@@ -1447,7 +1447,7 @@
 
 
   <entry id="lstate(isuvel)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Logical switches (TRUE/FALSE) to specify the adjoint state variables
@@ -1460,7 +1460,7 @@
 
 
   <entry id="lstate(isvvel)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Logical switches (TRUE/FALSE) to specify the adjoint state variables
@@ -1473,7 +1473,7 @@
 
 
   <entry id="lstate(istvar)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Logical switches (TRUE/FALSE) to specify the adjoint state variables
@@ -1486,7 +1486,7 @@
 
 
   <entry id="fstate(isfsur)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Logical switches (TRUE/FALSE) to specify the state variables for
@@ -1498,7 +1498,7 @@
   </entry>
 
   <entry id="fstate(isubar)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Logical switches (TRUE/FALSE) to specify the state variables for
@@ -1510,7 +1510,7 @@
   </entry>
 
   <entry id="fstate(isvbar)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Logical switches (TRUE/FALSE) to specify the state variables for
@@ -1522,7 +1522,7 @@
   </entry>
 
   <entry id="fstate(isuvel)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Logical switches (TRUE/FALSE) to specify the state variables for
@@ -1534,7 +1534,7 @@
   </entry>
 
   <entry id="fstate(ivvel)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Logical switches (TRUE/FALSE) to specify the state variables for
@@ -1546,7 +1546,7 @@
   </entry>
 
   <entry id="fstate(istvar)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Logical switches (TRUE/FALSE) to specify the state variables for
@@ -1559,7 +1559,7 @@
 
 
   <entry id="fstate(isustr)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Logical switches (TRUE/FALSE) to specify the state variables for
@@ -1572,7 +1572,7 @@
 
 
   <entry id="fstate(isvstr)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Logical switches (TRUE/FALSE) to specify the state variables for
@@ -1584,7 +1584,7 @@
   </entry>
 
   <entry id="fstate(istsur)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Logical switches (TRUE/FALSE) to specify the state variables for
@@ -1596,7 +1596,7 @@
   </entry>
 
   <entry id="so_decay">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Stochastic Optimals time decorrelation scale (days) assumed for
@@ -1608,7 +1608,7 @@
   </entry>
 
   <entry id="so_sdev(isfsur)">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Stochastic Optimals surface forcing standard deviation for
@@ -1619,7 +1619,7 @@
     </values>
   </entry>
   <entry id="so_sdev(isubar)">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Stochastic Optimals surface forcing standard deviation for
@@ -1630,7 +1630,7 @@
     </values>
   </entry>
   <entry id="so_sdev(isvbar)">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Stochastic Optimals surface forcing standard deviation for
@@ -1641,7 +1641,7 @@
     </values>
   </entry>
   <entry id="so_sdev(iuvel)">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Stochastic Optimals surface forcing standard deviation for
@@ -1652,7 +1652,7 @@
     </values>
   </entry>
   <entry id="so_sdev(isvvel)">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Stochastic Optimals surface forcing standard deviation for
@@ -1663,7 +1663,7 @@
     </values>
   </entry>
   <entry id="so_sdev(istvar)">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Stochastic Optimals surface forcing standard deviation for
@@ -1674,7 +1674,7 @@
     </values>
   </entry>
   <entry id="so_sdev(isustr)">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Stochastic Optimals surface forcing standard deviation for
@@ -1686,7 +1686,7 @@
   </entry>
 
   <entry id="so_sdev(isvstr)">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Stochastic Optimals surface forcing standard deviation for
@@ -1698,7 +1698,7 @@
   </entry>
 
   <entry id="so_sdev(istsur)">
-    <type>real</type>
+    <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Stochastic Optimals surface forcing standard deviation for
@@ -1713,7 +1713,7 @@
       HISTORY output file. -->
 
   <entry id="hout(iduvel)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>3D u-velocity
@@ -1724,7 +1724,7 @@
   </entry>
 
   <entry id="hout(idvvel)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>3D v-velocity
@@ -1735,7 +1735,7 @@
   </entry>
 
   <entry id="hout(idwvel)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>3D w-velocity
@@ -1746,7 +1746,7 @@
   </entry>
 
   <entry id="hout(idovel)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>3D omega-velocity
@@ -1757,7 +1757,7 @@
   </entry>
 
   <entry id="hout(idubar)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>2D u-velocity
@@ -1768,7 +1768,7 @@
   </entry>
 
   <entry id="hout(idvbar)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>2D v-velocity
@@ -1779,7 +1779,7 @@
   </entry>
 
   <entry id="hout(idfsur)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>zeta free-surface
@@ -1790,7 +1790,7 @@
   </entry>
 
   <entry id="hout(idbath)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>time-dependent bathymetry
@@ -1802,18 +1802,18 @@
 
 
   <entry id="hout(idtvar)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>temperature and salinity   
     </desc>
     <values>
-      <value>T T</value>
+      <value>T, T</value>
     </values>
   </entry>
 
   <entry id="hout(idusms)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>surface U-stress 
@@ -1824,7 +1824,7 @@
   </entry>
 
   <entry id="hout(idvsms)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>surface v-stress 
@@ -1835,7 +1835,7 @@
   </entry>
 
   <entry id="hout(idubms)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>bottom U-stress 
@@ -1846,7 +1846,7 @@
   </entry>
 
   <entry id="hout(idvbms)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>bottom V-stress 
@@ -1857,7 +1857,7 @@
   </entry>
 
   <entry id="hout(idubrs)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> bottom U-current stress 
@@ -1868,7 +1868,7 @@
   </entry>
 
   <entry id="hout(idvbrs)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> bottom V-current stress 
@@ -1879,7 +1879,7 @@
   </entry>
 
   <entry id="hout(idubws)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> bottom U-wave stress 
@@ -1890,7 +1890,7 @@
   </entry>
 
   <entry id="hout(idvbws)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> bottom V-wave stress 
@@ -1901,7 +1901,7 @@
   </entry>
 
   <entry id="hout(idubcs)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> bottom max wave-current U-stress
@@ -1912,7 +1912,7 @@
   </entry>
 
   <entry id="hout(idvbcs)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> bottom max wave-current V-stress
@@ -1923,7 +1923,7 @@
   </entry>
 
   <entry id="hout(idubot)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>  bed wave orbital U-velocity  
@@ -1934,7 +1934,7 @@
   </entry>
 
   <entry id="hout(idvbot)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>  bed wave orbital V-velocity  
@@ -1945,7 +1945,7 @@
   </entry>
 
   <entry id="hout(idubur)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>   bottom U-velocity above bed
@@ -1956,7 +1956,7 @@
   </entry>
 
   <entry id="hout(idvbvr)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>   bottom V-velocity above bed
@@ -1967,7 +1967,7 @@
   </entry>
 
   <entry id="hout(idw2xx)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>   2D radiation stress, Sxx component  
@@ -1978,7 +1978,7 @@
   </entry>
 
   <entry id="hout(idw2xy)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>   2D radiation stress, Sxy component  
@@ -1989,7 +1989,7 @@
   </entry>
 
   <entry id="hout(idw2yy)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>   2D radiation stress, Syy component  
@@ -2000,7 +2000,7 @@
   </entry>
 
   <entry id="hout(idu2rs)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>    2D radiation U-stress     
@@ -2011,7 +2011,7 @@
   </entry>
 
   <entry id="hout(idu2sd)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>  2D U-Stokes velocity 
@@ -2022,7 +2022,7 @@
   </entry>
 
   <entry id="hout(idv2sd)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>    2D V-Stokes velocity 
@@ -2033,7 +2033,7 @@
   </entry>
 
   <entry id="hout(idw3xx)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>3D radiation stress, Sxx component     
@@ -2044,7 +2044,7 @@
   </entry>
 
   <entry id="hout(idw3xy)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>3D radiation stress, Sxy component     
@@ -2055,7 +2055,7 @@
   </entry>
 
   <entry id="hout(idw3yy)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>3D radiation stress, Syy component     
@@ -2066,7 +2066,7 @@
   </entry>
 
   <entry id="hout(idw3zx)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>3D radiation stress, Szx component     
@@ -2077,7 +2077,7 @@
   </entry>
 
   <entry id="hout(idw3zy)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>3D radiation stress, Szy component     
@@ -2088,7 +2088,7 @@
   </entry>
 
   <entry id="hout(idu3rs)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>3D U-radiation stress 
@@ -2099,7 +2099,7 @@
   </entry>
 
   <entry id="hout(idv3rs)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>3D V-radiation stress 
@@ -2110,7 +2110,7 @@
   </entry>
 
   <entry id="hout(idu3sd)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> 3D U-Stokes velocity  
@@ -2121,7 +2121,7 @@
   </entry>
 
   <entry id="hout(idv3sd)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> 3D V-Stokes velocity  
@@ -2132,7 +2132,7 @@
   </entry>
 
   <entry id="hout(idwamp)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> wave height
@@ -2143,7 +2143,7 @@
   </entry>
 
   <entry id="hout(idwlen)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> wave length
@@ -2154,7 +2154,7 @@
   </entry>
 
   <entry id="hout(idwdir)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> wave direction
@@ -2165,7 +2165,7 @@
   </entry>
 
   <entry id="hout(idwptp)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> wave surface period
@@ -2176,7 +2176,7 @@
   </entry>
 
   <entry id="hout(idwpbt)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> wave bottom period
@@ -2187,7 +2187,7 @@
   </entry>
 
   <entry id="hout(idworb)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> wave bottom orbital velocity
@@ -2198,7 +2198,7 @@
   </entry>
 
   <entry id="hout(idwdis)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>  wave dissipation 
@@ -2209,7 +2209,7 @@
   </entry>
 
   <entry id="hout(idpair)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> surface air pressure 
@@ -2220,7 +2220,7 @@
   </entry>
 
   <entry id="hout(iduair)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>  surface U-wind component 
@@ -2231,7 +2231,7 @@
   </entry>
 
   <entry id="hout(idvair)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> surface V-wind component
@@ -2242,18 +2242,18 @@
   </entry>
 
   <entry id="hout(idtsur)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>  surface net heat and salt flux  
     </desc>
     <values>
-      <value>T T</value>
+      <value>T, T</value>
     </values>
   </entry>
 
   <entry id="hout(idlhea)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> latent heat flux   
@@ -2263,7 +2263,7 @@
     </values>
   </entry>
   <entry id="hout(idshea)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> sensible heat flux   
@@ -2274,7 +2274,7 @@
   </entry>
 
   <entry id="hout(idlrad)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> longwave radiation flux   
@@ -2285,7 +2285,7 @@
   </entry>
 
   <entry id="hout(idsrad)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>  shortwave radiation flux  
@@ -2296,7 +2296,7 @@
   </entry>
 
   <entry id="hout(idempf)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>E-P flux  
@@ -2306,7 +2306,7 @@
     </values>
   </entry>
   <entry id="hout(idevap)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> evaporation rate 
@@ -2316,7 +2316,7 @@
     </values>
   </entry>
   <entry id="hout(idrain)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> precipitation rate    
@@ -2326,7 +2326,7 @@
     </values>
   </entry>
   <entry id="hout(iddano)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> density anomaly 
@@ -2337,7 +2337,7 @@
   </entry>
 
   <entry id="hout(idvvis)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> vertical viscosity 
@@ -2347,7 +2347,7 @@
     </values>
   </entry>
   <entry id="hout(idtdif)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> vertical T-diffusion  
@@ -2357,7 +2357,7 @@
     </values>
   </entry>
   <entry id="hout(idsdif)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> vertical Salinity diffusion  
@@ -2367,7 +2367,7 @@
     </values>
   </entry>
   <entry id="hout(idhsbl)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> depth of surface boundary layer 
@@ -2377,7 +2377,7 @@
     </values>
   </entry>
   <entry id="hout(idhbbl)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> depth of bottom boundary layer 
@@ -2387,7 +2387,7 @@
     </values>
   </entry>
   <entry id="hout(idmtke)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>  turbulent kinetic energy 
@@ -2397,7 +2397,7 @@
     </values>
   </entry>
   <entry id="hout(idmtls)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>  turbulent length scale   
@@ -2408,7 +2408,7 @@
   </entry>
 
   <entry id="hout(inert)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> Logical switches (TRUE/FALSE) to activate writing of extra
@@ -2420,12 +2420,12 @@
     parameter specification.
     </desc>
     <values>
-      <value>F F F F</value>
+      <value>F, F, F, F</value>
     </values>
   </entry>
 
-  <entry id="hout(idBott)">
-    <type>logical</type>
+  <entry id="hout(idbott)">
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
 
@@ -2435,14 +2435,14 @@
     layer and/or sediment models.
     </desc>
     <values>
-      <value>F F F F F F F F F F F F F F F F</value>
+      <value>F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F</value>
     </values>
   </entry>
 
 <!-- Logical switches (TRUE/FALSE) to activate writing of time-averaged fields into AVERAGE output file. -->
 
   <entry id="aout(iduvel)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>3D u-velocity
@@ -2453,7 +2453,7 @@
   </entry>
 
   <entry id="aout(idvvel)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>3D v-velocity
@@ -2464,7 +2464,7 @@
   </entry>
 
   <entry id="aout(idwvel)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>3D w-velocity
@@ -2475,7 +2475,7 @@
   </entry>
 
   <entry id="aout(idovel)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>3D omega-velocity
@@ -2486,7 +2486,7 @@
   </entry>
 
   <entry id="aout(idubar)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>2D u-velocity
@@ -2497,7 +2497,7 @@
   </entry>
 
   <entry id="aout(idvbar)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>2D v-velocity
@@ -2508,7 +2508,7 @@
   </entry>
 
   <entry id="aout(idfsur)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>zeta free-surface
@@ -2519,18 +2519,18 @@
   </entry>
 
   <entry id="aout(idtvar)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>temperature and salinity   
     </desc>
     <values>
-      <value>F F</value>
+      <value>F, F</value>
     </values>
   </entry>
 
   <entry id="aout(idusms)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>surface U-stress 
@@ -2541,7 +2541,7 @@
   </entry>
 
   <entry id="aout(idvsms)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>surface v-stress 
@@ -2552,7 +2552,7 @@
   </entry>
 
   <entry id="aout(idubms)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>bottom U-stress 
@@ -2563,7 +2563,7 @@
   </entry>
 
   <entry id="aout(idvbms)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>bottom V-stress 
@@ -2574,7 +2574,7 @@
   </entry>
 
   <entry id="aout(idw2xx)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>   2D radiation stress, Sxx component  
@@ -2585,7 +2585,7 @@
   </entry>
 
   <entry id="aout(idw2xy)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>   2D radiation stress, Sxy component  
@@ -2596,7 +2596,7 @@
   </entry>
 
   <entry id="aout(idw2yy)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>   2D radiation stress, Syy component  
@@ -2607,7 +2607,7 @@
   </entry>
 
   <entry id="aout(idu2rs)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>    2D radiation U-stress     
@@ -2618,7 +2618,7 @@
   </entry>
 
   <entry id="aout(idu2sd)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>  2D U-Stokes velocity 
@@ -2629,7 +2629,7 @@
   </entry>
 
   <entry id="aout(idv2sd)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>    2D V-Stokes velocity 
@@ -2640,7 +2640,7 @@
   </entry>
 
   <entry id="aout(idw3xx)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>3D radiation stress, Sxx component     
@@ -2651,7 +2651,7 @@
   </entry>
 
   <entry id="aout(idw3xy)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>3D radiation stress, Sxy component     
@@ -2662,7 +2662,7 @@
   </entry>
 
   <entry id="aout(idw3yy)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>3D radiation stress, Syy component     
@@ -2673,7 +2673,7 @@
   </entry>
 
   <entry id="aout(idw3zx)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>3D radiation stress, Szx component     
@@ -2684,7 +2684,7 @@
   </entry>
 
   <entry id="aout(idw3zy)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>3D radiation stress, Szy component     
@@ -2695,7 +2695,7 @@
   </entry>
 
   <entry id="aout(idu3rs)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>3D U-radiation stress 
@@ -2706,7 +2706,7 @@
   </entry>
 
   <entry id="aout(idv3rs)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>3D V-radiation stress 
@@ -2717,7 +2717,7 @@
   </entry>
 
   <entry id="aout(idu3sd)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> 3D U-Stokes velocity  
@@ -2728,7 +2728,7 @@
   </entry>
 
   <entry id="aout(idv3sd)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> 3D V-Stokes velocity  
@@ -2739,7 +2739,7 @@
   </entry>
 
   <entry id="aout(idpair)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> surface air pressure 
@@ -2750,7 +2750,7 @@
   </entry>
 
   <entry id="aout(iduair)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>  surface U-wind component 
@@ -2761,7 +2761,7 @@
   </entry>
 
   <entry id="aout(idvair)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> surface V-wind component
@@ -2772,18 +2772,18 @@
   </entry>
 
   <entry id="aout(idtsur)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>  surface net heat and salt flux  
     </desc>
     <values>
-      <value>T T</value>
+      <value>T, T</value>
     </values>
   </entry>
 
   <entry id="aout(idlhea)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> latent heat flux   
@@ -2793,7 +2793,7 @@
     </values>
   </entry>
   <entry id="aout(idshea)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> sensible heat flux   
@@ -2804,7 +2804,7 @@
   </entry>
 
   <entry id="aout(idlrad)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> longwave radiation flux   
@@ -2815,7 +2815,7 @@
   </entry>
 
   <entry id="aout(idsrad)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>  shortwave radiation flux  
@@ -2826,7 +2826,7 @@
   </entry>
 
   <entry id="aout(idempf)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>E-P flux  
@@ -2836,7 +2836,7 @@
     </values>
   </entry>
   <entry id="aout(idevap)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> evaporation rate 
@@ -2846,7 +2846,7 @@
     </values>
   </entry>
   <entry id="aout(idrain)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> precipitation rate    
@@ -2856,7 +2856,7 @@
     </values>
   </entry>
   <entry id="aout(iddano)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> density anomaly 
@@ -2867,7 +2867,7 @@
   </entry>
 
   <entry id="aout(idvvis)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> vertical viscosity 
@@ -2877,7 +2877,7 @@
     </values>
   </entry>
   <entry id="aout(idtdif)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> vertical T-diffusion  
@@ -2887,7 +2887,7 @@
     </values>
   </entry>
   <entry id="aout(idsdif)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> vertical Salinity diffusion  
@@ -2897,7 +2897,7 @@
     </values>
   </entry>
   <entry id="aout(idhsbl)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> depth of surface boundary layer 
@@ -2907,7 +2907,7 @@
     </values>
   </entry>
   <entry id="aout(idhbbl)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> depth of bottom boundary layer 
@@ -2918,7 +2918,7 @@
   </entry>
 
   <entry id="aout(id2drv)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> pvorticity_bar     2D relative vorticity 
@@ -2928,7 +2928,7 @@
     </values>
   </entry>
   <entry id="aout(id3drv)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> pvorticity         3D relative vorticity   
@@ -2938,7 +2938,7 @@
     </values>
   </entry>
   <entry id="aout(id2dpv)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>rvorticity_bar     2D potential vorticity 
@@ -2948,7 +2948,7 @@
     </values>
   </entry>
   <entry id="aout(id3dpv)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>rvorticity         3D potential vorticity 
@@ -2958,7 +2958,7 @@
     </values>
   </entry>
   <entry id="aout(idu3dd)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>u_detided          detided 3D U-velocity
@@ -2969,7 +2969,7 @@
   </entry>
 
   <entry id="aout(idv3dd)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>v_detided          detided 3D V-velocity 
@@ -2979,7 +2979,7 @@
     </values>
   </entry>
   <entry id="aout(idu2dd)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>ubar_detided       detided 2D U-velocity
@@ -2989,7 +2989,7 @@
     </values>
   </entry>
   <entry id="aout(idv2dd)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>vbar_detided       detided 2D V-velocity
@@ -2999,7 +2999,7 @@
     </values>
   </entry>
   <entry id="aout(idfsud)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>zeta_detided       detided free-surface
@@ -3010,7 +3010,7 @@
   </entry>
 
   <entry id="aout(idtrcd)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>temp_detided, ...  detided temperature and salinity  
@@ -3021,7 +3021,7 @@
   </entry>
 
   <entry id="aout(idhuav)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Huon               u-volume flux, Huon   
@@ -3031,7 +3031,7 @@
     </values>
   </entry>
   <entry id="aout(idhvav)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> v-volume flux, Hvom  
@@ -3041,7 +3041,7 @@
     </values>
   </entry>
   <entry id="aout(iduuav)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>quadratic u*u term 
@@ -3052,7 +3052,7 @@
   </entry>
 
   <entry id="aout(iduvav)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>quadratic u*v term 
@@ -3062,7 +3062,7 @@
     </values>
   </entry>
   <entry id="aout(idvvav)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>quadratic v*v term
@@ -3072,7 +3072,7 @@
     </values>
   </entry>
   <entry id="aout(idu2av)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>quadratic ubar*ubar term
@@ -3083,7 +3083,7 @@
   </entry>
 
   <entry id="aout(idv2av)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>quadratic vbar*vbar term
@@ -3093,7 +3093,7 @@
     </values>
   </entry>
   <entry id="aout(idzzav)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> quadratic zeta*zeta term
@@ -3104,62 +3104,62 @@
   </entry>
   
   <entry id="aout(idttav)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>temp2, salt2       quadratic t*t T/S terms
     </desc>
     <values>
-      <value>F F</value>
+      <value>F, F</value>
     </values>
   </entry>
 
   <entry id="aout(idutav)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Huontemp, ...      T/S volume flux, Huon*t
     </desc>
     <values>
-      <value>F F</value>
+      <value>F, F</value>
     </values>
   </entry>
 
   <entry id="aout(idvtav)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>vtemp, vsalt       quadratic v*t T/S terms  
     </desc>
     <values>
-      <value>F F</value>
+      <value>F, F</value>
     </values>
   </entry>
 
   <entry id="aout(idhutav)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Huontemp, ...      T/S volume flux, Huon*t
     </desc>
     <values>
-      <value>F F</value>
+      <value>F, F</value>
     </values>
   </entry>
 
   <entry id="aout(idhvtav)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Hvomtemp, ...      T/S volume flux, Hvom*t
     </desc>
     <values>
-      <value>F F</value>
+      <value>F, F</value>
     </values>
   </entry>
 
   <entry id="aout(inert)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> Logical switches (TRUE/FALSE) to activate writing of extra
@@ -3167,7 +3167,7 @@
     tracers into the average file. 
     </desc>
     <values>
-      <value>F F F F</value>
+      <value>F, F, F, F</value>
     </values>
   </entry>
 
@@ -3175,7 +3175,7 @@
  2D momentum (ubar,vbar) diagnostic terms into DIAGNOSTIC output file. -->
 
   <entry id="dout(m2rate)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>ubar_accel, ...    acceleration
@@ -3185,7 +3185,7 @@
     </values>
   </entry>
   <entry id="dout(m2pgrd)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>ubar_prsgrd, ...   pressure gradient
@@ -3195,7 +3195,7 @@
     </values>
   </entry>
   <entry id="dout(m2fcor)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>ubar_cor, ...      Coriolis force
@@ -3205,7 +3205,7 @@
     </values>
   </entry>
   <entry id="dout(m2hadv)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>ubar_hadv, ...     horizontal total advection   
@@ -3215,7 +3215,7 @@
     </values>
   </entry>
   <entry id="dout(m2xadv)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>ubar_xadv, ...     horizontal XI-advection 
@@ -3225,7 +3225,7 @@
     </values>
   </entry>
   <entry id="dout(m2yadv)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>ubar_yadv, ...     horizontal ETA-advection
@@ -3235,7 +3235,7 @@
     </values>
   </entry>
   <entry id="dout(m2hrad)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>ubar_hrad, ...     horizontal total radiation stress
@@ -3245,7 +3245,7 @@
     </values>
   </entry>
   <entry id="dout(m2hvis)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>ubar_hvisc, ...    horizontal total viscosity   
@@ -3255,7 +3255,7 @@
     </values>
   </entry>
   <entry id="dout(m2xvis)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>ubar_xvisc, ...    horizontal XI-viscosity   
@@ -3265,7 +3265,7 @@
     </values>
   </entry>
   <entry id="dout(m2yvis)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>ubar_yvisc, ...    horizontal ETA-viscosity 
@@ -3276,7 +3276,7 @@
   </entry>
 
   <entry id="dout(m2sstr)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>ubar_sstr, ...     surface stress
@@ -3286,7 +3286,7 @@
     </values>
   </entry>
   <entry id="dout(m2bstr)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>ubar_bstr, ...     bottom stress   
@@ -3297,7 +3297,7 @@
   </entry>
 
   <entry id="dout(m3rate)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>u_accel, ...       acceleration
@@ -3307,7 +3307,7 @@
     </values>
   </entry>
   <entry id="dout(m3pgrd)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>u_prsgrd, ...   pressure gradient
@@ -3317,7 +3317,7 @@
     </values>
   </entry>
   <entry id="dout(m3fcor)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>u_cor, ...      Coriolis force
@@ -3327,7 +3327,7 @@
     </values>
   </entry>
   <entry id="dout(m3hadv)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>u_hadv, ...     horizontal total advection   
@@ -3337,7 +3337,7 @@
     </values>
   </entry>
   <entry id="dout(m3xadv)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>u_xadv, ...     horizontal XI-advection 
@@ -3347,7 +3347,7 @@
     </values>
   </entry>
   <entry id="dout(m3yadv)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>u_yadv, ...     horizontal ETA-advection
@@ -3357,7 +3357,7 @@
     </values>
   </entry>
   <entry id="dout(m3hrad)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>u_hrad, ...     horizontal total radiation stress
@@ -3367,7 +3367,7 @@
     </values>
   </entry>
   <entry id="dout(m3vrad)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>u_vrad, ...        vertical radiation stress 
@@ -3377,7 +3377,7 @@
     </values>
   </entry>
   <entry id="dout(m3hvis)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>u_hvisc, ...       horizontal total viscosity
@@ -3387,7 +3387,7 @@
     </values>
   </entry>
   <entry id="dout(m3xvis)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> u_xvisc, ...       horizontal XI-viscosity
@@ -3397,7 +3397,7 @@
     </values>
   </entry>
   <entry id="dout(m3yvis)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>u_yvisc, ...       horizontal ETA-viscosity
@@ -3407,7 +3407,7 @@
     </values>
   </entry>
   <entry id="dout(m3vvis)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>u_vvisc, ...       vertical viscosity 
@@ -3423,103 +3423,103 @@
      [1:NAT+NPT,Ngrids]. -->
 
   <entry id="dout(itrate)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>temp_rate, ...     time rate of change 
     </desc>
     <values>
-      <value>F F</value>
+      <value>F, F</value>
     </values>
   </entry>
   <entry id="dout(ithadv)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>temp_hadv, ...     horizontal total advection 
     </desc>
     <values>
-      <value>F F</value>
+      <value>F, F</value>
     </values>
   </entry>
   <entry id="dout(itxadv)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>temp_xadv, ...     horizontal XI-advection
     </desc>
     <values>
-      <value>F F</value>
+      <value>F, F</value>
     </values>
   </entry>
   <entry id="dout(ityadv)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>temp_yadv, ...     horizontal ETA-advection
     </desc>
     <values>
-      <value>F F</value>
+      <value>F, F</value>
     </values>
   </entry>
   <entry id="dout(itvadv)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>temp_vadv, ...     vertical advection 
     </desc>
     <values>
-      <value>F F</value>
+      <value>F, F</value>
     </values>
   </entry>
   <entry id="dout(ithdif)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>temp_hdiff, ...    horizontal total diffusion
     </desc>
     <values>
-      <value>F F T T T T</value>
+      <value>F, F, T, T, T, T</value>
     </values>
   </entry>
   <entry id="dout(itxdif)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> horizontal XI-diffusion    
     </desc>
     <values>
-      <value>F F</value>
+      <value>F, F</value>
     </values>
   </entry>
   <entry id="dout(itydif)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>horizontal ETA-diffusion   
     </desc>
     <values>
-      <value>F F</value>
+      <value>F, F</value>
     </values>
   </entry>
   <entry id="dout(itsdif)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>horizontal S-diffusion  
     </desc>
     <values>
-      <value>F F</value>
+      <value>F, F</value>
     </values>
   </entry>
   <entry id="dout(itvdif)">
-    <type>logical</type>
+    <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>vertical diffusion 
     </desc>
     <values>
-      <value>F F T T T T</value>
+      <value>F, F, T, T, T, T</value>
     </values>
   </entry>
 
@@ -3579,7 +3579,7 @@
   </entry>
 
   <entry id="grdname">
-    <type>char</type>
+    <type>char(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Input NetCDF file names</desc>
@@ -3591,7 +3591,7 @@
   </entry>
  
   <entry id="ininame">
-    <type>char</type>
+    <type>char(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>Input NetCDF file names</desc>
@@ -3603,7 +3603,7 @@
   </entry>
 
   <entry id="itlname">
-    <type>char</type>
+    <type>char(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> 
@@ -3613,7 +3613,7 @@
     </values>
   </entry>
   <entry id="irpname">
-    <type>char</type>
+    <type>char(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> 
@@ -3623,7 +3623,7 @@
     </values>
   </entry>
   <entry id="iadname">
-    <type>char</type>
+    <type>char(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> 
@@ -3633,7 +3633,7 @@
     </values>
   </entry>
   <entry id="clmname">
-    <type>char</type>
+    <type>char(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> 
@@ -3644,7 +3644,7 @@
   </entry>
 
   <entry id="bryname">
-    <type>char</type>
+    <type>char(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> 
@@ -3655,7 +3655,7 @@
   </entry>
 
   <entry id="fwdname">
-    <type>char</type>
+    <type>char(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> 
@@ -3666,7 +3666,7 @@
   </entry>
 
   <entry id="adsname">
-    <type>char</type>
+    <type>char(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> 
@@ -3690,7 +3690,7 @@
      the each entry, except the last one. -->
 
   <entry id="nffiles">
-    <type>integer</type>
+    <type>integer(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc>number of unique forcing files 
@@ -3701,7 +3701,7 @@
   </entry>
 
   <entry id="frcname">
-    <type>char</type>
+    <type>char(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> 
@@ -3721,7 +3721,7 @@
   </entry>
 
   <entry id="gstname">
-    <type>char</type>
+    <type>char(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> 
@@ -3732,7 +3732,7 @@
   </entry>
 
   <entry id="rstname">
-    <type>char</type>
+    <type>char(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> 
@@ -3742,7 +3742,7 @@
     </values>
   </entry>
   <entry id="hisname">
-    <type>char</type>
+    <type>char(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> 
@@ -3753,7 +3753,7 @@
   </entry>
 
   <entry id="tlmname">
-    <type>char</type>
+    <type>char(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> 
@@ -3764,7 +3764,7 @@
   </entry>
 
   <entry id="tlfname">
-    <type>char</type>
+    <type>char(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> 
@@ -3775,7 +3775,7 @@
   </entry>
 
   <entry id="adjname">
-    <type>char</type>
+    <type>char(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> 
@@ -3786,7 +3786,7 @@
   </entry>
 
   <entry id="avgname">
-    <type>char</type>
+    <type>char(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> 
@@ -3797,7 +3797,7 @@
   </entry>
 
   <entry id="dianame">
-    <type>char</type>
+    <type>char(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> 
@@ -3808,7 +3808,7 @@
   </entry>
 
   <entry id="staname">
-    <type>char</type>
+    <type>char(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> 
@@ -3819,7 +3819,7 @@
   </entry>
 
   <entry id="fltname">
-    <type>char</type>
+    <type>char(8)</type>
     <category>roms</category>
     <group>ocean.in</group>
     <desc> 
