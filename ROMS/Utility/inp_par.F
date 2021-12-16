@@ -1042,6 +1042,7 @@
         label(i:i)=blank
       END DO
       got_Ngrids=.FALSE.
+      ngrids = 1
 !
 !-----------------------------------------------------------------------
 !  Read in physical model parameters. Then, load input data into module.

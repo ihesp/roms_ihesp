@@ -57,7 +57,7 @@ def _create_namelists(case, confdir, inst_string, infile, nmlgen, data_list_path
     #----------------------------------------------------
     namelist_file = os.path.join(confdir, "ocean.in")
 
-    nmlgen.write_output_file(namelist_file, data_list_path, groups=['ocean.in'], format_="roms")
+    nmlgen.write_output_file(namelist_file, data_list_path, groups=['ocean.in2', 'ocean.in1'], format_="roms")
 
     # set rundir
     rundir = case.get_value("RUNDIR")
