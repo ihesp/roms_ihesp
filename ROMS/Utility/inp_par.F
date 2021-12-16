@@ -738,6 +738,7 @@
       DO WHILE (.TRUE.)
         READ (inp,'(a)',ERR=40,END=50) line
         status=decode_line(line, KeyWord, Nval, Cval, Rval)
+        print *,__FILE__,__LINE__,trim(keyword), status
         IF (status.gt.0) THEN
           IF (TRIM(KeyWord).eq.'Nmodels'.or.TRIM(KeyWord).eq.'nmodels') THEN
             Npts=load_i(Nval, Rval, 1, Nmodels)
