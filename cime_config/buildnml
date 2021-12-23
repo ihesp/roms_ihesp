@@ -57,7 +57,7 @@ def _create_namelists(case, confdir, inst_string, infile, nmlgen, data_list_path
     #----------------------------------------------------
     namelist_file = os.path.join(confdir, "ocean.in")
 
-    nmlgen.write_output_file(namelist_file, data_list_path, groups=['ocean.in2', 'ocean.in1'], format_="roms")
+    nmlgen.write_output_file(namelist_file, data_list_path, groups=['ocean.in3','ocean.in2', 'ocean.in1'], format_="roms")
 
     # set rundir
     rundir = case.get_value("RUNDIR")
@@ -73,7 +73,7 @@ def buildnml(case, caseroot, compname):
 ###############################################################################
     """Build the roms namelist """
 
-    # Build the component namelist 
+    # Build the component namelist
     if compname != "roms":
         raise AttributeError
 
@@ -142,7 +142,7 @@ def buildnml(case, caseroot, compname):
                "Missing required user_nl_file %s " %(user_nl_file))
         namelist_infile = os.path.join(confdir, "namelist_infile")
         create_namelist_infile(case, user_nl_file, namelist_infile)
-                        
+
         # create namelist and stream file(s) data component
         _create_namelists(case, confdir, inst_string, namelist_infile, nmlgen, data_list_path)
 
@@ -152,7 +152,7 @@ def buildnml(case, caseroot, compname):
         # determine the directory containing build-namelist script
         # first check to see if build-namelist exists in SourceMods, if it exists use it
         bldnml_dir = os.path.join(srcroot,"components","roms","bld")
- 
+
     # now call build-namelist
     cmd = os.path.join(bldnml_dir, "roms.buildnml.csh")
     command = "%s -ntasks %s -continue %s -startdate %s -starttod %s -ocngrid %s -coderoot %s \
@@ -161,7 +161,7 @@ def buildnml(case, caseroot, compname):
        rundir, dinlocroot, ddomain)
     if inst_string:
         command = command + " -inst_string {}".format(inst_string)
-        
+
 #    rc, out, err = run_cmd(command, from_dir=confdir)
 #    expect(rc==0,"Command %s failed rc=%d\nout=%s\nerr=%s"%(cmd,rc,out,err))
 #    if out is not None:
@@ -184,4 +184,3 @@ def _main_func():
 
 if __name__ == "__main__":
     _main_func()
-

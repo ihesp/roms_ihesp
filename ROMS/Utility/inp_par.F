@@ -1051,7 +1051,7 @@
       DO WHILE (.TRUE.)
         if(master) READ (inp,'(a)',ERR=10,END=20) line
         status=decode_line(line, KeyWord, Nval, Cval, Rval)
-        print *,__FILE__,__LINE__,trim(keyword)
+        print *,__FILE__,__LINE__,trim(keyword), status
         IF (status.gt.0) THEN
           IF (TRIM(KeyWord).eq.'TITLE'.or.TRIM(KeyWord).eq.'title') THEN
             IF (Nval.eq.1) THEN
@@ -1060,11 +1060,13 @@
               WRITE(title,'(a,1x,a)') TRIM(ADJUSTL(title)),             &
      &                                TRIM(ADJUSTL(Cval(Nval)))
             END IF
+            print *,__FILE__,__LINE__
           ELSE IF (TRIM(KeyWord).eq.'MyAppCPP'.or.TRIM(KeyWord).eq.'myappcpp') THEN
             DO i=1,LEN(MyAppCPP)
               MyAppCPP(i:i)=blank
             END DO
             MyAppCPP=TRIM(ADJUSTL(Cval(Nval)))
+            print *,__FILE__,__LINE__
           ELSE IF (TRIM(KeyWord).eq.'VARNAME'.or.TRIM(KeyWord).eq.'varname') THEN
             DO i=1,LEN(varname)
               varname(i:i)=blank
@@ -1100,6 +1102,7 @@
               allocate ( Nfiles(Ngrids) )
               Nfiles(1:Ngrids)=0
             END IF
+            print *,__FILE__,__LINE__
           ELSE IF (TRIM(KeyWord).eq.'Lm'.or.TRIM(KeyWord).eq.'lm') THEN
             IF (.not.got_Ngrids) THEN
               IF (Master) WRITE (out,330) 'Ngrids',                     &
@@ -1116,6 +1119,7 @@
                 RETURN
               END IF
             END DO
+            print *,__FILE__,__LINE__
           ELSE IF (TRIM(KeyWord).eq.'Mm'.or.TRIM(KeyWord).eq.'mm') THEN
             Npts=load_i(Nval, Rval, Ngrids, Mm)
             DO ng=1,Ngrids
@@ -1126,6 +1130,7 @@
                 RETURN
               END IF
             END DO
+            print *,__FILE__,__LINE__
           ELSE IF (TRIM(KeyWord).eq.'N'.or.TRIM(KeyWord).eq.'n') THEN
             Npts=load_i(Nval, Rval, Ngrids, N)
             DO ng=1,Ngrids
@@ -1137,6 +1142,7 @@
               END IF
             END DO
 #if defined SEDIMENT && defined SOLVE3D
+            print *,__FILE__,__LINE__
           ELSE IF (TRIM(KeyWord).eq.'Nbed'.or.TRIM(KeyWord).eq.'nbed') THEN
             Npts=load_i(Nval, Rval, 1, Nbed)
             IF (Nbed.le.0) THEN
@@ -1147,6 +1153,7 @@
             END IF
 #endif
 #ifdef SOLVE3D
+            print *,__FILE__,__LINE__
           ELSE IF (TRIM(KeyWord).eq.'NAT'.or.TRIM(KeyWord).eq.'nat') THEN
             Npts=load_i(Nval, Rval, 1, NAT)
             IF ((NAT.lt.1).or.(NAT.gt.2)) THEN
@@ -1191,6 +1198,7 @@
               RETURN
             END IF
             NST=NST+NCS
+            print *,__FILE__,__LINE__
           ELSE IF (TRIM(KeyWord).eq.'NNS'.or.TRIM(KeyWord).eq.'nns') THEN
             Npts=load_i(Nval, Rval, 1, NNS)
             IF (NNS.lt.0) THEN
@@ -1208,6 +1216,7 @@
             END IF
             NST=NST+NNS
 #endif
+            print *,__FILE__,__LINE__
           ELSE IF (TRIM(KeyWord).eq.'NtileI'.or.TRIM(KeyWord).eq.'ntilei') THEN
             Npts=load_i(Nval, Rval, Ngrids, NtileI)
 #ifdef DISTRIBUTE
@@ -1215,6 +1224,7 @@
 #else
             NtileX(1:Ngrids)=NtileI(1:Ngrids)
 #endif
+            print *,__FILE__,__LINE__
           ELSE IF (TRIM(KeyWord).eq.'NtileJ'.or.TRIM(KeyWord).eq.'ntilej') THEN
             Npts=load_i(Nval, Rval, Ngrids, NtileJ)
 #ifdef DISTRIBUTE
@@ -7581,11 +7591,12 @@
             status=Nval
          END IF
       endif
+      call mpi_bcast(status, 1, MPI_INTEGER, mymaster, OCN_COMM_WORLD, ie)
+      decode_line=status
       call mpi_bcast(keyword, len(keyword), MPI_CHAR, mymaster, OCN_COMM_WORLD, status)
       call mpi_bcast(nval, 1, MPI_INTEGER, mymaster, OCN_COMM_WORLD, status)
       call mpi_bcast(rval, 100, MPI_DOUBLE, mymaster, OCN_COMM_WORLD, status)
       call mpi_bcast(cval, 25600, MPI_CHAR, mymaster, OCN_COMM_WORLD, status)
-      decode_line=status
 
       RETURN
       END FUNCTION decode_line
