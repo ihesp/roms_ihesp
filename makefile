@@ -138,7 +138,7 @@ MY_CPP_FLAGS ?=
 #  NetCDF and so on.
 #--------------------------------------------------------------------------
 
-        FORT ?= mpiifort
+	FORT ?= mpiifort
 
 #--------------------------------------------------------------------------
 #  Set directory for executable.
@@ -188,7 +188,7 @@ endif
 
 %.f90: %.F
 	$(CPP) $(CPPFLAGS) $(MY_CPP_FLAGS) $< > $*.f90
-#	 $(CLEAN) $*.f90
+	$(CLEAN) $*.f90
 
 CLEAN := ROMS/Bin/cpp_clean
 
@@ -199,7 +199,7 @@ CLEAN := ROMS/Bin/cpp_clean
 #--------------------------------------------------------------------------
 
 ifdef ROMS_APPLICATION
-        HEADER := $(addsuffix .h, \
+	HEADER := $(addsuffix .h, \
 			$(shell echo ${ROMS_APPLICATION} | tr [A-Z] [a-z]))
  ROMS_CPPFLAGS := -D$(ROMS_APPLICATION)
  ROMS_CPPFLAGS += -D'HEADER="$(HEADER)"'
@@ -232,11 +232,11 @@ ifneq "$(MAKECMDGOALS)" "clean"
  ifdef GET_MACROS
   include $(SCRATCH_DIR)/make_macros.mk
   $(if ,, $(warning INCLUDING FILE $(SCRATCH_DIR)/make_macros.mk \
-                    WHICH CONTAINS APPLICATION-DEPENDENT MAKE DEFINITIONS))
+		    WHICH CONTAINS APPLICATION-DEPENDENT MAKE DEFINITIONS))
  else
   include $(MAKE_MACROS)
   $(if ,, $(warning INCLUDING FILE $(MAKE_MACROS) \
-                   WHICH CONTAINS APPLICATION-DEPENDENT MAKE DEFINITIONS))
+		   WHICH CONTAINS APPLICATION-DEPENDENT MAKE DEFINITIONS))
  endif
 endif
 
@@ -252,7 +252,7 @@ source-dir-to-binary-dir = $(addprefix $(SCRATCH_DIR)/, $(notdir $1))
 
 # $(call source-to-object, source-file-list)
 source-to-object = $(call source-dir-to-binary-dir,   \
-                   $(subst .F,.o,$1))
+		   $(subst .F,.o,$1))
 
 # $(call make-library, library-name, source-file-list)
 define make-library
@@ -260,14 +260,14 @@ define make-library
    sources   += $2
 
    $(SCRATCH_DIR)/$1: $(call source-dir-to-binary-dir,    \
-                      $(subst .F,.o,$2))
+		      $(subst .F,.o,$2))
 	$(AR) $(ARFLAGS) $$@ $$^
 	$(RANLIB) $$@
 endef
 
 # $(call f90-source, source-file-list)
 f90-source = $(call source-dir-to-binary-dir,     \
-                   $(subst .F,.f90,$1))
+		   $(subst .F,.f90,$1))
 
 # $(compile-rules)
 define compile-rules
@@ -433,7 +433,7 @@ endif
 		ROMS/Nonlinear/Sediment \
 		ROMS/Utility \
 		ROMS/Drivers \
-                ROMS/Functionals
+		ROMS/Functionals
 ifdef MY_HEADER_DIR
  includes +=	$(MY_HEADER_DIR)
 endif
@@ -486,8 +486,8 @@ FFLAGS += -debug minimal
 #--------------------------------------------------------------------------
 
 $(SCRATCH_DIR)/mod_strings.f90: CPPFLAGS += -DMY_OS='"$(OS)"' \
-              -DMY_CPU='"$(CPU)"' -DMY_FORT='"$(FORT)"' \
-              -DMY_FC='"$(FC)"' -DMY_FFLAGS='"$(FFLAGS)"'
+	      -DMY_CPU='"$(CPU)"' -DMY_FORT='"$(FORT)"' \
+	      -DMY_FC='"$(FC)"' -DMY_FFLAGS='"$(FFLAGS)"'
 
 #--------------------------------------------------------------------------
 #  ROMS/TOMS libraries.
@@ -520,9 +520,9 @@ endif
 
 
 $(SCRATCH_DIR)/MakeDepend: makefile \
-                           $(SCRATCH_DIR)/$(NETCDF_MODFILE) \
-                           $(SCRATCH_DIR)/$(TYPESIZES_MODFILE) \
-                           | $(SCRATCH_DIR)
+			   $(SCRATCH_DIR)/$(NETCDF_MODFILE) \
+			   $(SCRATCH_DIR)/$(TYPESIZES_MODFILE) \
+			   | $(SCRATCH_DIR)
 	$(SFMAKEDEPEND) $(MDEPFLAGS) $(sources) > $(SCRATCH_DIR)/MakeDepend
 	cp -p $(MAKE_MACROS) $(SCRATCH_DIR)
 
