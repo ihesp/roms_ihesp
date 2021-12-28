@@ -7393,8 +7393,7 @@
 !=======================================================================
 !
       USE mod_kinds
-      use mod_parallel, only : master, ocn_comm_world, mymaster
-      use mpi, only : mpi_bcast, mpi_double, mpi_char, mpi_integer
+      use mod_parallel, only : master, ocn_comm_world, mymaster, mpi_double, mpi_char, mpi_integer
 !
       implicit none
 !

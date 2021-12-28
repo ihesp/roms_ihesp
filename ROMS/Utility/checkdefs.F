@@ -544,7 +544,7 @@
       Coptions(is:is+16)=' CELERETY_WRITE,'
 #endif
 #ifdef CCSMCOUPLED
-      IF (Master) WRITE (stdout,20) 'CCSMCOUPLED',                   &
+      IF (Master) WRITE (stdout,20) 'CCSMCOUPLED',                      &
      &   'Running within CESM/CCSM framework.'
       is=LEN_TRIM(Coptions)+1
       Coptions(is:is+13)=' CCSMCOUPLED,'
