@@ -18,10 +18,10 @@ sys.path.append(os.path.join(CIMEROOT, "scripts", "Tools"))
 
 from standard_script_setup import *
 from CIME.case import Case
-from CIME.utils import expect
+from CIME.utils import expect, run_cmd, safe_copy
 from CIME.buildnml import create_namelist_infile, parse_input
-from CIME.utils import run_cmd, safe_copy
 from CIME.nmlgen import NamelistGenerator
+from math import sqrt
 
 logger = logging.getLogger(__name__)
 
@@ -43,6 +43,23 @@ def _create_namelists(case, confdir, inst_string, infile, nmlgen, data_list_path
     config['ocn_grid'] = case.get_value("OCN_GRID")
     nmlgen.init_defaults([infile], config)
 
+    startdate = case.get_value("RUN_STARTDATE")
+    starttod = case.get_value("START_TOD")
+    startyear = int(startdate[0:4])
+    startmon = int(startdate[5:7])
+    startday = int(startdate[8:10])
+    nmlgen.set_value("start_year", startyear)
+    nmlgen.set_value("start_month", startmon)
+    nmlgen.set_value("start_day", startday)
+    nmlgen.set_value("start_hour", int(starttod/3600))
+    nmlgen.set_value("start_minute", int(starttod%3600/60))
+    nmlgen.set_value("start_second", int(starttod%60))
+
+    ntasks = case.get_value("OCN_NTASKS")
+    ntilei, ntilej = _decomp2d(ntasks)
+
+    nmlgen.set_value("ntilei", [ntilei])
+    nmlgen.set_value("ntilej", [ntilej])
     #----------------------------------------------------
     # Write output files
     #----------------------------------------------------
@@ -55,9 +72,17 @@ def _create_namelists(case, confdir, inst_string, infile, nmlgen, data_list_path
     #----------------------------------------------------
     # Non-Standard Roms name value pairs list
     #----------------------------------------------------
-    namelist_file = os.path.join(confdir, "ocean.in")
 
-    nmlgen.write_output_file(namelist_file, data_list_path, groups=['ocean.in3','ocean.in2', 'ocean.in1'], format_="roms")
+    namelist_file = os.path.join(confdir, "ocean.in")
+    groups = list(nmlgen._namelist._groups.keys())
+    # ocean.in requires some variables to be ordered, this is handled by seperating them into
+    # groups ocean.in0, ocean.in1, ...
+    groups.remove('ocn_io')
+    groups.remove('ocn_timemgr')
+
+    ntasks = case.get_value("OCN_NTASKS")
+    
+    nmlgen.write_output_file(namelist_file, data_list_path, groups=groups, format_="roms")
 
     # set rundir
     rundir = case.get_value("RUNDIR")
@@ -66,6 +91,14 @@ def _create_namelists(case, confdir, inst_string, infile, nmlgen, data_list_path
     safe_copy(os.path.join(confdir,"ocn_in"), rundir)
     safe_copy(os.path.join(confdir,"ocean.in"), rundir)
 
+
+def _decomp2d(ntasks):
+    i = int(sqrt(ntasks))
+    while(i > 0):
+        if ntasks/i == int(ntasks/i):
+            return i,int(ntasks/i)
+        i = i-1
+    expect(FALSE,"Should never get here: ntasks={}".format(ntasks))
 
 # pylint: disable=too-many-arguments,too-many-locals,too-many-branches,too-many-statements
 ###############################################################################
@@ -83,8 +116,6 @@ def buildnml(case, caseroot, compname):
     ocn_grid = case.get_value("OCN_GRID")  # BK: need a ocn grid var for roms
 
     rundir = case.get_value("RUNDIR")
-    startdate = case.get_value("RUN_STARTDATE")
-    starttod = case.get_value("START_TOD")
     dinlocroot = case.get_value("DIN_LOC_ROOT")
     ntasks = case.get_value("NTASKS_OCN")
     srcmodsdir = os.path.join(caseroot,"SourceMods","src.roms")
@@ -94,7 +125,7 @@ def buildnml(case, caseroot, compname):
         if not os.path.isdir(_dir):
             os.makedirs(_dir)
 
-
+    
     # assume the domain descript nc file is under dinlocroot/share/domains
     ddomain = os.path.join(dinlocroot,"share","domains")
 
@@ -153,27 +184,7 @@ def buildnml(case, caseroot, compname):
         # first check to see if build-namelist exists in SourceMods, if it exists use it
         bldnml_dir = os.path.join(srcroot,"components","roms","bld")
 
-    # now call build-namelist
-    cmd = os.path.join(bldnml_dir, "roms.buildnml.csh")
-    command = "%s -ntasks %s -continue %s -startdate %s -starttod %s -ocngrid %s -coderoot %s \
-    -rundir %s -dinlocroot %s -domfile %s" \
-    % (cmd, ntasks, continue_run, startdate, starttod, ocn_grid, srcroot, \
-       rundir, dinlocroot, ddomain)
-    if inst_string:
-        command = command + " -inst_string {}".format(inst_string)
-
-#    rc, out, err = run_cmd(command, from_dir=confdir)
-#    expect(rc==0,"Command %s failed rc=%d\nout=%s\nerr=%s"%(cmd,rc,out,err))
-#    if out is not None:
-#        logger.debug("     %s"%out)
-#    if err is not None:
-#        logger.debug("     %s"%err)
-
-    # copy pop namelist files from confdir to rundir
-    #if os.path.isdir(rundir):
-    #    file_src  = os.path.join(confdir, "wrf_in")
-    #    file_dest = os.path.join(rundir, "wrf_in")
-    #    shutil.copy(file_src, file_dest)
+    safe_copy(os.path.join(srcroot,"components","roms","ROMS","External","varinfo.dat"), rundir)
 
 
 ###############################################################################

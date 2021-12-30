@@ -736,7 +736,8 @@
 !-----------------------------------------------------------------------
 !
       DO WHILE (.TRUE.)
-        if (master) READ (inp,'(a)',ERR=40,END=50) line
+!        if (master) READ (inp,'(a)',ERR=40,END=50) line
+        READ (inp,'(a)',ERR=40,END=50) line
         status=decode_line(line, KeyWord, Nval, Cval, Rval)
         IF (status.gt.0) THEN
           IF (TRIM(KeyWord).eq.'Nmodels'.or.TRIM(KeyWord).eq.'nmodels') THEN
@@ -1048,10 +1049,11 @@
 !  Take into account nested grid configurations.
 !-----------------------------------------------------------------------
 !
+
       DO WHILE (.TRUE.)
-        if(master) READ (inp,'(a)',ERR=10,END=20) line
+!        if(master) READ (inp,'(a)',ERR=10,END=20) line
+        READ (inp,'(a)',ERR=10,END=20) line
         status=decode_line(line, KeyWord, Nval, Cval, Rval)
-        print *,__FILE__,__LINE__,trim(keyword), status
         IF (status.gt.0) THEN
           IF (TRIM(KeyWord).eq.'TITLE'.or.TRIM(KeyWord).eq.'title') THEN
             IF (Nval.eq.1) THEN
@@ -1060,13 +1062,11 @@
               WRITE(title,'(a,1x,a)') TRIM(ADJUSTL(title)),             &
      &                                TRIM(ADJUSTL(Cval(Nval)))
             END IF
-            print *,__FILE__,__LINE__
           ELSE IF (TRIM(KeyWord).eq.'MyAppCPP'.or.TRIM(KeyWord).eq.'myappcpp') THEN
             DO i=1,LEN(MyAppCPP)
               MyAppCPP(i:i)=blank
             END DO
             MyAppCPP=TRIM(ADJUSTL(Cval(Nval)))
-            print *,__FILE__,__LINE__
           ELSE IF (TRIM(KeyWord).eq.'VARNAME'.or.TRIM(KeyWord).eq.'varname') THEN
             DO i=1,LEN(varname)
               varname(i:i)=blank
@@ -1102,7 +1102,6 @@
               allocate ( Nfiles(Ngrids) )
               Nfiles(1:Ngrids)=0
             END IF
-            print *,__FILE__,__LINE__
           ELSE IF (TRIM(KeyWord).eq.'Lm'.or.TRIM(KeyWord).eq.'lm') THEN
             IF (.not.got_Ngrids) THEN
               IF (Master) WRITE (out,330) 'Ngrids',                     &
@@ -1119,7 +1118,6 @@
                 RETURN
               END IF
             END DO
-            print *,__FILE__,__LINE__
           ELSE IF (TRIM(KeyWord).eq.'Mm'.or.TRIM(KeyWord).eq.'mm') THEN
             Npts=load_i(Nval, Rval, Ngrids, Mm)
             DO ng=1,Ngrids
@@ -1130,7 +1128,6 @@
                 RETURN
               END IF
             END DO
-            print *,__FILE__,__LINE__
           ELSE IF (TRIM(KeyWord).eq.'N'.or.TRIM(KeyWord).eq.'n') THEN
             Npts=load_i(Nval, Rval, Ngrids, N)
             DO ng=1,Ngrids
@@ -1142,7 +1139,6 @@
               END IF
             END DO
 #if defined SEDIMENT && defined SOLVE3D
-            print *,__FILE__,__LINE__
           ELSE IF (TRIM(KeyWord).eq.'Nbed'.or.TRIM(KeyWord).eq.'nbed') THEN
             Npts=load_i(Nval, Rval, 1, Nbed)
             IF (Nbed.le.0) THEN
@@ -1153,7 +1149,6 @@
             END IF
 #endif
 #ifdef SOLVE3D
-            print *,__FILE__,__LINE__
           ELSE IF (TRIM(KeyWord).eq.'NAT'.or.TRIM(KeyWord).eq.'nat') THEN
             Npts=load_i(Nval, Rval, 1, NAT)
             IF ((NAT.lt.1).or.(NAT.gt.2)) THEN
@@ -1198,7 +1193,6 @@
               RETURN
             END IF
             NST=NST+NCS
-            print *,__FILE__,__LINE__
           ELSE IF (TRIM(KeyWord).eq.'NNS'.or.TRIM(KeyWord).eq.'nns') THEN
             Npts=load_i(Nval, Rval, 1, NNS)
             IF (NNS.lt.0) THEN
@@ -1216,7 +1210,6 @@
             END IF
             NST=NST+NNS
 #endif
-            print *,__FILE__,__LINE__
           ELSE IF (TRIM(KeyWord).eq.'NtileI'.or.TRIM(KeyWord).eq.'ntilei') THEN
             Npts=load_i(Nval, Rval, Ngrids, NtileI)
 #ifdef DISTRIBUTE
@@ -1224,7 +1217,6 @@
 #else
             NtileX(1:Ngrids)=NtileI(1:Ngrids)
 #endif
-            print *,__FILE__,__LINE__
           ELSE IF (TRIM(KeyWord).eq.'NtileJ'.or.TRIM(KeyWord).eq.'ntilej') THEN
             Npts=load_i(Nval, Rval, Ngrids, NtileJ)
 #ifdef DISTRIBUTE
@@ -1238,7 +1230,6 @@
 #if defined SEDIMENT || defined BBL_MODEL
             CALL initialize_sediment
 #endif
-            print *,__FILE__,__LINE__
             CALL initialize_param    ! Continue allocating/initalizing
             CALL allocate_scalars    ! variables since the application
             CALL initialize_scalars  ! number of nested grids and
@@ -3351,7 +3342,6 @@
       exit_flag=4
       RETURN
   20  CLOSE (inp)
-
 #if defined BULK_FLUXES && defined NL_BULK_FLUXES
 !
 !  Allocate and initialize BLK I/O structure with the same values as
@@ -5520,7 +5510,8 @@
 !-----------------------------------------------------------------------
 !
       DO WHILE (.TRUE.)
-        if(master) READ (inp,'(a)',ERR=10,END=20) line
+!        if(master) READ (inp,'(a)',ERR=10,END=20) line
+        READ (inp,'(a)',ERR=10,END=20) line
         status=decode_line(line, KeyWord, Nval, Cval, Rval)
         IF (status.gt.0) THEN
           IF (TRIM(KeyWord).eq.'dTdz_min'.or.TRIM(KeyWord).eq.'dtdz_min') THEN
@@ -6623,7 +6614,8 @@
 !  which signal termination of input data.
 !
       DO WHILE (.TRUE.)
-        if(master) READ (inp,'(a)',ERR=20,END=30) line
+!        if(master) READ (inp,'(a)',ERR=20,END=30) line
+         READ (inp,'(a)',ERR=20,END=30) line
         status=decode_line(line, KeyWord, Nval, Cval, Rval)
         IF (status.gt.0) THEN
           IF (TRIM(KeyWord).eq.'Lfloats'.or.TRIM(KeyWord).eq.'lfloats') THEN
@@ -6884,7 +6876,8 @@
 !-----------------------------------------------------------------------
 !
       DO WHILE (.TRUE.)
-        if(master) READ (inp,'(a)',ERR=20,END=30) line
+!        if(master) READ (inp,'(a)',ERR=20,END=30) line
+        READ (inp,'(a)',ERR=20,END=30) line
         status=decode_line(line, KeyWord, Nval, Cval, Rval)
         IF (status.gt.0) THEN
           IF (TRIM(KeyWord).eq.'Lstations'.or.TRIM(KeyWord).eq.'lstations') THEN
@@ -7438,169 +7431,159 @@
 !  Get length of "line". Remove comment after the KEYWORD, if any.
 !  Then, remove leading and trailing blanks.
 !
-      if(master) then
-         Linp=LEN(line_text)
-         IF ((Linp.gt.0).and.(line_text(1:1).ne.CHAR(33))) THEN
-            Icomm=INDEX(line_text,CHAR(33),BACK=.FALSE.)
-            IF (Icomm.gt.0) Linp=Icomm-1
-            line=TRIM(ADJUSTL(line_text(1:Linp)))
-            Linp=LEN_TRIM(line)
-         ELSE
-            line=TRIM(ADJUSTL(line_text))
-            Linp=LEN_TRIM(line)
-         END IF
-!
+      Linp=LEN(line_text)
+      IF ((Linp.gt.0).and.(line_text(1:1).ne.CHAR(33))) THEN
+         Icomm=INDEX(line_text,CHAR(33),BACK=.FALSE.)
+         IF (Icomm.gt.0) Linp=Icomm-1
+         line=TRIM(ADJUSTL(line_text(1:Linp)))
+         Linp=LEN_TRIM(line)
+      ELSE
+         line=TRIM(ADJUSTL(line_text))
+         Linp=LEN_TRIM(line)
+      END IF
+!     
 !  If not a blank or comment line [char(33)=!], decode and extract input
 !  values.  Find equal sign [char(61)].
 !
-         status=-1
-         nested=.FALSE.
-         IF ((Linp.gt.0).and.(line(1:1).ne.CHAR(33))) THEN
-            status=1
-            Kstr=1
-            Kend=INDEX(line,CHAR(61),BACK=.FALSE.)-1
-            Lstr=INDEX(line,CHAR(61),BACK=.TRUE.)+1
+      status=-1
+      nested=.FALSE.
+      IF ((Linp.gt.0).and.(line(1:1).ne.CHAR(33))) THEN
+         status=1
+         Kstr=1
+         Kend=INDEX(line,CHAR(61),BACK=.FALSE.)-1
+         Lstr=INDEX(line,CHAR(61),BACK=.TRUE.)+1
 !
 ! Determine if KEYWORD is followed by double equal sign (==) indicating
 ! nested parameter.
 !
-            IF ((Lstr-Kend).eq.3) nested=.TRUE.
+         IF ((Lstr-Kend).eq.3) nested=.TRUE.
 !
 ! Extract KEYWORD, trim leading and trailing blanks.
 !
-            Kextract=.FALSE.
-            IF (Kend.gt.0) THEN
-               Lend=Linp
-               KeyWord=line(Kstr:Kend)
-               Nval=0
-               Kextract=.TRUE.
-            ELSE
-               Lstr=1
-               Lend=Linp
-               Kextract=.TRUE.
-            END IF
-!
+         Kextract=.FALSE.
+         IF (Kend.gt.0) THEN
+            Lend=Linp
+            KeyWord=line(Kstr:Kend)
+            Nval=0
+            Kextract=.TRUE.
+         ELSE
+            Lstr=1
+            Lend=Linp
+            Kextract=.TRUE.
+         END IF
+!     
 ! Extract parameter values string.  Remove continuation symbol
 ! [char(92)=\] or multi-line value [char(124)=|], if any.  Trim
 ! leading trailing blanks.
 !
-            IF (Kextract) THEN
-               Icont=INDEX(line,CHAR(92 ),BACK=.FALSE.)
-               Ipipe=INDEX(line,CHAR(124),BACK=.FALSE.)
-               IF (Icont.gt.0) Lend=Icont-1
-               IF (Ipipe.gt.0) Lend=Ipipe-1
-               Vstring=ADJUSTL(line(Lstr:Lend))
-               Lval=LEN_TRIM(Vstring)
-!
+         IF (Kextract) THEN
+            Icont=INDEX(line,CHAR(92 ),BACK=.FALSE.)
+            Ipipe=INDEX(line,CHAR(124),BACK=.FALSE.)
+            IF (Icont.gt.0) Lend=Icont-1
+            IF (Ipipe.gt.0) Lend=Ipipe-1
+            Vstring=ADJUSTL(line(Lstr:Lend))
+            Lval=LEN_TRIM(Vstring)
+!     
 ! The TITLE KEYWORD is a special one since it can include strings,
 ! numbers, spaces, and continuation symbol.
 !
-               IsString=.FALSE.
-               IF (TRIM(KeyWord).eq.'TITLE'.or.TRIM(KeyWord).eq.'title') THEN
-                  Nval=Nval+1
-                  Cval(Nval)=Vstring(1:Lval)
-                  IsString=.TRUE.
-               ELSE
+            IsString=.FALSE.
+            IF (TRIM(KeyWord).eq.'TITLE'.or.TRIM(KeyWord).eq.'title') THEN
+            Nval=Nval+1
+            Cval(Nval)=Vstring(1:Lval)
+            IsString=.TRUE.
+         ELSE
 !
 ! Check if there is a multiplication symbol [char(42)=*] in the variable
 ! string indicating repetition of input values.
 !
-                  Nmul=0
-                  DO i=1,Lval
-                     IF (Vstring(i:i).eq.CHAR(42)) THEN
-                        Nmul=Nmul+1
-                        Imul(Nmul)=i
-                     END IF
-                  END DO
-                  ic=1
-!
+            Nmul=0
+            DO i=1,Lval
+               IF (Vstring(i:i).eq.CHAR(42)) THEN
+                  Nmul=Nmul+1
+                  Imul(Nmul)=i
+               END IF
+            END DO
+            ic=1
+!     
 ! Check for blank spaces [char(32)=' '] between entries and decode.
 !
-                  is=1
-                  ie=Lval
-                  Iblank=0
-                  decode=.FALSE.
-                  DO i=1,Lval
-                     IF (Vstring(i:i).eq.CHAR(32)) THEN
-                        IF (Vstring(i+1:i+1).ne.CHAR(32)) decode=.TRUE.
-                        Iblank=i
-                     ELSE
-                        ie=i
-                     ENDIF
-                     IF (decode.or.(i.eq.Lval)) THEN
-                        Nval=Nval+1
-!
+            is=1
+            ie=Lval
+            Iblank=0
+            decode=.FALSE.
+            DO i=1,Lval
+               IF (Vstring(i:i).eq.CHAR(32)) THEN
+                  IF (Vstring(i+1:i+1).ne.CHAR(32)) decode=.TRUE.
+                  Iblank=i
+               ELSE
+                  ie=i
+               ENDIF
+               IF (decode.or.(i.eq.Lval)) THEN
+                  Nval=Nval+1
+!     
 ! Processing numeric values.  Check starting character to determine
 ! if numeric or character values. It is possible to have both when
 ! processing repetitions via the multiplication symbol.
 !
-                        Schar=ICHAR(Vstring(is:is))
-                        IF (((48.le.Schar).and.(Schar.le.57)).or.               &
-                             &              (Schar.eq.43).or.(Schar.eq.45)) THEN
-                           IF ((Nmul.gt.0).and.                                  &
-                                &                (is.lt.Imul(ic)).and.(Imul(ic).lt.ie)) THEN
-                              READ (Vstring(is:Imul(ic)-1),*) copies
-                              Schar=ICHAR(Vstring(Imul(ic)+1:Imul(ic)+1))
-                              IF ((43.le.Schar).and.(Schar.le.57)) THEN
-                                 READ (Vstring(Imul(ic)+1:ie),*) Rval(Nval)
-                                 DO j=1,copies-1
-                                    Rval(Nval+j)=Rval(Nval)
-                                 END DO
-                              ELSE
-                                 string=Vstring(Imul(ic)+1:ie)
-                                 LenS=LEN_TRIM(string)
-                                 Cval(Nval)=string(1:LenS)
-                                 DO j=1,copies-1
-                                    Cval(Nval+j)=Cval(Nval)
-                                 END DO
-                              END IF
-                              Nval=Nval+copies-1
-                              ic=ic+1
-                           ELSE
-                              string=Vstring(is:ie)
-                              LenS=LEN_TRIM(string)
-                              READ (string(1:LenS),*) Rval(Nval)
-                           END IF
+                  Schar=ICHAR(Vstring(is:is))
+                  IF (((48.le.Schar).and.(Schar.le.57)).or.(Schar.eq.43).or.(Schar.eq.45)) THEN
+                     IF ((Nmul.gt.0).and.(is.lt.Imul(ic)).and.(Imul(ic).lt.ie)) THEN
+                        READ (Vstring(is:Imul(ic)-1),*) copies
+                        Schar=ICHAR(Vstring(Imul(ic)+1:Imul(ic)+1))
+                        IF ((43.le.Schar).and.(Schar.le.57)) THEN
+                           READ (Vstring(Imul(ic)+1:ie),*) Rval(Nval)
+                           DO j=1,copies-1
+                              Rval(Nval+j)=Rval(Nval)
+                           END DO
                         ELSE
-!
+                           string=Vstring(Imul(ic)+1:ie)
+                           LenS=LEN_TRIM(string)
+                           Cval(Nval)=string(1:LenS)
+                           DO j=1,copies-1
+                              Cval(Nval+j)=Cval(Nval)
+                           END DO
+                        END IF
+                        Nval=Nval+copies-1
+                        ic=ic+1
+                     ELSE
+                        string=Vstring(is:ie)
+                        LenS=LEN_TRIM(string)
+                        READ (string(1:LenS),*) Rval(Nval)
+                     END IF
+                  ELSE
+!     
 ! Processing character values (logicals and strings).
 !
-                           IF ((Nmul.gt.0).and.                                  &
-                                &                (is.lt.Imul(ic)).and.(Imul(ic).lt.ie)) THEN
-                              READ (Vstring(is:Imul(ic)-1),*) copies
-                              Cval(Nval)=Vstring(Imul(ic)+1:ie)
-                              DO j=1,copies-1
-                                 Cval(Nval+j)=Cval(Nval)
-                              END DO
-                              Nval=Nval+copies-1
-                              ic=ic+1
-                           ELSE
-                              string=Vstring(is:ie)
-                              Cval(Nval)=TRIM(ADJUSTL(string))
-                           END IF
-                           IsString=.TRUE.
-                        END IF
-                        is=Iblank+1
-                        ie=Lval
-                        decode=.FALSE.
+                     IF ((Nmul.gt.0).and.                                  &
+                          &                (is.lt.Imul(ic)).and.(Imul(ic).lt.ie)) THEN
+                        READ (Vstring(is:Imul(ic)-1),*) copies
+                        Cval(Nval)=Vstring(Imul(ic)+1:ie)
+                        DO j=1,copies-1
+                           Cval(Nval+j)=Cval(Nval)
+                        END DO
+                        Nval=Nval+copies-1
+                        ic=ic+1
+                     ELSE
+                        string=Vstring(is:ie)
+                        Cval(Nval)=TRIM(ADJUSTL(string))
                      END IF
-                  END DO
+                     IsString=.TRUE.
+                  END IF
+                  is=Iblank+1
+                  ie=Lval
+                  decode=.FALSE.
                END IF
-            END IF
-            status=Nval
+            END DO
          END IF
-      endif
-      call mpi_bcast(status, 1, MPI_INTEGER, mymaster, OCN_COMM_WORLD, ie)
-      decode_line=status
-      call mpi_bcast(keyword, len(keyword), MPI_CHAR, mymaster, OCN_COMM_WORLD, status)
-      call mpi_bcast(nval, 1, MPI_INTEGER, mymaster, OCN_COMM_WORLD, status)
-      call mpi_bcast(rval, 100, MPI_DOUBLE, mymaster, OCN_COMM_WORLD, status)
-      call mpi_bcast(cval, 25600, MPI_CHAR, mymaster, OCN_COMM_WORLD, status)
-
-      RETURN
-      END FUNCTION decode_line
-
-      FUNCTION find_file (ng, fname) RESULT (foundit)
+      END IF
+      status=Nval
+   END IF
+   decode_line=status
+   RETURN
+ END FUNCTION decode_line
+ 
+ FUNCTION find_file (ng, fname) RESULT (foundit)
 !
 !=======================================================================
 !                                                                      !
