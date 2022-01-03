@@ -33,7 +33,8 @@ module rocn_comp_mct
 
     use mod_parallel,      only : ocn_root => MyMaster, &
                                   ocn_tile => MyRank,   &
-                                  log_task => OutThread
+                                  log_task => OutThread, &
+                                  master
 
     use mod_iounits,       only : stdout
 
@@ -336,8 +337,7 @@ contains
 
         call ocn_log_delim (" End of initialization")
         call ocn_timemgr_getClock(timeString=timestr)
-        write(stdout,*) subname,"EXIT model time = ",trim(timestr)
-        call shr_sys_flush(stdout)
+        if(master) write(stdout,*) subname,"EXIT model time = ",trim(timestr)
 
 !EOC
     end subroutine rocn_init_mct
@@ -504,7 +504,7 @@ contains
 
 !       call ocn_reset_logging  BK: ocpl manages stdout/log units
         call ocn_timemgr_getClock(timeString=timestr)
-        write(stdout,*) subname,"EXIT model time = ",trim(timestr)
+        if(master) write(stdout,*) subname,"EXIT model time = ",trim(timestr)
         call shr_sys_flush(stdout)
 
 !EOC
@@ -539,11 +539,11 @@ contains
         character(len = *), parameter :: subname = '(rocn_final_mct)'
 
 !-------------------------------------------------------------------------------
-        write(stdout,*) subname,"ENTER"
+        if(master) write(stdout,*) subname,"ENTER"
 !BOC
         ! --- Finalize model ---
         call roms_finalize
-        write(stdout,*) subname,"EXIT"
+        if(master) write(stdout,*) subname,"EXIT"
 !EOC
     end subroutine rocn_final_mct
 

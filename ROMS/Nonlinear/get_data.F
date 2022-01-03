@@ -38,6 +38,7 @@
       USE mod_sources
 #endif
       USE mod_stepping
+      use mod_parallel, only : master
 !
       implicit none
 !
@@ -75,7 +76,7 @@
       newdata = BOUNDARY_OCPL(ng) % newdata
       BOUNDARY_OCPL(ng) % newdata = .false.
 
-      IF (debug>0) THEN
+      IF (master .or. debug>0) THEN
          write(stdout,'(2a,L2,a,L2,a,i2))') subName, &
             "Enter, CESM ocpl: newdata = ",newdata , &
             ", bypass = ",bypass, ", debug = ",debug 

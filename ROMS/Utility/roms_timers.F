@@ -61,9 +61,9 @@
 !$OMP CRITICAL (START_WCLOCK)
 #ifdef DISTRIBUTE
         CALL mp_barrier (ng)
-        WRITE (stdout,10) ' Node #', MyRank,                            &
-     &                    ' (pid=',proc(0,MyModel,ng),') is active.'
-        CALL my_flush (stdout)
+!        WRITE (stdout,10) ' Node #', MyRank,                            &
+!     &                    ' (pid=',proc(0,MyModel,ng),') is active.'
+!        CALL my_flush (stdout)
 #else
         MyThread=my_threadnum()
         WRITE (stdout,10) ' Thread #', MyThread,                        &

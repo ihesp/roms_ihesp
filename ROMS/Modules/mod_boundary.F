@@ -809,7 +809,7 @@
         TYPE T_BOUNDARY_OCPL ! for CESM/iHESP/ocpl embedded ocn coupling
           logical           :: bypass  = .true.  ! T => don't use this data
           logical           :: newdata = .false. ! T => ocpl updated this data
-          integer           :: debug   = 1       ! T => ocpl requests debug output
+          integer           :: debug   = 0       ! T => ocpl requests debug output
           real(r8), pointer :: zeta_west (:)
           real(r8), pointer :: zeta_east (:)
           real(r8), pointer :: zeta_south(:)
