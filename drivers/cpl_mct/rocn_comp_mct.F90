@@ -157,7 +157,7 @@ contains
 
 !-------------------------------------------------------------------------------
         !--- Begin
-        write(stdout,*) subname,"ENTER"
+        if(master) write(stdout,*) subname,"ENTER"
 
         ! --- Set cdata pointers ---
 
