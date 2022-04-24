@@ -736,10 +736,11 @@
 !-----------------------------------------------------------------------
 !
       DO WHILE (.TRUE.)
+!        if (master) READ (inp,'(a)',ERR=40,END=50) line
         READ (inp,'(a)',ERR=40,END=50) line
         status=decode_line(line, KeyWord, Nval, Cval, Rval)
         IF (status.gt.0) THEN
-          IF (TRIM(KeyWord).eq.'Nmodels') THEN
+          IF (TRIM(KeyWord).eq.'Nmodels'.or.TRIM(KeyWord).eq.'nmodels') THEN
             Npts=load_i(Nval, Rval, 1, Nmodels)
             IF (.not.allocated(MyRval) ) THEN
               allocate ( MyRval(Nmodels) )
@@ -766,9 +767,9 @@
               allocate ( Nimport(Nmodels) )
               Nimport=0
             END IF
-         ELSE IF (TRIM(KeyWord).eq.'Lreport') THEN
+         ELSE IF (TRIM(KeyWord).eq.'Lreport'.or.TRIM(KeyWord).eq.'lreport') THEN
             Npts=load_l(Nval, Cval, 1, Lreport)
-         ELSE IF (TRIM(KeyWord).eq.'OrderLabel') THEN
+         ELSE IF (TRIM(KeyWord).eq.'OrderLabel'.or.TRIM(KeyWord).eq.'orderlabel') THEN
             DO i=1,Nmodels
               IF (i.eq.Nval) THEN
                 OrderLabel(i)=TRIM(ADJUSTL(Cval(Nval)))
@@ -781,19 +782,19 @@
                 END IF
               END IF
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Nthreads(ocean)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Nthreads(ocean)'.or.TRIM(KeyWord).eq.'nthreads(ocean)') THEN
             IF ((0.lt.Iocean).and.(Iocean.le.Nmodels)) THEN
               Npts=load_i(Nval, Rval, 1, Nthreads(Iocean))
             END IF
-          ELSE IF (TRIM(KeyWord).eq.'Nthreads(waves)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Nthreads(waves)'.or.TRIM(KeyWord).eq.'nthreads(waves)') THEN
             IF ((0.lt.Iwaves).and.(Iwaves.le.Nmodels)) THEN
               Npts=load_i(Nval, Rval, 1, Nthreads(Iwaves))
             END IF
-          ELSE IF (TRIM(KeyWord).eq.'Nthreads(atmos)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Nthreads(atmos)'.or.TRIM(KeyWord).eq.'nthreads(atmos)') THEN
             IF ((0.lt.Iatmos).and.(Iatmos.le.Nmodels)) THEN
               Npts=load_i(Nval, Rval, 1, Nthreads(Iatmos))
             END IF
-          ELSE IF (TRIM(KeyWord).eq.'TimeInterval') THEN
+          ELSE IF (TRIM(KeyWord).eq.'TimeInterval'.or.TRIM(KeyWord).eq.'timeinterval') THEN
             Npts=load_r(Nval, Rval, Nmodels, MyRval)
             ic=0
             DO j=1,Nmodels
@@ -805,34 +806,34 @@
                 END IF
               END DO
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'INPname(ocean)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'INPname(ocean)'.or.TRIM(KeyWord).eq.'inpname(ocean)') THEN
             IF ((0.lt.Iocean).and.(Iocean.le.Nmodels)) THEN
               INPname(Iocean)=TRIM(ADJUSTL(Cval(Nval)))
               Iname=TRIM(INPname(Iocean))
             END IF
-          ELSE IF (TRIM(KeyWord).eq.'INPname(waves)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'INPname(waves)'.or.TRIM(KeyWord).eq.'inpname(waves)') THEN
             IF ((0.lt.Iwaves).and.(Iwaves.le.Nmodels)) THEN
               INPname(Iwaves)=TRIM(ADJUSTL(Cval(Nval)))
             END IF
-          ELSE IF (TRIM(KeyWord).eq.'INPname(atmos)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'INPname(atmos)'.or.TRIM(KeyWord).eq.'inpname(atmos)') THEN
             IF ((0.lt.Iatmos).and.(Iatmos.le.Nmodels)) THEN
               INPname(Iatmos)=TRIM(ADJUSTL(Cval(Nval)))
             END IF
-          ELSE IF (TRIM(KeyWord).eq.'CPLname') THEN
+          ELSE IF (TRIM(KeyWord).eq.'CPLname'.or.TRIM(KeyWord).eq.'cplname') THEN
             CPLname=TRIM(ADJUSTL(Cval(Nval)))
-          ELSE IF (TRIM(KeyWord).eq.'Nexport(ocean)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Nexport(ocean)'.or.TRIM(KeyWord).eq.'nexport(ocean)') THEN
             IF ((0.lt.Iocean).and.(Iocean.le.Nmodels)) THEN
               Npts=load_i(Nval, Rval, 1, Nexport(Iocean))
             END IF
-          ELSE IF (TRIM(KeyWord).eq.'Nexport(waves)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Nexport(waves)'.or.TRIM(KeyWord).eq.'nexport(waves)') THEN
             IF ((0.lt.Iwaves).and.(Iwaves.le.Nmodels)) THEN
               Npts=load_i(Nval, Rval, 1, Nexport(Iwaves))
             END IF
-          ELSE IF (TRIM(KeyWord).eq.'Nexport(atmos)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Nexport(atmos)'.or.TRIM(KeyWord).eq.'nexport(atmos)') THEN
             IF ((0.lt.Iatmos).and.(Iatmos.le.Nmodels)) THEN
               Npts=load_i(Nval, Rval, 1, Nexport(Iatmos))
             END IF
-          ELSE IF (TRIM(KeyWord).eq.'Export(ocean)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Export(ocean)'.or.TRIM(KeyWord).eq.'export(ocean)') THEN
             IF (.not.allocated(Export)) THEN
               allocate ( Export(Nmodels) )
               DO i=1,Nmodels
@@ -845,7 +846,7 @@
                 Export(Iocean)%code(Nval)=TRIM(ADJUSTL(Cval(Nval)))
               END IF
             END IF
-          ELSE IF (TRIM(KeyWord).eq.'Export(waves)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Export(waves)'.or.TRIM(KeyWord).eq.'export(waves)') THEN
             IF (.not.allocated(Export)) THEN
               allocate ( Export(Nmodels) )
               DO i=1,Nmodels
@@ -858,7 +859,7 @@
                 Export(Iwaves)%code(Nval)=TRIM(ADJUSTL(Cval(Nval)))
               END IF
             END IF
-          ELSE IF (TRIM(KeyWord).eq.'Export(atmos)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Export(atmos)'.or.TRIM(KeyWord).eq.'export(atmos)') THEN
             IF (.not.allocated(Export)) THEN
               allocate ( Export(Nmodels) )
               DO i=1,Nmodels
@@ -871,19 +872,19 @@
                 Export(Iatmos)%code(Nval)=TRIM(ADJUSTL(Cval(Nval)))
               END IF
             END IF
-          ELSE IF (TRIM(KeyWord).eq.'Nimport(ocean)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Nimport(ocean)'.or.TRIM(KeyWord).eq.'nimport(ocean)') THEN
             IF ((0.lt.Iocean).and.(Iocean.le.Nmodels)) THEN
               Npts=load_i(Nval, Rval, 1, Nimport(Iocean))
             END IF
-          ELSE IF (TRIM(KeyWord).eq.'Nimport(waves)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Nimport(waves)'.or.TRIM(KeyWord).eq.'nimport(waves)') THEN
             IF ((0.lt.Iwaves).and.(Iwaves.le.Nmodels)) THEN
               Npts=load_i(Nval, Rval, 1, Nimport(Iwaves))
             END IF
-          ELSE IF (TRIM(KeyWord).eq.'Nimport(atmos)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Nimport(atmos)'.or.TRIM(KeyWord).eq.'nimport(atmos)') THEN
             IF ((0.lt.Iatmos).and.(Iatmos.le.Nmodels)) THEN
               Npts=load_i(Nval, Rval, 1, Nimport(Iatmos))
             END IF
-          ELSE IF (TRIM(KeyWord).eq.'Import(ocean)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Import(ocean)'.or.TRIM(KeyWord).eq.'import(ocean)') THEN
             IF (.not.allocated(Import)) THEN
               allocate ( Import(Nmodels) )
               DO i=1,Nmodels
@@ -896,7 +897,7 @@
                 Import(Iocean)%code(Nval)=TRIM(ADJUSTL(Cval(Nval)))
               END IF
             END IF
-          ELSE IF (TRIM(KeyWord).eq.'Import(waves)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Import(waves)'.or.TRIM(KeyWord).eq.'import(waves)') THEN
             IF (.not.allocated(Import)) THEN
               allocate ( Import(Nmodels) )
               DO i=1,Nmodels
@@ -909,7 +910,7 @@
                 Import(Iwaves)%code(Nval)=TRIM(ADJUSTL(Cval(Nval)))
               END IF
             END IF
-          ELSE IF (TRIM(KeyWord).eq.'Import(atmos)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Import(atmos)'.or.TRIM(KeyWord).eq.'import(atmos)') THEN
             IF (.not.allocated(Import)) THEN
               allocate ( Import(Nmodels) )
               DO i=1,Nmodels
@@ -935,6 +936,19 @@
       RETURN
       END SUBROUTINE read_CouplePar
 #endif
+      pure function getLowerCase(string) result(output)
+        ! convert string to lower-case
+        character(*), intent(in)    :: string
+        integer, parameter          :: DUC = ichar('A') - ichar('a')
+        character(len(string))      :: output
+        character                   :: ch
+        integer                     :: i
+        do i = 1,len(string)
+            ch = string(i:i)
+            if (ch>='A' .and. ch<='Z') ch = char(ichar(ch)-DUC)
+            output(i:i) = ch
+        end do
+      end function getLowerCase
 
       SUBROUTINE read_PhyPar (model, inp, out, Lwrite)
 !
@@ -1028,34 +1042,37 @@
         label(i:i)=blank
       END DO
       got_Ngrids=.FALSE.
+      ngrids = 1
 !
 !-----------------------------------------------------------------------
 !  Read in physical model parameters. Then, load input data into module.
 !  Take into account nested grid configurations.
 !-----------------------------------------------------------------------
 !
+
       DO WHILE (.TRUE.)
+!        if(master) READ (inp,'(a)',ERR=10,END=20) line
         READ (inp,'(a)',ERR=10,END=20) line
         status=decode_line(line, KeyWord, Nval, Cval, Rval)
         IF (status.gt.0) THEN
-          IF (TRIM(KeyWord).eq.'TITLE') THEN
+          IF (TRIM(KeyWord).eq.'TITLE'.or.TRIM(KeyWord).eq.'title') THEN
             IF (Nval.eq.1) THEN
               title=TRIM(ADJUSTL(Cval(Nval)))
             ELSE
               WRITE(title,'(a,1x,a)') TRIM(ADJUSTL(title)),             &
      &                                TRIM(ADJUSTL(Cval(Nval)))
             END IF
-          ELSE IF (TRIM(KeyWord).eq.'MyAppCPP') THEN
+          ELSE IF (TRIM(KeyWord).eq.'MyAppCPP'.or.TRIM(KeyWord).eq.'myappcpp') THEN
             DO i=1,LEN(MyAppCPP)
               MyAppCPP(i:i)=blank
             END DO
             MyAppCPP=TRIM(ADJUSTL(Cval(Nval)))
-          ELSE IF (TRIM(KeyWord).eq.'VARNAME') THEN
+          ELSE IF (TRIM(KeyWord).eq.'VARNAME'.or.TRIM(KeyWord).eq.'varname') THEN
             DO i=1,LEN(varname)
               varname(i:i)=blank
             END DO
             varname=TRIM(ADJUSTL(Cval(Nval)))
-          ELSE IF (TRIM(KeyWord).eq.'Ngrids') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Ngrids'.or.TRIM(KeyWord).eq.'ngrids') THEN
             Npts=load_i(Nval, Rval, 1, Ngrids)
             IF (Ngrids.le.0) THEN
               IF (Master) WRITE (out,290) 'Ngrids', Ngrids,             &
@@ -1085,7 +1102,7 @@
               allocate ( Nfiles(Ngrids) )
               Nfiles(1:Ngrids)=0
             END IF
-          ELSE IF (TRIM(KeyWord).eq.'Lm') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Lm'.or.TRIM(KeyWord).eq.'lm') THEN
             IF (.not.got_Ngrids) THEN
               IF (Master) WRITE (out,330) 'Ngrids',                     &
      &      'Add "Ngrids" keyword before grid dimension (Lm, Mm) entry.'
@@ -1101,7 +1118,7 @@
                 RETURN
               END IF
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Mm') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Mm'.or.TRIM(KeyWord).eq.'mm') THEN
             Npts=load_i(Nval, Rval, Ngrids, Mm)
             DO ng=1,Ngrids
               IF (Mm(ng).le.0) THEN
@@ -1111,7 +1128,7 @@
                 RETURN
               END IF
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'N') THEN
+          ELSE IF (TRIM(KeyWord).eq.'N'.or.TRIM(KeyWord).eq.'n') THEN
             Npts=load_i(Nval, Rval, Ngrids, N)
             DO ng=1,Ngrids
               IF (N(ng).lt.0) THEN
@@ -1122,7 +1139,7 @@
               END IF
             END DO
 #if defined SEDIMENT && defined SOLVE3D
-          ELSE IF (TRIM(KeyWord).eq.'Nbed') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Nbed'.or.TRIM(KeyWord).eq.'nbed') THEN
             Npts=load_i(Nval, Rval, 1, Nbed)
             IF (Nbed.le.0) THEN
               IF (Master) WRITE (out,290) 'Nbed = ', Nbed,              &
@@ -1132,7 +1149,7 @@
             END IF
 #endif
 #ifdef SOLVE3D
-          ELSE IF (TRIM(KeyWord).eq.'NAT') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NAT'.or.TRIM(KeyWord).eq.'nat') THEN
             Npts=load_i(Nval, Rval, 1, NAT)
             IF ((NAT.lt.1).or.(NAT.gt.2)) THEN
               IF (Master) WRITE (out,290) 'NAT = ', NAT,                &
@@ -1150,7 +1167,7 @@
 # endif
 #endif
 #if defined T_PASSIVE && defined SOLVE3D
-          ELSE IF (TRIM(KeyWord).eq.'NPT') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NPT'.or.TRIM(KeyWord).eq.'npt') THEN
             Npts=load_i(Nval, Rval, 1, NPT)
             IF (NPT.le.0) THEN
               IF (Master) WRITE (out,290) 'NPT = ', NPT,                &
@@ -1160,7 +1177,7 @@
             END IF
 #endif
 #if defined SEDIMENT && defined SOLVE3D
-          ELSE IF (TRIM(KeyWord).eq.'NCS') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NCS'.or.TRIM(KeyWord).eq.'ncs') THEN
             Npts=load_i(Nval, Rval, 1, NCS)
             IF (NCS.lt.0) THEN
               IF (Master) WRITE (out,290) 'NCS = ', NCS,                &
@@ -1176,7 +1193,7 @@
               RETURN
             END IF
             NST=NST+NCS
-          ELSE IF (TRIM(KeyWord).eq.'NNS') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NNS'.or.TRIM(KeyWord).eq.'nns') THEN
             Npts=load_i(Nval, Rval, 1, NNS)
             IF (NNS.lt.0) THEN
               IF (Master) WRITE (out,290) 'NNS = ',                     &
@@ -1193,14 +1210,14 @@
             END IF
             NST=NST+NNS
 #endif
-          ELSE IF (TRIM(KeyWord).eq.'NtileI') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NtileI'.or.TRIM(KeyWord).eq.'ntilei') THEN
             Npts=load_i(Nval, Rval, Ngrids, NtileI)
 #ifdef DISTRIBUTE
             NtileX(1:Ngrids)=1
 #else
             NtileX(1:Ngrids)=NtileI(1:Ngrids)
 #endif
-          ELSE IF (TRIM(KeyWord).eq.'NtileJ') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NtileJ'.or.TRIM(KeyWord).eq.'ntilej') THEN
             Npts=load_i(Nval, Rval, Ngrids, NtileJ)
 #ifdef DISTRIBUTE
             NtileE(1:Ngrids)=1
@@ -1244,9 +1261,9 @@
             IF (.not.allocated(tracer)) THEN
               allocate (tracer(MT,Ngrids))
             END IF
-          ELSE IF (TRIM(KeyWord).eq.'NTIMES') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NTIMES'.or.TRIM(KeyWord).eq.'ntimes') THEN
             Npts=load_i(Nval, Rval, Ngrids, ntimes)
-          ELSE IF (TRIM(KeyWord).eq.'DT') THEN
+          ELSE IF (TRIM(KeyWord).eq.'DT'.or.TRIM(KeyWord).eq.'dt') THEN
             Npts=load_r(Nval, Rval, Ngrids, dt)
 #ifdef MODEL_COUPLING
             IF (.not.allocated(CoupleSteps)) THEN
@@ -1261,22 +1278,22 @@
               END DO
             END DO
 #endif
-          ELSE IF (TRIM(KeyWord).eq.'NDTFAST') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NDTFAST'.or.TRIM(KeyWord).eq.'ndtfast') THEN
             Npts=load_i(Nval, Rval, Ngrids, ndtfast)
-          ELSE IF (TRIM(KeyWord).eq.'ERstr') THEN
+          ELSE IF (TRIM(KeyWord).eq.'ERstr'.or.TRIM(KeyWord).eq.'erstr') THEN
             Npts=load_i(Nval, Rval, 1, ERstr)
-          ELSE IF (TRIM(KeyWord).eq.'ERend') THEN
+          ELSE IF (TRIM(KeyWord).eq.'ERend'.or.TRIM(KeyWord).eq.'erend') THEN
             Npts=load_i(Nval, Rval, 1, ERend)
-          ELSE IF (TRIM(KeyWord).eq.'Nouter') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Nouter'.or.TRIM(KeyWord).eq.'nouter') THEN
             Npts=load_i(Nval, Rval, 1, Nouter)
-          ELSE IF (TRIM(KeyWord).eq.'Ninner') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Ninner'.or.TRIM(KeyWord).eq.'ninner') THEN
             Npts=load_i(Nval, Rval, 1, Ninner)
-          ELSE IF (TRIM(KeyWord).eq.'Nintervals') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Nintervals'.or.TRIM(KeyWord).eq.'nintervals') THEN
             Npts=load_i(Nval, Rval, 1, Nintervals)
 #ifdef PROPAGATOR
-          ELSE IF (TRIM(KeyWord).eq.'NEV') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NEV'.or.TRIM(KeyWord).eq.'nev') THEN
             Npts=load_i(Nval, Rval, 1, NEV)
-          ELSE IF (TRIM(KeyWord).eq.'NCV') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NCV'.or.TRIM(KeyWord).eq.'ncv') THEN
             Npts=load_i(Nval, Rval, 1, NCV)
 # if defined FT_EIGENMMODES || defined AFT_EIGENMODES
             IF (NCV.lt.(2*NEV+1)) THEN
@@ -1301,7 +1318,7 @@
             END IF
 # endif
 #endif
-          ELSE IF (TRIM(KeyWord).eq.'NRREC') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NRREC'.or.TRIM(KeyWord).eq.'nrrec') THEN
             Npts=load_i(Nval, Rval, Ngrids, nrrec)
             DO ng=1,Ngrids
               IF (nrrec(ng).lt.0) THEN
@@ -1310,52 +1327,52 @@
                 LastRec(ng)=.FALSE.
               END IF
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'LcycleRST') THEN
+          ELSE IF (TRIM(KeyWord).eq.'LcycleRST'.or.TRIM(KeyWord).eq.'lcyclerst') THEN
             Npts=load_l(Nval, Cval, Ngrids, LcycleRST)
-          ELSE IF (TRIM(KeyWord).eq.'NRST') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NRST'.or.TRIM(KeyWord).eq.'nrst') THEN
             Npts=load_i(Nval, Rval, Ngrids, nRST)
-          ELSE IF (TRIM(KeyWord).eq.'NSTA') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NSTA'.or.TRIM(KeyWord).eq.'nsta') THEN
             Npts=load_i(Nval, Rval, Ngrids, nSTA)
-          ELSE IF (TRIM(KeyWord).eq.'NFLT') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NFLT'.or.TRIM(KeyWord).eq.'nflt') THEN
             Npts=load_i(Nval, Rval, Ngrids, nFLT)
-          ELSE IF (TRIM(KeyWord).eq.'NINFO') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NINFO'.or.TRIM(KeyWord).eq.'ninfo') THEN
             Npts=load_i(Nval, Rval, Ngrids, ninfo)
-          ELSE IF (TRIM(KeyWord).eq.'LDEFOUT') THEN
+          ELSE IF (TRIM(KeyWord).eq.'LDEFOUT'.or.TRIM(KeyWord).eq.'ldefout') THEN
             Npts=load_l(Nval, Cval, Ngrids, ldefout)
-          ELSE IF (TRIM(KeyWord).eq.'NHIS') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NHIS'.or.TRIM(KeyWord).eq.'nhis') THEN
             Npts=load_i(Nval, Rval, Ngrids, nHIS)
-          ELSE IF (TRIM(KeyWord).eq.'NDEFHIS') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NDEFHIS'.or.TRIM(KeyWord).eq.'ndefhis') THEN
             Npts=load_i(Nval, Rval, Ngrids, ndefHIS)
-          ELSE IF (TRIM(KeyWord).eq.'NTSAVG') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NTSAVG'.or.TRIM(KeyWord).eq.'ntsavg') THEN
             Npts=load_i(Nval, Rval, Ngrids, ntsAVG)
 #ifdef ADJOINT
             DO ng=1,Ngrids
               IF (ntsAVG(ng).eq.1) ntsAVG(ng)=ntimes(ng)
             END DO
 #endif
-          ELSE IF (TRIM(KeyWord).eq.'NAVG') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NAVG'.or.TRIM(KeyWord).eq.'navg') THEN
             Npts=load_i(Nval, Rval, Ngrids, nAVG)
-          ELSE IF (TRIM(KeyWord).eq.'NDEFAVG') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NDEFAVG'.or.TRIM(KeyWord).eq.'ndefavg') THEN
             Npts=load_i(Nval, Rval, Ngrids, ndefAVG)
-          ELSE IF (TRIM(KeyWord).eq.'NTSDIA') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NTSDIA'.or.TRIM(KeyWord).eq.'ntsdia') THEN
             Npts=load_i(Nval, Rval, Ngrids, ntsDIA)
-          ELSE IF (TRIM(KeyWord).eq.'NDIA') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NDIA'.or.TRIM(KeyWord).eq.'ndia') THEN
             Npts=load_i(Nval, Rval, Ngrids, nDIA)
-          ELSE IF (TRIM(KeyWord).eq.'NDEFDIA') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NDEFDIA'.or.TRIM(KeyWord).eq.'ndefdia') THEN
             Npts=load_i(Nval, Rval, Ngrids, ndefDIA)
-          ELSE IF (TRIM(KeyWord).eq.'LcycleTLM') THEN
+          ELSE IF (TRIM(KeyWord).eq.'LcycleTLM'.or.TRIM(KeyWord).eq.'lcycletlm') THEN
             Npts=load_l(Nval, Cval, Ngrids, LcycleTLM)
-          ELSE IF (TRIM(KeyWord).eq.'NTLM') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NTLM'.or.TRIM(KeyWord).eq.'ntlm') THEN
             Npts=load_i(Nval, Rval, Ngrids, nTLM)
-          ELSE IF (TRIM(KeyWord).eq.'NDEFTLM') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NDEFTLM'.or.TRIM(KeyWord).eq.'ndeftlm') THEN
             Npts=load_i(Nval, Rval, Ngrids, ndefTLM)
-          ELSE IF (TRIM(KeyWord).eq.'LcycleADJ') THEN
+          ELSE IF (TRIM(KeyWord).eq.'LcycleADJ'.or.TRIM(KeyWord).eq.'lcycleadj') THEN
             Npts=load_l(Nval, Cval, Ngrids, LcycleADJ)
-          ELSE IF (TRIM(KeyWord).eq.'NADJ') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NADJ'.or.TRIM(KeyWord).eq.'nadj') THEN
             Npts=load_i(Nval, Rval, Ngrids, nADJ)
-          ELSE IF (TRIM(KeyWord).eq.'NDEFADJ') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NDEFADJ'.or.TRIM(KeyWord).eq.'ndefadj') THEN
             Npts=load_i(Nval, Rval, Ngrids, ndefADJ)
-          ELSE IF (TRIM(KeyWord).eq.'NOBC') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NOBC'.or.TRIM(KeyWord).eq.'nobc') THEN
             Npts=load_i(Nval, Rval, Ngrids, nOBC)
 #ifdef ADJUST_BOUNDARY
             DO ng=1,Ngrids
@@ -1363,7 +1380,7 @@
             END DO
             allocate ( OBC_time(MAXVAL(Nbrec),Ngrids) )
 #endif
-          ELSE IF (TRIM(KeyWord).eq.'NSFF') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NSFF'.or.TRIM(KeyWord).eq.'nsff') THEN
             Npts=load_i(Nval, Rval, Ngrids, nSFF)
 #if defined ADJUST_STFLUX || defined ADJUST_WSTRESS
             DO ng=1,Ngrids
@@ -1371,31 +1388,31 @@
             END DO
             allocate ( SF_time(MAXVAL(Nfrec),Ngrids) )
 #endif
-          ELSE IF (TRIM(KeyWord).eq.'LmultiGST') THEN
+          ELSE IF (TRIM(KeyWord).eq.'LmultiGST'.or.TRIM(KeyWord).eq.'lmultigst') THEN
             Npts=load_l(Nval, Cval, 1, LmultiGST)
-          ELSE IF (TRIM(KeyWord).eq.'LrstGST') THEN
+          ELSE IF (TRIM(KeyWord).eq.'LrstGST'.or.TRIM(KeyWord).eq.'lrstgst') THEN
             Npts=load_l(Nval, Cval, 1, LrstGST)
-          ELSE IF (TRIM(KeyWord).eq.'MaxIterGST') THEN
+          ELSE IF (TRIM(KeyWord).eq.'MaxIterGST'.or.TRIM(KeyWord).eq.'maxitergst') THEN
             Npts=load_i(Nval, Rval, 1, MaxIterGST)
-          ELSE IF (TRIM(KeyWord).eq.'NGST') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NGST'.or.TRIM(KeyWord).eq.'ngst') THEN
             Npts=load_i(Nval, Rval, 1, nGST)
 #ifdef PROPAGATOR
-          ELSE IF (TRIM(KeyWord).eq.'Ritz_tol') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Ritz_tol'.or.TRIM(KeyWord).eq.'ritz_tol') THEN
             Npts=load_r(Nval, Rval, 1, Ritz_tol)
 #endif
 #ifdef CCSMCOUPLED
 # if defined LMD_SKPP || defined LMD_BKPP
-          ELSE IF (TRIM(KeyWord).eq.'LMD_RIC') THEN
+          ELSE IF (TRIM(KeyWord).eq.'LMD_RIC'.or.TRIM(KeyWord).eq.'lmd_ric') THEN
             Npts=load_r(Nval, Rval, 1, Rval(2))
             IF (Rval(2).gt.0) lmd_Ric = Rval(2)
 # endif
 # if defined SALINITY && defined SCORRECTION && defined SCORRECTION_NUDG_FAC
-          ELSE IF (TRIM(KeyWord).eq.'Snudg_fac') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Snudg_fac'.or.TRIM(KeyWord).eq.'snudg_fac') THEN
             Npts=load_r(Nval, Rval, 1, Rval(2))
             IF (Rval(2).gt.0) Snudg_fac = Rval(2)
 # endif
 #endif
-          ELSE IF (TRIM(KeyWord).eq.'TNU2') THEN
+          ELSE IF (TRIM(KeyWord).eq.'TNU2'.or.TRIM(KeyWord).eq.'tnu2') THEN
             Npts=load_r(Nval, Rval, (NAT+NPT)*Ngrids, Rtracer)
             DO ng=1,Ngrids
               DO itrc=1,NAT
@@ -1408,7 +1425,7 @@
               END DO
 # endif
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'TNU4') THEN
+          ELSE IF (TRIM(KeyWord).eq.'TNU4'.or.TRIM(KeyWord).eq.'tnu4') THEN
             Npts=load_r(Nval, Rval, (NAT+NPT)*Ngrids, Rtracer)
             DO ng=1,Ngrids
               DO itrc=1,NAT
@@ -1421,7 +1438,7 @@
               END DO
 # endif
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'ad_TNU2') THEN
+          ELSE IF (TRIM(KeyWord).eq.'ad_TNU2'.or.TRIM(KeyWord).eq.'ad_tnu2') THEN
             Npts=load_r(Nval, Rval, (NAT+NPT)*Ngrids, Rtracer)
             DO ng=1,Ngrids
               DO itrc=1,NAT
@@ -1436,7 +1453,7 @@
               END DO
 # endif
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'ad_TNU4') THEN
+          ELSE IF (TRIM(KeyWord).eq.'ad_TNU4'.or.TRIM(KeyWord).eq.'ad_tnu4') THEN
             Npts=load_r(Nval, Rval, (NAT+NPT)*Ngrids, Rtracer)
             DO ng=1,Ngrids
               DO itrc=1,NAT
@@ -1451,21 +1468,21 @@
               END DO
 # endif
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'VISC2') THEN
+          ELSE IF (TRIM(KeyWord).eq.'VISC2'.or.TRIM(KeyWord).eq.'visc2') THEN
             Npts=load_r(Nval, Rval, Ngrids, nl_visc2)
-          ELSE IF (TRIM(KeyWord).eq.'VISC4') THEN
+          ELSE IF (TRIM(KeyWord).eq.'VISC4'.or.TRIM(KeyWord).eq.'visc4') THEN
             Npts=load_r(Nval, Rval, Ngrids, nl_visc4)
-          ELSE IF (TRIM(KeyWord).eq.'ad_VISC2') THEN
+          ELSE IF (TRIM(KeyWord).eq.'ad_VISC2'.or.TRIM(KeyWord).eq.'ad_visc2') THEN
             Npts=load_r(Nval, Rval, Ngrids, ad_visc2)
             DO ng=1,Ngrids
               tl_visc2(ng)=ad_visc2(ng)
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'ad_VISC4') THEN
+          ELSE IF (TRIM(KeyWord).eq.'ad_VISC4'.or.TRIM(KeyWord).eq.'ad_visc4') THEN
             Npts=load_r(Nval, Rval, Ngrids, ad_visc4)
             DO ng=1,Ngrids
               tl_visc4(ng)=ad_visc4(ng)
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'AKT_BAK') THEN
+          ELSE IF (TRIM(KeyWord).eq.'AKT_BAK'.or.TRIM(KeyWord).eq.'akt_bak') THEN
             Npts=load_r(Nval, Rval, (NAT+NPT)*Ngrids, Rtracer)
             DO ng=1,Ngrids
               DO itrc=1,NAT
@@ -1478,7 +1495,7 @@
               END DO
 # endif
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'ad_AKT_fac') THEN
+          ELSE IF (TRIM(KeyWord).eq.'ad_AKT_fac'.or.TRIM(KeyWord).eq.'ad_akt_fac') THEN
             Npts=load_r(Nval, Rval, (NAT+NPT)*Ngrids, Rtracer)
             DO ng=1,Ngrids
               DO itrc=1,NAT
@@ -1493,78 +1510,78 @@
               END DO
 # endif
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'AKV_BAK') THEN
+          ELSE IF (TRIM(KeyWord).eq.'AKV_BAK'.or.TRIM(KeyWord).eq.'akv_bak') THEN
             Npts=load_r(Nval, Rval, Ngrids, Akv_bak)
-          ELSE IF (TRIM(KeyWord).eq.'ad_AKV_fac') THEN
+          ELSE IF (TRIM(KeyWord).eq.'ad_AKV_fac'.or.TRIM(KeyWord).eq.'ad_akv_fac') THEN
             Npts=load_r(Nval, Rval, Ngrids, ad_Akv_fac)
             DO ng=1,Ngrids
               tl_Akv_fac(ng)=ad_AKv_fac(ng)
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'AKK_BAK') THEN
+          ELSE IF (TRIM(KeyWord).eq.'AKK_BAK'.or.TRIM(KeyWord).eq.'akk_bak') THEN
             Npts=load_r(Nval, Rval, Ngrids, Akk_bak)
-          ELSE IF (TRIM(KeyWord).eq.'AKP_BAK') THEN
+          ELSE IF (TRIM(KeyWord).eq.'AKP_BAK'.or.TRIM(KeyWord).eq.'akp_bak') THEN
             Npts=load_r(Nval, Rval, Ngrids, Akp_bak)
-          ELSE IF (TRIM(KeyWord).eq.'TKENU2') THEN
+          ELSE IF (TRIM(KeyWord).eq.'TKENU2'.or.TRIM(KeyWord).eq.'tkenu2') THEN
             Npts=load_r(Nval, Rval, Ngrids, tkenu2)
-          ELSE IF (TRIM(KeyWord).eq.'TKENU4') THEN
+          ELSE IF (TRIM(KeyWord).eq.'TKENU4'.or.TRIM(KeyWord).eq.'tkenu4') THEN
             Npts=load_r(Nval, Rval, Ngrids, tkenu4)
-          ELSE IF (TRIM(KeyWord).eq.'GLS_P') THEN
+          ELSE IF (TRIM(KeyWord).eq.'GLS_P'.or.TRIM(KeyWord).eq.'gls_p') THEN
             Npts=load_r(Nval, Rval, Ngrids, gls_p)
-          ELSE IF (TRIM(KeyWord).eq.'GLS_M') THEN
+          ELSE IF (TRIM(KeyWord).eq.'GLS_M'.or.TRIM(KeyWord).eq.'gls_m') THEN
             Npts=load_r(Nval, Rval, Ngrids, gls_m)
-          ELSE IF (TRIM(KeyWord).eq.'GLS_N') THEN
+          ELSE IF (TRIM(KeyWord).eq.'GLS_N'.or.TRIM(KeyWord).eq.'gls_n') THEN
             Npts=load_r(Nval, Rval, Ngrids, gls_n)
-          ELSE IF (TRIM(KeyWord).eq.'GLS_Kmin') THEN
+          ELSE IF (TRIM(KeyWord).eq.'GLS_Kmin'.or.TRIM(KeyWord).eq.'gls_kmin') THEN
             Npts=load_r(Nval, Rval, Ngrids, gls_Kmin)
-          ELSE IF (TRIM(KeyWord).eq.'GLS_Pmin') THEN
+          ELSE IF (TRIM(KeyWord).eq.'GLS_Pmin'.or.TRIM(KeyWord).eq.'gls_pmin') THEN
             Npts=load_r(Nval, Rval, Ngrids, gls_Pmin)
-          ELSE IF (TRIM(KeyWord).eq.'GLS_CMU0') THEN
+          ELSE IF (TRIM(KeyWord).eq.'GLS_CMU0'.or.TRIM(KeyWord).eq.'gls_cmu0') THEN
             Npts=load_r(Nval, Rval, Ngrids, gls_cmu0)
-          ELSE IF (TRIM(KeyWord).eq.'GLS_C1') THEN
+          ELSE IF (TRIM(KeyWord).eq.'GLS_C1'.or.TRIM(KeyWord).eq.'gls_c1') THEN
             Npts=load_r(Nval, Rval, Ngrids, gls_c1)
-          ELSE IF (TRIM(KeyWord).eq.'GLS_C2') THEN
+          ELSE IF (TRIM(KeyWord).eq.'GLS_C2'.or.TRIM(KeyWord).eq.'gls_c2') THEN
             Npts=load_r(Nval, Rval, Ngrids, gls_c2)
-          ELSE IF (TRIM(KeyWord).eq.'GLS_C3M') THEN
+          ELSE IF (TRIM(KeyWord).eq.'GLS_C3M'.or.TRIM(KeyWord).eq.'gls_c3m') THEN
             Npts=load_r(Nval, Rval, Ngrids, gls_c3m)
-          ELSE IF (TRIM(KeyWord).eq.'GLS_C3P') THEN
+          ELSE IF (TRIM(KeyWord).eq.'GLS_C3P'.or.TRIM(KeyWord).eq.'gls_c3p') THEN
             Npts=load_r(Nval, Rval, Ngrids, gls_c3p)
-          ELSE IF (TRIM(KeyWord).eq.'GLS_SIGK') THEN
+          ELSE IF (TRIM(KeyWord).eq.'GLS_SIGK'.or.TRIM(KeyWord).eq.'gls_sigk') THEN
             Npts=load_r(Nval, Rval, Ngrids, gls_sigk)
-          ELSE IF (TRIM(KeyWord).eq.'GLS_SIGP') THEN
+          ELSE IF (TRIM(KeyWord).eq.'GLS_SIGP'.or.TRIM(KeyWord).eq.'gls_sigp') THEN
             Npts=load_r(Nval, Rval, Ngrids, gls_sigp)
-          ELSE IF (TRIM(KeyWord).eq.'CHARNOK_ALPHA') THEN
+          ELSE IF (TRIM(KeyWord).eq.'CHARNOK_ALPHA'.or.TRIM(KeyWord).eq.'charnok_alpha') THEN
             Npts=load_r(Nval, Rval, Ngrids, charnok_alpha)
-          ELSE IF (TRIM(KeyWord).eq.'ZOS_HSIG_ALPHA') THEN
+          ELSE IF (TRIM(KeyWord).eq.'ZOS_HSIG_ALPHA'.or.TRIM(KeyWord).eq.'zos_hsig_alpha') THEN
             Npts=load_r(Nval, Rval, Ngrids, zos_hsig_alpha)
-          ELSE IF (TRIM(KeyWord).eq.'SZ_ALPHA') THEN
+          ELSE IF (TRIM(KeyWord).eq.'SZ_ALPHA'.or.TRIM(KeyWord).eq.'sz_alpha') THEN
             Npts=load_r(Nval, Rval, Ngrids, sz_alpha)
-          ELSE IF (TRIM(KeyWord).eq.'CRGBAN_CW') THEN
+          ELSE IF (TRIM(KeyWord).eq.'CRGBAN_CW'.or.TRIM(KeyWord).eq.'crgban_cw') THEN
             Npts=load_r(Nval, Rval, Ngrids, crgban_cw)
-          ELSE IF (TRIM(KeyWord).eq.'RDRG') THEN
+          ELSE IF (TRIM(KeyWord).eq.'RDRG'.or.TRIM(KeyWord).eq.'rdrg') THEN
             Npts=load_r(Nval, Rval, Ngrids, rdrg)
-          ELSE IF (TRIM(KeyWord).eq.'RDRG2') THEN
+          ELSE IF (TRIM(KeyWord).eq.'RDRG2'.or.TRIM(KeyWord).eq.'rdrg2') THEN
             Npts=load_r(Nval, Rval, Ngrids, rdrg2)
-          ELSE IF (TRIM(KeyWord).eq.'Zob') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Zob'.or.TRIM(KeyWord).eq.'zob') THEN
             Npts=load_r(Nval, Rval, Ngrids, Zob)
-          ELSE IF (TRIM(KeyWord).eq.'Zos') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Zos'.or.TRIM(KeyWord).eq.'zos') THEN
             Npts=load_r(Nval, Rval, Ngrids, Zos)
 #ifdef BULK_FLUXES
-          ELSE IF (TRIM(KeyWord).eq.'BLK_ZQ') THEN
+          ELSE IF (TRIM(KeyWord).eq.'BLK_ZQ'.or.TRIM(KeyWord).eq.'blk_zq') THEN
             Npts=load_r(Nval, Rval, Ngrids, blk_ZQ)
-          ELSE IF (TRIM(KeyWord).eq.'BLK_ZT') THEN
+          ELSE IF (TRIM(KeyWord).eq.'BLK_ZT'.or.TRIM(KeyWord).eq.'blk_zt') THEN
             Npts=load_r(Nval, Rval, Ngrids, blk_ZT)
-          ELSE IF (TRIM(KeyWord).eq.'BLK_ZW') THEN
+          ELSE IF (TRIM(KeyWord).eq.'BLK_ZW'.or.TRIM(KeyWord).eq.'blk_zw') THEN
             Npts=load_r(Nval, Rval, Ngrids, blk_ZW)
 #endif
-          ELSE IF (TRIM(KeyWord).eq.'DCRIT') THEN
+          ELSE IF (TRIM(KeyWord).eq.'DCRIT'.or.TRIM(KeyWord).eq.'dcrit') THEN
             Npts=load_r(Nval, Rval, Ngrids, Dcrit)
-          ELSE IF (TRIM(KeyWord).eq.'WTYPE') THEN
+          ELSE IF (TRIM(KeyWord).eq.'WTYPE'.or.TRIM(KeyWord).eq.'wtype') THEN
             Npts=load_i(Nval, Rval, Ngrids, lmd_Jwt)
-          ELSE IF (TRIM(KeyWord).eq.'LEVSFRC') THEN
+          ELSE IF (TRIM(KeyWord).eq.'LEVSFRC'.or.TRIM(KeyWord).eq.'levsfrc') THEN
             Npts=load_i(Nval, Rval, Ngrids, levsfrc)
-          ELSE IF (TRIM(KeyWord).eq.'LEVBFRC') THEN
+          ELSE IF (TRIM(KeyWord).eq.'LEVBFRC'.or.TRIM(KeyWord).eq.'levbfrc') THEN
             Npts=load_i(Nval, Rval, Ngrids, levbfrc)
-          ELSE IF (TRIM(KeyWord).eq.'Vtransform') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Vtransform'.or.TRIM(KeyWord).eq.'vtransform') THEN
             Npts=load_i(Nval, Rval, Ngrids, Vtransform)
             DO ng=1,Ngrids
               IF ((Vtransform(ng).lt.0).or.                             &
@@ -1576,7 +1593,7 @@
                 RETURN
               END IF
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Vstretching') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Vstretching'.or.TRIM(KeyWord).eq.'vstretching') THEN
             Npts=load_i(Nval, Rval, Ngrids, Vstretching)
             DO ng=1,Ngrids
               IF ((Vstretching(ng).lt.0).or.                            &
@@ -1588,27 +1605,27 @@
                 RETURN
               END IF
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'THETA_S') THEN
+          ELSE IF (TRIM(KeyWord).eq.'THETA_S'.or.TRIM(KeyWord).eq.'theta_s') THEN
             Npts=load_r(Nval, Rval, Ngrids, theta_s)
-          ELSE IF (TRIM(KeyWord).eq.'THETA_B') THEN
+          ELSE IF (TRIM(KeyWord).eq.'THETA_B'.or.TRIM(KeyWord).eq.'theta_b') THEN
             Npts=load_r(Nval, Rval, Ngrids, theta_b)
-          ELSE IF (TRIM(KeyWord).eq.'TCLINE') THEN
+          ELSE IF (TRIM(KeyWord).eq.'TCLINE'.or.TRIM(KeyWord).eq.'tcline') THEN
             Npts=load_r(Nval, Rval, Ngrids, Tcline)
             DO ng=1,Ngrids
               hc(ng)=Tcline(ng)
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'RHO0') THEN
+          ELSE IF (TRIM(KeyWord).eq.'RHO0'.or.TRIM(KeyWord).eq.'rho0') THEN
             Npts=load_r(Nval, Rval, 1, rho0)
-          ELSE IF (TRIM(KeyWord).eq.'BVF_BAK') THEN
+          ELSE IF (TRIM(KeyWord).eq.'BVF_BAK'.or.TRIM(KeyWord).eq.'bvf_bak') THEN
             Npts=load_r(Nval, Rval, 1, bvf_bak)
-          ELSE IF (TRIM(KeyWord).eq.'DSTART') THEN
+          ELSE IF (TRIM(KeyWord).eq.'DSTART'.or.TRIM(KeyWord).eq.'dstart') THEN
             Npts=load_r(Nval, Rval, 1, dstart)
-          ELSE IF (TRIM(KeyWord).eq.'TIDE_START') THEN
+          ELSE IF (TRIM(KeyWord).eq.'TIDE_START'.or.TRIM(KeyWord).eq.'tide_start') THEN
             Npts=load_r(Nval, Rval, 1, tide_start)
-          ELSE IF (TRIM(KeyWord).eq.'TIME_REF') THEN
+          ELSE IF (TRIM(KeyWord).eq.'TIME_REF'.or.TRIM(KeyWord).eq.'time_ref') THEN
             Npts=load_r(Nval, Rval, 1, time_ref)
             r_text=ref_att(time_ref,r_date)
-          ELSE IF (TRIM(KeyWord).eq.'TNUDG') THEN
+          ELSE IF (TRIM(KeyWord).eq.'TNUDG'.or.TRIM(KeyWord).eq.'tnudg') THEN
             Npts=load_r(Nval, Rval, (NAT+NPT)*Ngrids, Rtracer)
             DO ng=1,Ngrids
               DO itrc=1,NAT
@@ -1621,47 +1638,47 @@
               END DO
 # endif
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'ZNUDG') THEN
+          ELSE IF (TRIM(KeyWord).eq.'ZNUDG'.or.TRIM(KeyWord).eq.'znudg') THEN
             Npts=load_r(Nval, Rval, Ngrids, Znudg)
-          ELSE IF (TRIM(KeyWord).eq.'M2NUDG') THEN
+          ELSE IF (TRIM(KeyWord).eq.'M2NUDG'.or.TRIM(KeyWord).eq.'m2nudg') THEN
             Npts=load_r(Nval, Rval, Ngrids, M2nudg)
-          ELSE IF (TRIM(KeyWord).eq.'M3NUDG') THEN
+          ELSE IF (TRIM(KeyWord).eq.'M3NUDG'.or.TRIM(KeyWord).eq.'m3nudg') THEN
             Npts=load_r(Nval, Rval, Ngrids, M3nudg)
-          ELSE IF (TRIM(KeyWord).eq.'OBCFAC') THEN
+          ELSE IF (TRIM(KeyWord).eq.'OBCFAC'.or.TRIM(KeyWord).eq.'obcfac') THEN
             Npts=load_r(Nval, Rval, Ngrids, obcfac)
-          ELSE IF (TRIM(KeyWord).eq.'R0') THEN
+          ELSE IF (TRIM(KeyWord).eq.'R0'.or.TRIM(KeyWord).eq.'r0') THEN
             Npts=load_r(Nval, Rval, Ngrids, R0)
             DO ng=1,Ngrids
               IF (R0(ng).lt.100.0_r8) R0(ng)=R0(ng)+1000.0_r8
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'T0') THEN
+          ELSE IF (TRIM(KeyWord).eq.'T0'.or.TRIM(KeyWord).eq.'t0') THEN
             Npts=load_r(Nval, Rval, Ngrids, T0)
-          ELSE IF (TRIM(KeyWord).eq.'S0') THEN
+          ELSE IF (TRIM(KeyWord).eq.'S0'.or.TRIM(KeyWord).eq.'s0') THEN
             Npts=load_r(Nval, Rval, Ngrids, S0)
-          ELSE IF (TRIM(KeyWord).eq.'TCOEF') THEN
+          ELSE IF (TRIM(KeyWord).eq.'TCOEF'.or.TRIM(KeyWord).eq.'tcoef') THEN
             Npts=load_r(Nval, Rval, Ngrids, Tcoef)
             DO ng=1,Ngrids
               Tcoef(ng)=ABS(Tcoef(ng))
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'SCOEF') THEN
+          ELSE IF (TRIM(KeyWord).eq.'SCOEF'.or.TRIM(KeyWord).eq.'scoef') THEN
             Npts=load_r(Nval, Rval, Ngrids, Scoef)
             DO ng=1,Ngrids
               Scoef(ng)=ABS(Scoef(ng))
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'GAMMA2') THEN
+          ELSE IF (TRIM(KeyWord).eq.'GAMMA2'.or.TRIM(KeyWord).eq.'gamma2') THEN
             Npts=load_r(Nval, Rval, Ngrids, gamma2)
 #if defined AD_SENSITIVITY   || defined IS4DVAR_SENSITIVITY || \
     defined OPT_OBSERVATIONS || defined SENSITIVITY_4DVAR   || \
     defined SO_SEMI
-          ELSE IF (TRIM(KeyWord).eq.'DstrS') THEN
+          ELSE IF (TRIM(KeyWord).eq.'DstrS'.or.TRIM(KeyWord).eq.'dstrs') THEN
             Npts=load_r(Nval, Rval, Ngrids, DstrS)
-          ELSE IF (TRIM(KeyWord).eq.'DendS') THEN
+          ELSE IF (TRIM(KeyWord).eq.'DendS'.or.TRIM(KeyWord).eq.'dends') THEN
             Npts=load_r(Nval, Rval, Ngrids, DendS)
-          ELSE IF (TRIM(KeyWord).eq.'KstrS') THEN
+          ELSE IF (TRIM(KeyWord).eq.'KstrS'.or.TRIM(KeyWord).eq.'kstrs') THEN
             Npts=load_i(Nval, Rval, Ngrids, KstrS)
-          ELSE IF (TRIM(KeyWord).eq.'KendS') THEN
+          ELSE IF (TRIM(KeyWord).eq.'KendS'.or.TRIM(KeyWord).eq.'kends') THEN
             Npts=load_i(Nval, Rval, Ngrids, KendS)
-          ELSE IF (TRIM(KeyWord).eq.'Lstate(isFsur)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Lstate(isFsur)'.or.TRIM(KeyWord).eq.'lstate(isfsur)') THEN
             IF (isFsur.eq.0) THEN
               IF (Master) WRITE (out,280) 'isFsur'
               exit_flag=5
@@ -1671,7 +1688,7 @@
             DO ng=1,Ngrids
               SCALARS(ng)%Lstate(isFsur)=Ladsen(ng)
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Lstate(isUbar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Lstate(isUbar)'.or.TRIM(KeyWord).eq.'lstate(isubar)') THEN
             IF (isUbar.eq.0) THEN
               IF (Master) WRITE (out,280) 'isUbar'
               exit_flag=5
@@ -1681,7 +1698,7 @@
             DO ng=1,Ngrids
               SCALARS(ng)%Lstate(isUbar)=Ladsen(ng)
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Lstate(isVbar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Lstate(isVbar)'.or.TRIM(KeyWord).eq.'lstate(isvbar)') THEN
             IF (isVbar.eq.0) THEN
               IF (Master) WRITE (out,280) 'isVbar'
               exit_flag=5
@@ -1692,7 +1709,7 @@
               SCALARS(ng)%Lstate(isVbar)=Ladsen(ng)
             END DO
 # ifdef SOLVE3D
-          ELSE IF (TRIM(KeyWord).eq.'Lstate(isUvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Lstate(isUvel)'.or.TRIM(KeyWord).eq.'lstate(isuvel)') THEN
             IF (isUvel.eq.0) THEN
               IF (Master) WRITE (out,280) 'isUvel'
               exit_flag=5
@@ -1702,7 +1719,7 @@
             DO ng=1,Ngrids
               SCALARS(ng)%Lstate(isUvel)=Ladsen(ng)
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Lstate(isVvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Lstate(isVvel)'.or.TRIM(KeyWord).eq.'lstate(isvvel)') THEN
             IF (isVvel.eq.0) THEN
               IF (Master) WRITE (out,280) 'isVvel'
               exit_flag=5
@@ -1712,7 +1729,7 @@
             DO ng=1,Ngrids
               SCALARS(ng)%Lstate(isVvel)=Ladsen(ng)
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Lstate(isTvar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Lstate(isTvar)'.or.TRIM(KeyWord).eq.'lstate(istvar)') THEN
             IF (MAXVAL(isTvar).eq.0) THEN
               IF (Master) WRITE (out,280) 'isTvar'
               exit_flag=5
@@ -1730,7 +1747,7 @@
 # endif
 #endif
 #if defined FORCING_SV || defined SO_SEMI
-          ELSE IF (TRIM(KeyWord).eq.'Fstate(isFsur)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Fstate(isFsur)'.or.TRIM(KeyWord).eq.'fstate(isfsur)') THEN
             IF (isFsur.eq.0) THEN
               IF (Master) WRITE (out,280) 'isFsur'
               exit_flag=5
@@ -1740,7 +1757,7 @@
             DO ng=1,Ngrids
               SCALARS(ng)%Fstate(isFsur)=Ladsen(ng)
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Fstate(isUbar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Fstate(isUbar)'.or.TRIM(KeyWord).eq.'fstate(isubar)') THEN
             IF (isUbar.eq.0) THEN
               IF (Master) WRITE (out,280) 'isUbar'
               exit_flag=5
@@ -1750,7 +1767,7 @@
             DO ng=1,Ngrids
               SCALARS(ng)%Fstate(isUbar)=Ladsen(ng)
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Fstate(isVbar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Fstate(isVbar)'.or.TRIM(KeyWord).eq.'fstate(isvbar)') THEN
             IF (isVbar.eq.0) THEN
               IF (Master) WRITE (out,280) 'isVbar'
               exit_flag=5
@@ -1761,7 +1778,7 @@
               SCALARS(ng)%Fstate(isVbar)=Ladsen(ng)
             END DO
 # ifdef SOLVE3D
-          ELSE IF (TRIM(KeyWord).eq.'Fstate(isUvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Fstate(isUvel)'.or.TRIM(KeyWord).eq.'fstate(isuvel)') THEN
             IF (isUvel.eq.0) THEN
               IF (Master) WRITE (out,280) 'isUvel'
               exit_flag=5
@@ -1771,7 +1788,7 @@
             DO ng=1,Ngrids
               SCALARS(ng)%Fstate(isUvel)=Ladsen(ng)
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Fstate(isVvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Fstate(isVvel)'.or.TRIM(KeyWord).eq.'fstate(isvvel)') THEN
             IF (isVvel.eq.0) THEN
               IF (Master) WRITE (out,280) 'isVvel'
               exit_flag=5
@@ -1781,7 +1798,7 @@
             DO ng=1,Ngrids
               SCALARS(ng)%Fstate(isVvel)=Ladsen(ng)
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Fstate(isTvar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Fstate(isTvar)'.or.TRIM(KeyWord).eq.'fstate(istvar)') THEN
             IF (MAXVAL(isTvar).eq.0) THEN
               IF (Master) WRITE (out,280) 'isTvar'
               exit_flag=5
@@ -1797,7 +1814,7 @@
               END DO
             END DO
 # endif
-          ELSE IF (TRIM(KeyWord).eq.'Fstate(isUstr)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Fstate(isUstr)'.or.TRIM(KeyWord).eq.'fstate(isustr)') THEN
             IF (isUstr.eq.0) THEN
               IF (Master) WRITE (out,280) 'isUstr'
               exit_flag=5
@@ -1807,7 +1824,7 @@
             DO ng=1,Ngrids
               SCALARS(ng)%Fstate(isUstr)=Ladsen(ng)
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Fstate(isVstr)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Fstate(isVstr)'.or.TRIM(KeyWord).eq.'fstate(isvstr)') THEN
             IF (isUstr.eq.0) THEN
               IF (Master) WRITE (out,280) 'isVstr'
               exit_flag=5
@@ -1818,7 +1835,7 @@
               SCALARS(ng)%Fstate(isVstr)=Ladsen(ng)
             END DO
 # ifdef SOLVE3D
-          ELSE IF (TRIM(KeyWord).eq.'Fstate(isTsur)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Fstate(isTsur)'.or.TRIM(KeyWord).eq.'fstate(istsur)') THEN
             IF (MAXVAL(isTsur).eq.0) THEN
               IF (Master) WRITE (out,280) 'isTsur'
               exit_flag=5
@@ -1836,20 +1853,20 @@
 # endif
 #endif
 #ifdef SO_SEMI
-          ELSE IF (TRIM(KeyWord).eq.'SO_decay') THEN
+          ELSE IF (TRIM(KeyWord).eq.'SO_decay'.or.TRIM(KeyWord).eq.'so_decay') THEN
             Npts=load_r(Nval, Rval, Ngrids, SO_decay)
-          ELSE IF (TRIM(KeyWord).eq.'SO_sdev(isFsur)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'SO_sdev(isFsur)'.or.TRIM(KeyWord).eq.'so_sdev(isfsur)') THEN
             Npts=load_r(Nval, Rval, Ngrids, SO_sdev(isFsur,1))
-          ELSE IF (TRIM(KeyWord).eq.'SO_sdev(isUbar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'SO_sdev(isUbar)'.or.TRIM(KeyWord).eq.'so_sdev(isubar)') THEN
             Npts=load_r(Nval, Rval, Ngrids, SO_sdev(isUbar,1))
-          ELSE IF (TRIM(KeyWord).eq.'SO_sdev(isVbar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'SO_sdev(isVbar)'.or.TRIM(KeyWord).eq.'so_sdev(isvbar)') THEN
             Npts=load_r(Nval, Rval, Ngrids, SO_sdev(isVbar,1))
 # ifdef SOLVE3D
-          ELSE IF (TRIM(KeyWord).eq.'SO_sdev(isUvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'SO_sdev(isUvel)'.or.TRIM(KeyWord).eq.'so_sdev(isuvel)') THEN
             Npts=load_r(Nval, Rval, Ngrids, SO_sdev(isUvel,1))
-          ELSE IF (TRIM(KeyWord).eq.'SO_sdev(isVvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'SO_sdev(isVvel)'.or.TRIM(KeyWord).eq.'so_sdev(isvvel)') THEN
             Npts=load_r(Nval, Rval, Ngrids, SO_sdev(isVvel,1))
-          ELSE IF (TRIM(KeyWord).eq.'SO_sdev(isTvar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'SO_sdev(isTvar)'.or.TRIM(KeyWord).eq.'so_sdev(istvar)') THEN
             Npts=load_r(Nval, Rval, MT*Ngrids, tracer)
             k=0
             DO ng=1,Ngrids
@@ -1860,12 +1877,12 @@
               END DO
             END DO
 # endif
-          ELSE IF (TRIM(KeyWord).eq.'SO_sdev(isUstr)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'SO_sdev(isUstr)'.or.TRIM(KeyWord).eq.'so_sdev(isustr)') THEN
             Npts=load_r(Nval, Rval, Ngrids, SO_sdev(isUstr,1))
-          ELSE IF (TRIM(KeyWord).eq.'SO_sdev(isVstr)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'SO_sdev(isVstr)'.or.TRIM(KeyWord).eq.'so_sdev(isvstr)') THEN
             Npts=load_r(Nval, Rval, Ngrids, SO_sdev(isVstr,1))
 # ifdef SOLVE3D
-          ELSE IF (TRIM(KeyWord).eq.'SO_sdev(isTsur)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'SO_sdev(isTsur)'.or.TRIM(KeyWord).eq.'so_sdev(istsur)') THEN
             Npts=load_r(Nval, Rval, MT*Ngrids, tracer)
             k=0
             DO ng=1,Ngrids
@@ -1878,7 +1895,7 @@
 # endif
 #endif
 #if defined SOLVE3D && defined TS_PSOURCE
-          ELSE IF (TRIM(KeyWord).eq.'LtracerSrc') THEN
+          ELSE IF (TRIM(KeyWord).eq.'LtracerSrc'.or.TRIM(KeyWord).eq.'ltracersrc') THEN
             Npts=load_l(Nval, Cval, (NAT+NPT)*Ngrids, Ltracer)
             DO ng=1,Ngrids
               DO itrc=1,NAT
@@ -1892,49 +1909,49 @@
 # endif
             END DO
 #endif
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idUvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idUvel)'.or.TRIM(KeyWord).eq.'hout(iduvel)') THEN
             IF (idUvel.eq.0) THEN
               IF (Master) WRITE (out,280) 'idUvel'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idUvel,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idVvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idVvel)'.or.TRIM(KeyWord).eq.'hout(idvvel)') THEN
             IF (idVvel.eq.0) THEN
               IF (Master) WRITE (out,280) 'idVvel'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idVvel,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idWvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idWvel)'.or.TRIM(KeyWord).eq.'hout(idwvel)') THEN
             IF (idWvel.eq.0) THEN
               IF (Master) WRITE (out,280) 'idWvel'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idWvel,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idOvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idOvel)'.or.TRIM(KeyWord).eq.'hout(idovel)') THEN
             IF (idOvel.eq.0) THEN
               IF (Master) WRITE (out,280) 'idOvel'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idOvel,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idUbar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idUbar)'.or.TRIM(KeyWord).eq.'hout(idubar)') THEN
             IF (idUbar.eq.0) THEN
               IF (Master) WRITE (out,280) 'idUbar'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idUbar,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idVbar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idVbar)'.or.TRIM(KeyWord).eq.'hout(idvbar)') THEN
             IF (idVbar.eq.0) THEN
               IF (Master) WRITE (out,280) 'idVbar'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idVbar,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idFsur)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idFsur)'.or.TRIM(KeyWord).eq.'hout(idfsur)') THEN
             IF (idFsur.eq.0) THEN
               IF (Master) WRITE (out,280) 'idFsur'
               exit_flag=5
@@ -1942,7 +1959,7 @@
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idFsur,:))
 #if defined SEDIMENT && defined SED_MORPH
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idBath)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idBath)'.or.TRIM(KeyWord).eq.'hout(idbath)') THEN
             IF (idbath.eq.0) THEN
               IF (Master) WRITE (out,280) 'idbath'
               exit_flag=5
@@ -1950,7 +1967,7 @@
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idBath,:))
 #endif
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idTvar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idTvar)'.or.TRIM(KeyWord).eq.'hout(idtvar)') THEN
             IF (MAXVAL(idTvar).eq.0) THEN
               IF (Master) WRITE (out,280) 'idTvar'
               exit_flag=5
@@ -1963,231 +1980,231 @@
                 Hout(i,ng)=Ltracer(itrc,ng)
               END DO
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idUsms)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idUsms)'.or.TRIM(KeyWord).eq.'hout(idusms)') THEN
             IF (idUsms.eq.0) THEN
               IF (Master) WRITE (out,280) 'idUsms'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idUsms,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idVsms)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idVsms)'.or.TRIM(KeyWord).eq.'hout(idvsms)') THEN
             IF (idVsms.eq.0) THEN
               IF (Master) WRITE (out,280) 'idVsms'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idVsms,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idUbms)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idUbms)'.or.TRIM(KeyWord).eq.'hout(idubms)') THEN
             IF (idUbms.eq.0) THEN
               IF (Master) WRITE (out,280) 'idUbms'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idUbms,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idVbms)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idVbms)'.or.TRIM(KeyWord).eq.'hout(idvbms)') THEN
             IF (idVbms.eq.0) THEN
               IF (Master) WRITE (out,280) 'idVbms'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idVbms,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idUbrs)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idUbrs)'.or.TRIM(KeyWord).eq.'hout(idubrs)') THEN
             IF (idUbrs.eq.0) THEN
               IF (Master) WRITE (out,280) 'idUbrs'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idUbrs,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idVbrs)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idVbrs)'.or.TRIM(KeyWord).eq.'hout(idvbrs)') THEN
             IF (idVbrs.eq.0) THEN
               IF (Master) WRITE (out,280) 'idVbrs'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idVbrs,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idUbws)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idUbws)'.or.TRIM(KeyWord).eq.'hout(idubws)') THEN
             IF (idUbws.eq.0) THEN
               IF (Master) WRITE (out,280) 'idUbws'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idUbws,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idVbws)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idVbws)'.or.TRIM(KeyWord).eq.'hout(idvbws)') THEN
             IF (idVbws.eq.0) THEN
               IF (Master) WRITE (out,280) 'idVbws'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idVbws,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idUbcs)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idUbcs)'.or.TRIM(KeyWord).eq.'hout(idubcs)') THEN
             IF (idUbcs.eq.0) THEN
               IF (Master) WRITE (out,280) 'idUbcs'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idUbcs,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idVbcs)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idVbcs)'.or.TRIM(KeyWord).eq.'hout(idvbcs)') THEN
             IF (idVbcs.eq.0) THEN
               IF (Master) WRITE (out,280) 'idVbcs'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idVbcs,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idUbot)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idUbot)'.or.TRIM(KeyWord).eq.'hout(idubot)') THEN
             IF (idUbot.eq.0) THEN
               IF (Master) WRITE (out,280) 'idUbot'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idUbot,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idVbot)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idVbot)'.or.TRIM(KeyWord).eq.'hout(idvbot)') THEN
             IF (idVbot.eq.0) THEN
               IF (Master) WRITE (out,280) 'idVbot'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idVbot,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idUbur)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idUbur)'.or.TRIM(KeyWord).eq.'hout(idubur)') THEN
             IF (idUbur.eq.0) THEN
               IF (Master) WRITE (out,280) 'idUbur'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idUbur,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idVbvr)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idVbvr)'.or.TRIM(KeyWord).eq.'hout(idvbvr)') THEN
             IF (idVbvr.eq.0) THEN
               IF (Master) WRITE (out,280) 'idVbvr'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idVbvr,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idW2xx)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idW2xx)'.or.TRIM(KeyWord).eq.'hout(idw2xx)') THEN
             IF (idW2xx.eq.0) THEN
               IF (Master) WRITE (out,280) 'idW2xx'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idW2xx,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idW2xy)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idW2xy)'.or.TRIM(KeyWord).eq.'hout(idw2xy)') THEN
             IF (idW2xy.eq.0) THEN
               IF (Master) WRITE (out,280) 'idW2xy'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idW2xy,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idW2yy)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idW2yy)'.or.TRIM(KeyWord).eq.'hout(idw2yy)') THEN
             IF (idW2yy.eq.0) THEN
               IF (Master) WRITE (out,280) 'idW2yy'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idW2yy,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idU2rs)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idU2rs)'.or.TRIM(KeyWord).eq.'hout(idu2rs)') THEN
             IF (idU2rs.eq.0) THEN
               IF (Master) WRITE (out,280) 'idU2rs'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idU2rs,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idV2rs)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idV2rs)'.or.TRIM(KeyWord).eq.'hout(idv2rs)') THEN
             IF (idV2rs.eq.0) THEN
               IF (Master) WRITE (out,280) 'idV2rs'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idV2rs,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idU2Sd)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idU2Sd)'.or.TRIM(KeyWord).eq.'hout(idu2sd)') THEN
             IF (idU2Sd.eq.0) THEN
               IF (Master) WRITE (out,280) 'idU2Sd'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idU2Sd,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idV2Sd)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idV2Sd)'.or.TRIM(KeyWord).eq.'hout(idv2sd)') THEN
             IF (idV2Sd.eq.0) THEN
               IF (Master) WRITE (out,280) 'idV2Sd'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idV2Sd,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idW3xx)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idW3xx)'.or.TRIM(KeyWord).eq.'hout(idw3xx)') THEN
             IF (idW3xx.eq.0) THEN
               IF (Master) WRITE (out,280) 'idW3xx'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idW3xx,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idW3xy)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idW3xy)'.or.TRIM(KeyWord).eq.'hout(idw3xy)') THEN
             IF (idW3xy.eq.0) THEN
               IF (Master) WRITE (out,280) 'idW3xy'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idW3xy,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idW3yy)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idW3yy)'.or.TRIM(KeyWord).eq.'hout(idw3yy)') THEN
             IF (idW3yy.eq.0) THEN
               IF (Master) WRITE (out,280) 'idW3yy'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idW3yy,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idW3zx)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idW3zx)'.or.TRIM(KeyWord).eq.'hout(idw3zx)') THEN
             IF (idW3zx.eq.0) THEN
               IF (Master) WRITE (out,280) 'idW3zx'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idW3zx,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idW3zy)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idW3zy)'.or.TRIM(KeyWord).eq.'hout(idw3zy)') THEN
             IF (idW3zy.eq.0) THEN
               IF (Master) WRITE (out,280) 'idW3zy'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idW3zy,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idU3rs)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idU3rs)'.or.TRIM(KeyWord).eq.'hout(idu3rs)') THEN
             IF (idU3rs.eq.0) THEN
               IF (Master) WRITE (out,280) 'idU3rs'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idU3rs,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idV3rs)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idV3rs)'.or.TRIM(KeyWord).eq.'hout(idv3rs)') THEN
             IF (idV3rs.eq.0) THEN
               IF (Master) WRITE (out,280) 'idV3rs'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idV3rs,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idU3Sd)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idU3Sd)'.or.TRIM(KeyWord).eq.'hout(idu3sd)') THEN
             IF (idU3Sd.eq.0) THEN
               IF (Master) WRITE (out,280) 'idU3Sd'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idU3Sd,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idV3Sd)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idV3Sd)'.or.TRIM(KeyWord).eq.'hout(idv3sd)') THEN
             IF (idV3Sd.eq.0) THEN
               IF (Master) WRITE (out,280) 'idV3Sd'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idV3Sd,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idWamp)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idWamp)'.or.TRIM(KeyWord).eq.'hout(idwamp)') THEN
             IF (idWamp.eq.0) THEN
               IF (Master) WRITE (out,280) 'idWamp'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idWamp,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idWlen)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idWlen)'.or.TRIM(KeyWord).eq.'hout(idwlen)') THEN
             IF (idWlen.eq.0) THEN
               IF (Master) WRITE (out,280) 'idWlen'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idWlen,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idWdir)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idWdir)'.or.TRIM(KeyWord).eq.'hout(idwdir)') THEN
             IF (idWdir.eq.0) THEN
               IF (Master) WRITE (out,280) 'idWdir'
               exit_flag=5
@@ -2195,7 +2212,7 @@
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idWdir,:))
 #ifdef WAVES_TOP_PERIOD
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idWptp)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idWptp)'.or.TRIM(KeyWord).eq.'hout(idwptp)') THEN
             IF (idWptp.eq.0) THEN
               IF (Master) WRITE (out,280) 'idWptp'
               exit_flag=5
@@ -2204,7 +2221,7 @@
             Npts=load_l(Nval, Cval, Ngrids, Hout(idWptp,:))
 #endif
 #ifdef WAVES_BOT_PERIOD
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idWpbt)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idWpbt)'.or.TRIM(KeyWord).eq.'hout(idwpbt)') THEN
             IF (idWpbt.eq.0) THEN
               IF (Master) WRITE (out,280) 'idWpbt'
               exit_flag=5
@@ -2213,7 +2230,7 @@
             Npts=load_l(Nval, Cval, Ngrids, Hout(idWpbt,:))
 #endif
 #ifdef WAVES_UB
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idWorb)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idWorb)'.or.TRIM(KeyWord).eq.'hout(idworb)') THEN
             IF (idWorb.eq.0) THEN
               IF (Master) WRITE (out,280) 'idWorb'
               exit_flag=5
@@ -2222,7 +2239,7 @@
             Npts=load_l(Nval, Cval, Ngrids, Hout(idWorb,:))
 #endif
 #if defined TKE_WAVEDISS || defined WAVES_OCEAN
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idWdis)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idWdis)'.or.TRIM(KeyWord).eq.'hout(idwdis)') THEN
             IF (idWdis.eq.0) THEN
               IF (Master) WRITE (out,280) 'idWdis'
               exit_flag=5
@@ -2232,7 +2249,7 @@
 #endif
 #ifdef SOLVE3D
 # if defined BULK_FLUXES || defined ECOSIM || defined ATM_PRESS
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idPair)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idPair)'.or.TRIM(KeyWord).eq.'hout(idpair)') THEN
             IF (idPair.eq.0) THEN
               IF (Master) WRITE (out,280) 'idPair'
               exit_flag=5
@@ -2241,14 +2258,14 @@
             Npts=load_l(Nval, Cval, Ngrids, Hout(idPair,:))
 # endif
 # if defined BULK_FLUXES || defined ECOSIM
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idUair)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idUair)'.or.TRIM(KeyWord).eq.'hout(iduair)') THEN
             IF (idUair.eq.0) THEN
               IF (Master) WRITE (out,280) 'idUair'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idUair,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idVair)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idVair)'.or.TRIM(KeyWord).eq.'hout(idvair)') THEN
             IF (idPair.eq.0) THEN
               IF (Master) WRITE (out,280) 'idVair'
               exit_flag=5
@@ -2257,7 +2274,7 @@
             Npts=load_l(Nval, Cval, Ngrids, Hout(idVair,:))
 # endif
 #endif
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idTsur)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idTsur)'.or.TRIM(KeyWord).eq.'hout(idtsur)') THEN
             IF (idTsur(itemp).eq.0) THEN
               IF (Master) WRITE (out,280) 'idTsur'
               exit_flag=5
@@ -2270,105 +2287,105 @@
                 Hout(i,ng)=Ltracer(itrc,ng)
               END DO
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idLhea)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idLhea)'.or.TRIM(KeyWord).eq.'hout(idlhea)') THEN
             IF (idLhea.eq.0) THEN
               IF (Master) WRITE (out,280) 'idLhea'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idLhea,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idShea)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idShea)'.or.TRIM(KeyWord).eq.'hout(idshea)') THEN
             IF (idShea.eq.0) THEN
               IF (Master) WRITE (out,280) 'idShea'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idShea,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idLrad)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idLrad)'.or.TRIM(KeyWord).eq.'hout(idlrad)') THEN
             IF (idLrad.eq.0) THEN
               IF (Master) WRITE (out,280) 'idLrad'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idLrad,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idSrad)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idSrad)'.or.TRIM(KeyWord).eq.'hout(idsrad)') THEN
             IF (idSrad.eq.0) THEN
               IF (Master) WRITE (out,280) 'idSrad'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idSrad,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idEmPf)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idEmPf)'.or.TRIM(KeyWord).eq.'hout(idempf)') THEN
             IF (idEmPf.eq.0) THEN
               IF (Master) WRITE (out,280) 'idEmPf'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idEmPf,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idevap)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idevap)'.or.TRIM(KeyWord).eq.'hout(idevap)') THEN
             IF (idevap.eq.0) THEN
               IF (Master) WRITE (out,280) 'idevap'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idevap,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idrain)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idrain)'.or.TRIM(KeyWord).eq.'hout(idrain)') THEN
             IF (idrain.eq.0) THEN
               IF (Master) WRITE (out,280) 'idrain'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idrain,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idDano)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idDano)'.or.TRIM(KeyWord).eq.'hout(iddano)') THEN
             IF (idDano.eq.0) THEN
               IF (Master) WRITE (out,280) 'idDano'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idDano,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idVvis)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idVvis)'.or.TRIM(KeyWord).eq.'hout(idvvis)') THEN
             IF (idVvis.eq.0) THEN
               IF (Master) WRITE (out,280) 'idVvis'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idVvis,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idTdif)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idTdif)'.or.TRIM(KeyWord).eq.'hout(idtdif)') THEN
             IF (idTdif.eq.0) THEN
               IF (Master) WRITE (out,280) 'idTdif'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idTdif,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idSdif)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idSdif)'.or.TRIM(KeyWord).eq.'hout(idsdif)') THEN
             IF (idSdif.eq.0) THEN
               IF (Master) WRITE (out,280) 'idSdif'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idSdif,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idHsbl)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idHsbl)'.or.TRIM(KeyWord).eq.'hout(idhsbl)') THEN
             IF (idHsbl.eq.0) THEN
               IF (Master) WRITE (out,280) 'idHsbl'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idHsbl,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idHbbl)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idHbbl)'.or.TRIM(KeyWord).eq.'hout(idhbbl)') THEN
             IF (idHbbl.eq.0) THEN
               IF (Master) WRITE (out,280) 'idHbbl'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idHbbl,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idMtke)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idMtke)'.or.TRIM(KeyWord).eq.'hout(idmtke)') THEN
             IF (idMtke.eq.0) THEN
               IF (Master) WRITE (out,280) 'idMtke'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idMtke,:))
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idMtls)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idMtls)'.or.TRIM(KeyWord).eq.'hout(idmtls)') THEN
             IF (idMtls.eq.0) THEN
               IF (Master) WRITE (out,280) 'idMtls'
               exit_flag=5
@@ -2376,7 +2393,7 @@
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Hout(idMtls,:))
 #if defined SOLVE3D && defined T_PASSIVE
-          ELSE IF (TRIM(KeyWord).eq.'Hout(inert)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(inert)'.or.TRIM(KeyWord).eq.'hout(inert)') THEN
             Npts=load_l(Nval, Cval, NPT*Ngrids, Linert)
             DO ng=1,Ngrids
               DO i=1,NPT
@@ -2386,7 +2403,7 @@
             END DO
 #endif
 #if defined SOLVE3D && (defined BBL_MODEL || defined SEDIMENT)
-          ELSE IF (TRIM(KeyWord).eq.'Hout(idBott)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hout(idBott)'.or.TRIM(KeyWord).eq.'hout(idbott)') THEN
             IF (MAXVAL(idBott).eq.0) THEN
               WRITE (out,280) 'idBott'
               exit_flag=5
@@ -2404,21 +2421,21 @@
    (defined AD_AVERAGES && defined ADJOINT) || \
    (defined RP_AVERAGES && defined TL_IOMS) || \
    (defined TL_AVERAGES && defined TANGENT)
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idUvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idUvel)'.or.TRIM(KeyWord).eq.'aout(iduvel)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idUvel,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idVvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idVvel)'.or.TRIM(KeyWord).eq.'aout(idvvel)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idVvel,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idWvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idWvel)'.or.TRIM(KeyWord).eq.'aout(idwvel)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idWvel,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idOvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idOvel)'.or.TRIM(KeyWord).eq.'aout(idovel)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idOvel,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idUbar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idUbar)'.or.TRIM(KeyWord).eq.'aout(idubar)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idUbar,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idVbar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idVbar)'.or.TRIM(KeyWord).eq.'aout(idvbar)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idVbar,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idFsur)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idFsur)'.or.TRIM(KeyWord).eq.'aout(idfsur)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idFsur,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idTvar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idTvar)'.or.TRIM(KeyWord).eq.'aout(idtvar)') THEN
             Npts=load_l(Nval, Cval, NAT*Ngrids, Ltracer)
             DO ng=1,Ngrids
               DO itrc=1,NAT
@@ -2426,59 +2443,59 @@
                 Aout(i,ng)=Ltracer(itrc,ng)
               END DO
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idUsms)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idUsms)'.or.TRIM(KeyWord).eq.'aout(idusms)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idUsms,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idVsms)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idVsms)'.or.TRIM(KeyWord).eq.'aout(idvsms)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idVsms,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idUbms)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idUbms)'.or.TRIM(KeyWord).eq.'aout(idubms)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idUbms,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idVbms)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idVbms)'.or.TRIM(KeyWord).eq.'aout(idvbms)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idVbms,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idW2xx)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idW2xx)'.or.TRIM(KeyWord).eq.'aout(idw2xx)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idW2xx,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idW2xy)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idW2xy)'.or.TRIM(KeyWord).eq.'aout(idw2xy)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idW2xy,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idW2yy)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idW2yy)'.or.TRIM(KeyWord).eq.'aout(idw2yy)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idW2yy,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idU2rs)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idU2rs)'.or.TRIM(KeyWord).eq.'aout(idu2rs)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idU2rs,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idV2rs)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idV2rs)'.or.TRIM(KeyWord).eq.'aout(idv2rs)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idV2rs,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idU2Sd)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idU2Sd)'.or.TRIM(KeyWord).eq.'aout(idu2sd)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idU2Sd,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idV2Sd)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idV2Sd)'.or.TRIM(KeyWord).eq.'aout(idv2sd)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idV2Sd,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idW3xx)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idW3xx)'.or.TRIM(KeyWord).eq.'aout(idw3xx)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idW3xx,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idW3xy)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idW3xy)'.or.TRIM(KeyWord).eq.'aout(idw3xy)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idW3xy,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idW3yy)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idW3yy)'.or.TRIM(KeyWord).eq.'aout(idw3yy)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idW3yy,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idW3zx)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idW3zx)'.or.TRIM(KeyWord).eq.'aout(idw3zx)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idW3zx,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idW3zy)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idW3zy)'.or.TRIM(KeyWord).eq.'aout(idw3zy)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idW3zy,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idU3rs)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idU3rs)'.or.TRIM(KeyWord).eq.'aout(idu3rs)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idU3rs,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idV3rs)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idV3rs)'.or.TRIM(KeyWord).eq.'aout(idv3rs)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idV3rs,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idU3Sd)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idU3Sd)'.or.TRIM(KeyWord).eq.'aout(idu3sd)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idU3Sd,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idV3Sd)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idV3Sd)'.or.TRIM(KeyWord).eq.'aout(idv3sd)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idV3Sd,:))
 # ifdef SOLVE3D
 #  if defined BULK_FLUXES || defined ECOSIM || defined ATM_PRESS
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idPair)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idPair)'.or.TRIM(KeyWord).eq.'aout(idpair)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idPair,:))
 #  endif
 #  if defined BULK_FLUXES || defined ECOSIM
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idUair)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idUair)'.or.TRIM(KeyWord).eq.'aout(iduair)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idUair,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idVair)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idVair)'.or.TRIM(KeyWord).eq.'aout(idvair)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idVair,:))
 #  endif
 # endif
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idTsur)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idTsur)'.or.TRIM(KeyWord).eq.'aout(idtsur)') THEN
             Npts=load_l(Nval, Cval, NAT*Ngrids, Ltracer)
             DO ng=1,Ngrids
               DO itrc=1,NAT
@@ -2486,52 +2503,52 @@
                 Aout(i,ng)=Ltracer(itrc,ng)
               END DO
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idLhea)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idLhea)'.or.TRIM(KeyWord).eq.'aout(idlhea)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idLhea,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idShea)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idShea)'.or.TRIM(KeyWord).eq.'aout(idshea)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idShea,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idLrad)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idLrad)'.or.TRIM(KeyWord).eq.'aout(idlrad)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idLrad,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idSrad)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idSrad)'.or.TRIM(KeyWord).eq.'aout(idsrad)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idSrad,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idevap)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idevap)'.or.TRIM(KeyWord).eq.'aout(idevap)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idevap,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idrain)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idrain)'.or.TRIM(KeyWord).eq.'aout(idrain)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idrain,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idDano)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idDano)'.or.TRIM(KeyWord).eq.'aout(iddano)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idDano,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idVvis)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idVvis)'.or.TRIM(KeyWord).eq.'aout(idvvis)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idVvis,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idTdif)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idTdif)'.or.TRIM(KeyWord).eq.'aout(idtdif)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idTdif,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idSdif)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idSdif)'.or.TRIM(KeyWord).eq.'aout(idsdif)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idSdif,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idHsbl)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idHsbl)'.or.TRIM(KeyWord).eq.'aout(idhsbl)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idHsbl,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idHbbl)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idHbbl)'.or.TRIM(KeyWord).eq.'aout(idhbbl)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Aout(idHbbl,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(id2dRV)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(id2dRV)'.or.TRIM(KeyWord).eq.'aout(id2drv)') THEN
             IF (id2dRV.eq.0) THEN
               IF (Master) WRITE (out,280) 'id2dRV'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Aout(id2dRV,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(id3dRV)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(id3dRV)'.or.TRIM(KeyWord).eq.'aout(id3drv)') THEN
             IF (id3dRV.eq.0) THEN
               IF (Master) WRITE (out,280) 'id3dRV'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Aout(id3dRV,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(id2dPV)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(id2dPV)'.or.TRIM(KeyWord).eq.'aout(id2dpv)') THEN
             IF (id2dPV.eq.0) THEN
               IF (Master) WRITE (out,280) 'id2dPV'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Aout(id2dPV,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(id3dPV)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(id3dPV)'.or.TRIM(KeyWord).eq.'aout(id3dpv)') THEN
             IF (id3dPV.eq.0) THEN
               IF (Master) WRITE (out,280) 'id3dPV'
               exit_flag=5
@@ -2539,21 +2556,21 @@
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Aout(id3dPV,:))
 # if defined AVERAGES_DETIDE && (defined SSH_TIDES || defined UV_TIDES)
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idFsuD)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idFsuD)'.or.TRIM(KeyWord).eq.'aout(idfsud)') THEN
             IF (idFsuD.eq.0) THEN
               IF (Master) WRITE (out,280) 'idFsuD'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Aout(idFsuD,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idu2dD)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idu2dD)'.or.TRIM(KeyWord).eq.'aout(idu2dd)') THEN
             IF (idu2dD.eq.0) THEN
               IF (Master) WRITE (out,280) 'idu2dD'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Aout(idu2dD,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idv2dD)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idv2dD)'.or.TRIM(KeyWord).eq.'aout(idv2dd)') THEN
             IF (idv2dD.eq.0) THEN
               IF (Master) WRITE (out,280) 'idv2dD'
               exit_flag=5
@@ -2561,21 +2578,21 @@
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Aout(idv2dD,:))
 #  ifdef SOLVE3D
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idu3dD)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idu3dD)'.or.TRIM(KeyWord).eq.'aout(idu3dd)') THEN
             IF (idu3dD.eq.0) THEN
               IF (Master) WRITE (out,280) 'idu3dD'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Aout(idu3dD,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idv3dD)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idv3dD)'.or.TRIM(KeyWord).eq.'aout(idv3dd)') THEN
             IF (idv3dD.eq.0) THEN
               IF (Master) WRITE (out,280) 'idv3dD'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Aout(idv3dD,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idTrcD)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idTrcD)'.or.TRIM(KeyWord).eq.'aout(idtrcd)') THEN
             IF (MAXVAL(idTrcD).eq.0) THEN
               IF (Master) WRITE (out,280) 'idTrcD'
               exit_flag=5
@@ -2591,35 +2608,35 @@
 #  endif
 # endif
 # ifdef SOLVE3D
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idHUav)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idHUav)'.or.TRIM(KeyWord).eq.'aout(idhuav)') THEN
             IF (idHUav.eq.0) THEN
               IF (Master) WRITE (out,280) 'idHUav'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Aout(idHUav,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idHVav)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idHVav)'.or.TRIM(KeyWord).eq.'aout(idhvav)') THEN
             IF (idHVav.eq.0) THEN
               IF (Master) WRITE (out,280) 'idHVav'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Aout(idHVav,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idUUav)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idUUav)'.or.TRIM(KeyWord).eq.'aout(iduuav)') THEN
             IF (idUUav.eq.0) THEN
               IF (Master) WRITE (out,280) 'idUUav'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Aout(idUUav,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idUVav)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idUVav)'.or.TRIM(KeyWord).eq.'aout(iduvav)') THEN
             IF (idUVav.eq.0) THEN
               IF (Master) WRITE (out,280) 'idUVav'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Aout(idUVav,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idVVav)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idVVav)'.or.TRIM(KeyWord).eq.'aout(idvvav)') THEN
             IF (idVVav.eq.0) THEN
               IF (Master) WRITE (out,280) 'idVVav'
               exit_flag=5
@@ -2627,21 +2644,21 @@
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Aout(idVVav,:))
 # endif
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idU2av)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idU2av)'.or.TRIM(KeyWord).eq.'aout(idu2av)') THEN
             IF (idU2av.eq.0) THEN
               IF (Master) WRITE (out,280) 'idU2av'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Aout(idU2av,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idV2av)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idV2av)'.or.TRIM(KeyWord).eq.'aout(idv2av)') THEN
             IF (idV2av.eq.0) THEN
               IF (Master) WRITE (out,280) 'idV2av'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Aout(idV2av,:))
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idZZav)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idZZav)'.or.TRIM(KeyWord).eq.'aout(idzzav)') THEN
             IF (idZZav.eq.0) THEN
               IF (Master) WRITE (out,280) 'idZZav'
               exit_flag=5
@@ -2649,7 +2666,7 @@
             END IF
             Npts=load_l(Nval, Cval, Ngrids, Aout(idZZav,:))
 # ifdef SOLVE3D
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idTTav)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idTTav)'.or.TRIM(KeyWord).eq.'aout(idttav)') THEN
             IF (MAXVAL(idTTav).eq.0) THEN
               IF (Master) WRITE (out,280) 'idTTav'
               exit_flag=5
@@ -2662,7 +2679,7 @@
                 Aout(i,ng)=Ltracer(itrc,ng)
               END DO
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idUTav)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idUTav)'.or.TRIM(KeyWord).eq.'aout(idutav)') THEN
             IF (MAXVAL(idUTav).eq.0) THEN
               IF (Master) WRITE (out,280) 'idUTav'
               exit_flag=5
@@ -2675,7 +2692,7 @@
                 Aout(i,ng)=Ltracer(itrc,ng)
               END DO
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Aout(idVTav)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(idVTav)'.or.TRIM(KeyWord).eq.'aout(idvtav)') THEN
             IF (MAXVAL(idVTav).eq.0) THEN
               IF (Master) WRITE (out,280) 'idVTav'
               exit_flag=5
@@ -2688,7 +2705,7 @@
                 Aout(i,ng)=Ltracer(itrc,ng)
               END DO
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Aout(iHUTav)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(iHUTav)'.or.TRIM(KeyWord).eq.'aout(ihutav)') THEN
             IF (MAXVAL(iHUTav).eq.0) THEN
               IF (Master) WRITE (out,280) 'iHUTav'
               exit_flag=5
@@ -2701,7 +2718,7 @@
                 Aout(i,ng)=Ltracer(itrc,ng)
               END DO
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Aout(iHVTav)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(iHVTav)'.or.TRIM(KeyWord).eq.'aout(ihvtav)') THEN
             IF (MAXVAL(iHVTav).eq.0) THEN
               IF (Master) WRITE (out,280) 'iHVTav'
               exit_flag=5
@@ -2716,7 +2733,7 @@
             END DO
 # endif
 # if defined SOLVE3D && defined T_PASSIVE
-          ELSE IF (TRIM(KeyWord).eq.'Aout(inert)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Aout(inert)'.or.TRIM(KeyWord).eq.'aout(inert)') THEN
             Npts=load_l(Nval, Cval, NPT*Ngrids, Linert)
             DO ng=1,Ngrids
               DO i=1,NPT
@@ -2727,7 +2744,7 @@
 # endif
 #endif
 #ifdef DIAGNOSTICS_UV
-          ELSE IF (TRIM(KeyWord).eq.'Dout(M2rate)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Dout(M2rate)'.or.TRIM(KeyWord).eq.'dout(m2rate)') THEN
             IF (M2rate.le.0) THEN
               IF (Master) WRITE (out,280) 'M2rate'
               exit_flag=5
@@ -2738,7 +2755,7 @@
               Dout(idDu2d(M2rate),ng)=Ldiag(ng)
               Dout(idDv2d(M2rate),ng)=Ldiag(ng)
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Dout(M2pgrd)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Dout(M2pgrd)'.or.TRIM(KeyWord).eq.'dout(m2pgrd)') THEN
             IF (M2pgrd.le.0) THEN
               IF (Master) WRITE (out,280) 'M2pgrd'
               exit_flag=5
@@ -2750,7 +2767,7 @@
               Dout(idDv2d(M2pgrd),ng)=Ldiag(ng)
             END DO
 # ifdef UV_COR
-          ELSE IF (TRIM(KeyWord).eq.'Dout(M2fcor)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Dout(M2fcor)'.or.TRIM(KeyWord).eq.'dout(m2fcor)') THEN
             IF (M2fcor.le.0) THEN
               IF (Master) WRITE (out,280) 'M2fcor'
               exit_flag=5
@@ -2763,7 +2780,7 @@
             END DO
 # endif
 # ifdef UV_ADV
-          ELSE IF (TRIM(KeyWord).eq.'Dout(M2hadv)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Dout(M2hadv)'.or.TRIM(KeyWord).eq.'dout(m2hadv)') THEN
             IF (M2hadv.le.0) THEN
               IF (Master) WRITE (out,280) 'M2hadv'
               exit_flag=5
@@ -2774,7 +2791,7 @@
               Dout(idDu2d(M2hadv),ng)=Ldiag(ng)
               Dout(idDv2d(M2hadv),ng)=Ldiag(ng)
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Dout(M2xadv)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Dout(M2xadv)'.or.TRIM(KeyWord).eq.'dout(m2xadv)') THEN
             IF (M2xadv.le.0) THEN
               IF (Master) WRITE (out,280) 'M2xadv'
               exit_flag=5
@@ -2785,7 +2802,7 @@
               Dout(idDu2d(M2xadv),ng)=Ldiag(ng)
               Dout(idDv2d(M2xadv),ng)=Ldiag(ng)
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Dout(M2yadv)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Dout(M2yadv)'.or.TRIM(KeyWord).eq.'dout(m2yadv)') THEN
             IF (M2yadv.le.0) THEN
               IF (Master) WRITE (out,280) 'M2yadv'
               exit_flag=5
@@ -2798,7 +2815,7 @@
             END DO
 # endif
 # ifdef NEARSHORE_MELLOR
-          ELSE IF (TRIM(KeyWord).eq.'Dout(M2hrad)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Dout(M2hrad)'.or.TRIM(KeyWord).eq.'dout(m2hrad)') THEN
             IF (M2hrad.le.0) THEN
               IF (Master) WRITE (out,280) 'M2hrad'
               exit_flag=5
@@ -2811,7 +2828,7 @@
             END DO
 # endif
 # if defined UV_VIS2 || defined UV_VIS4
-          ELSE IF (TRIM(KeyWord).eq.'Dout(M2hvis)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Dout(M2hvis)'.or.TRIM(KeyWord).eq.'dout(m2hvis)') THEN
             IF (M2hvis.le.0) THEN
               IF (Master) WRITE (out,280) 'M2hvis'
               exit_flag=5
@@ -2822,7 +2839,7 @@
               Dout(idDu2d(M2hvis),ng)=Ldiag(ng)
               Dout(idDv2d(M2hvis),ng)=Ldiag(ng)
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Dout(M2xvis)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Dout(M2xvis)'.or.TRIM(KeyWord).eq.'dout(m2xvis)') THEN
             IF (M2xvis.le.0) THEN
               IF (Master) WRITE (out,280) 'M2xvis'
               exit_flag=5
@@ -2833,7 +2850,7 @@
               Dout(idDu2d(M2xvis),ng)=Ldiag(ng)
               Dout(idDv2d(M2xvis),ng)=Ldiag(ng)
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Dout(M2yvis)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Dout(M2yvis)'.or.TRIM(KeyWord).eq.'dout(m2yvis)') THEN
             IF (M2yvis.le.0) THEN
               IF (Master) WRITE (out,280) 'M2yvis'
               exit_flag=5
@@ -2845,7 +2862,7 @@
               Dout(idDv2d(M2yvis),ng)=Ldiag(ng)
             END DO
 # endif
-          ELSE IF (TRIM(KeyWord).eq.'Dout(M2sstr)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Dout(M2sstr)'.or.TRIM(KeyWord).eq.'dout(m2sstr)') THEN
             IF (M2sstr.le.0) THEN
               IF (Master) WRITE (out,280) 'M2sstr'
               exit_flag=5
@@ -2856,7 +2873,7 @@
               Dout(idDu2d(M2sstr),ng)=Ldiag(ng)
               Dout(idDv2d(M2sstr),ng)=Ldiag(ng)
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Dout(M2bstr)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Dout(M2bstr)'.or.TRIM(KeyWord).eq.'dout(m2bstr)') THEN
             IF (M2bstr.le.0) THEN
               IF (Master) WRITE (out,280) 'M2bstr'
               exit_flag=5
@@ -2868,7 +2885,7 @@
               Dout(idDv2d(M2bstr),ng)=Ldiag(ng)
             END DO
 # ifdef SOLVE3D
-          ELSE IF (TRIM(KeyWord).eq.'Dout(M3rate)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Dout(M3rate)'.or.TRIM(KeyWord).eq.'dout(m3rate)') THEN
             IF (M3rate.le.0) THEN
               IF (Master) WRITE (out,280) 'M3rate'
               exit_flag=5
@@ -2879,7 +2896,7 @@
               Dout(idDu3d(M3rate),ng)=Ldiag(ng)
               Dout(idDv3d(M3rate),ng)=Ldiag(ng)
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Dout(M3pgrd)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Dout(M3pgrd)'.or.TRIM(KeyWord).eq.'dout(m3pgrd)') THEN
             IF (M3pgrd.le.0) THEN
               IF (Master) WRITE (out,280) 'M3pgrd'
               exit_flag=5
@@ -2891,7 +2908,7 @@
               Dout(idDv3d(M3pgrd),ng)=Ldiag(ng)
             END DO
 #  ifdef UV_COR
-          ELSE IF (TRIM(KeyWord).eq.'Dout(M3fcor)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Dout(M3fcor)'.or.TRIM(KeyWord).eq.'dout(m3fcor)') THEN
             IF (M3fcor.le.0) THEN
               IF (Master) WRITE (out,280) 'M3fcor'
               exit_flag=5
@@ -2904,7 +2921,7 @@
             END DO
 #  endif
 #  ifdef UV_ADV
-          ELSE IF (TRIM(KeyWord).eq.'Dout(M3hadv)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Dout(M3hadv)'.or.TRIM(KeyWord).eq.'dout(m3hadv)') THEN
             IF (M3hadv.le.0) THEN
               IF (Master) WRITE (out,280) 'M3hadv'
               exit_flag=5
@@ -2915,7 +2932,7 @@
               Dout(idDu3d(M3hadv),ng)=Ldiag(ng)
               Dout(idDv3d(M3hadv),ng)=Ldiag(ng)
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Dout(M3xadv)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Dout(M3xadv)'.or.TRIM(KeyWord).eq.'dout(m3xadv)') THEN
             IF (M3xadv.le.0) THEN
               IF (Master) WRITE (out,280) 'M3xadv'
               exit_flag=5
@@ -2926,7 +2943,7 @@
               Dout(idDu3d(M3xadv),ng)=Ldiag(ng)
               Dout(idDv3d(M3xadv),ng)=Ldiag(ng)
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Dout(M3yadv)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Dout(M3yadv)'.or.TRIM(KeyWord).eq.'dout(m3yadv)') THEN
             IF (M3yadv.le.0) THEN
               IF (Master) WRITE (out,280) 'M3yadv'
               exit_flag=5
@@ -2937,7 +2954,7 @@
               Dout(idDu3d(M3yadv),ng)=Ldiag(ng)
               Dout(idDv3d(M3yadv),ng)=Ldiag(ng)
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Dout(M3vadv)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Dout(M3vadv)'.or.TRIM(KeyWord).eq.'dout(m3vadv)') THEN
             IF (M3vadv.le.0) THEN
               IF (Master) WRITE (out,280) 'M3vadv'
               exit_flag=5
@@ -2950,7 +2967,7 @@
             END DO
 #  endif
 #  ifdef NEARSHORE_MELLOR
-          ELSE IF (TRIM(KeyWord).eq.'Dout(M3hrad)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Dout(M3hrad)'.or.TRIM(KeyWord).eq.'dout(m3hrad)') THEN
             IF (M3hrad.le.0) THEN
               IF (Master) WRITE (out,280) 'M3hrad'
               exit_flag=5
@@ -2963,7 +2980,7 @@
             END DO
 #  endif
 #  if defined UV_VIS2 || defined UV_VIS4
-          ELSE IF (TRIM(KeyWord).eq.'Dout(M3hvis)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Dout(M3hvis)'.or.TRIM(KeyWord).eq.'dout(m3hvis)') THEN
             IF (M3hvis.le.0) THEN
               IF (Master) WRITE (out,280) 'M3hvis'
               exit_flag=5
@@ -2974,7 +2991,7 @@
               Dout(idDu3d(M3hvis),ng)=Ldiag(ng)
               Dout(idDv3d(M3hvis),ng)=Ldiag(ng)
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Dout(M3xvis)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Dout(M3xvis)'.or.TRIM(KeyWord).eq.'dout(m3xvis)') THEN
             IF (M3xvis.le.0) THEN
               IF (Master) WRITE (out,280) 'M3xvis'
               exit_flag=5
@@ -2985,7 +3002,7 @@
               Dout(idDu3d(M3xvis),ng)=Ldiag(ng)
               Dout(idDv3d(M3xvis),ng)=Ldiag(ng)
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Dout(M3yvis)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Dout(M3yvis)'.or.TRIM(KeyWord).eq.'dout(m3yvis)') THEN
             IF (M3yvis.le.0) THEN
               IF (Master) WRITE (out,280) 'M3yvis'
               exit_flag=5
@@ -2997,7 +3014,7 @@
               Dout(idDv3d(M3yvis),ng)=Ldiag(ng)
             END DO
 #  endif
-          ELSE IF (TRIM(KeyWord).eq.'Dout(M3vvis)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Dout(M3vvis)'.or.TRIM(KeyWord).eq.'dout(m3vvis)') THEN
             IF (M3vvis.le.0) THEN
               IF (Master) WRITE (out,280) 'M3vvis'
               exit_flag=5
@@ -3011,7 +3028,7 @@
 # endif
 #endif
 #if defined DIAGNOSTICS_TS && defined SOLVE3D
-          ELSE IF (TRIM(KeyWord).eq.'Dout(iTrate)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Dout(iTrate)'.or.TRIM(KeyWord).eq.'dout(itrate)') THEN
             IF (iTrate.le.0) THEN
               IF (Master) WRITE (out,280) 'iTrate'
               exit_flag=5
@@ -3029,7 +3046,7 @@
               END DO
 # endif
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Dout(iThadv)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Dout(iThadv)'.or.TRIM(KeyWord).eq.'dout(ithadv)') THEN
             IF (iThadv.le.0) THEN
               IF (Master) WRITE (out,280) 'iThadv'
               exit_flag=5
@@ -3047,7 +3064,7 @@
               END DO
 # endif
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Dout(iTxadv)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Dout(iTxadv)'.or.TRIM(KeyWord).eq.'dout(itxadv)') THEN
             IF (iTxadv.le.0) THEN
               IF (Master) WRITE (out,280) 'iTxadv'
               exit_flag=5
@@ -3065,7 +3082,7 @@
               END DO
 # endif
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Dout(iTyadv)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Dout(iTyadv)'.or.TRIM(KeyWord).eq.'dout(ityadv)') THEN
             IF (iTyadv.le.0) THEN
               IF (Master) WRITE (out,280) 'iTyadv'
               exit_flag=5
@@ -3083,7 +3100,7 @@
               END DO
 # endif
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Dout(iTvadv)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Dout(iTvadv)'.or.TRIM(KeyWord).eq.'dout(itvadv)') THEN
             IF (iTvadv.le.0) THEN
               IF (Master) WRITE (out,280) 'iTvadv'
               exit_flag=5
@@ -3102,7 +3119,7 @@
 # endif
             END DO
 # if defined TS_DIF2 || defined TS_DIF4
-          ELSE IF (TRIM(KeyWord).eq.'Dout(iThdif)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Dout(iThdif)'.or.TRIM(KeyWord).eq.'dout(ithdif)') THEN
             IF (iThdif.le.0) THEN
               IF (Master) WRITE (out,280) 'iThdif'
               exit_flag=5
@@ -3120,7 +3137,7 @@
               END DO
 #  endif
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Dout(iTxdif)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Dout(iTxdif)'.or.TRIM(KeyWord).eq.'dout(itxdif)') THEN
             IF (iTxdif.le.0) THEN
               IF (Master) WRITE (out,280) 'iTxdif'
               exit_flag=5
@@ -3138,7 +3155,7 @@
               END DO
 #  endif
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Dout(iTydif)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Dout(iTydif)'.or.TRIM(KeyWord).eq.'dout(itydif)') THEN
             IF (iTydif.le.0) THEN
               IF (Master) WRITE (out,280) 'iTydif'
               exit_flag=5
@@ -3157,7 +3174,7 @@
 #  endif
             END DO
 #  if defined MIX_GEO_TS || defined MIX_ISO_TS
-          ELSE IF (TRIM(KeyWord).eq.'Dout(iTsdif)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Dout(iTsdif)'.or.TRIM(KeyWord).eq.'dout(itsdif)') THEN
             IF (iTsdif.le.0) THEN
               IF (Master) WRITE (out,280) 'iTsdif'
               exit_flag=5
@@ -3177,7 +3194,7 @@
             END DO
 #  endif
 # endif
-          ELSE IF (TRIM(KeyWord).eq.'Dout(iTvdif)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Dout(iTvdif)'.or.TRIM(KeyWord).eq.'dout(itvdif)') THEN
             IF (iTvdif.le.0) THEN
               IF (Master) WRITE (out,280) 'iTvdif'
               exit_flag=5
@@ -3196,62 +3213,62 @@
 # endif
             END DO
 #endif
-          ELSE IF (TRIM(KeyWord).eq.'NUSER') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NUSER'.or.TRIM(KeyWord).eq.'nuser') THEN
             Npts=load_i(Nval, Rval, 1, Nuser)
-          ELSE IF (TRIM(KeyWord).eq.'USER') THEN
+          ELSE IF (TRIM(KeyWord).eq.'USER'.or.TRIM(KeyWord).eq.'user') THEN
             Npts=load_r(Nval, Rval, MAX(1,Nuser), user)
-          ELSE IF (TRIM(KeyWord).eq.'NC_SHUFFLE') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NC_SHUFFLE'.or.TRIM(KeyWord).eq.'nc_shuffle') THEN
             Npts=load_i(Nval, Rval, 1, shuffle)
-          ELSE IF (TRIM(KeyWord).eq.'NC_DEFLATE') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NC_DEFLATE'.or.TRIM(KeyWord).eq.'nc_deflate') THEN
             Npts=load_i(Nval, Rval, 1, deflate)
-          ELSE IF (TRIM(KeyWord).eq.'NC_DLEVEL') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NC_DLEVEL'.or.TRIM(KeyWord).eq.'nc_dlevel') THEN
             Npts=load_i(Nval, Rval, 1, deflate_level)
-          ELSE IF (TRIM(KeyWord).eq.'GSTNAME') THEN
+          ELSE IF (TRIM(KeyWord).eq.'GSTNAME'.or.TRIM(KeyWord).eq.'gstname') THEN
             label='GST - generalized stability theory analysis'
             Npts=load_s1d(Nval, Cval, line, label, igrid, Nfiles, GST)
-          ELSE IF (TRIM(KeyWord).eq.'RSTNAME') THEN
+          ELSE IF (TRIM(KeyWord).eq.'RSTNAME'.or.TRIM(KeyWord).eq.'rstname') THEN
             label='RST - restart fields'
             Npts=load_s1d(Nval, Cval, line, label, igrid, Nfiles, RST)
-          ELSE IF (TRIM(KeyWord).eq.'HISNAME') THEN
+          ELSE IF (TRIM(KeyWord).eq.'HISNAME'.or.TRIM(KeyWord).eq.'hisname') THEN
             label='HIS - nonlinear model history fields'
             Npts=load_s1d(Nval, Cval, line, label, igrid, Nfiles, HIS)
-          ELSE IF (TRIM(KeyWord).eq.'TLMNAME') THEN
+          ELSE IF (TRIM(KeyWord).eq.'TLMNAME'.or.TRIM(KeyWord).eq.'tlmname') THEN
             label='TLM - tangent linear model history fields'
             Npts=load_s1d(Nval, Cval, line, label, igrid, Nfiles, TLM)
-          ELSE IF (TRIM(KeyWord).eq.'TLFNAME') THEN
+          ELSE IF (TRIM(KeyWord).eq.'TLFNAME'.or.TRIM(KeyWord).eq.'tlfname') THEN
             label='TLF - tangent linear model impulse forcing'
             Npts=load_s1d(Nval, Cval, line, label, igrid, Nfiles, TLF)
-          ELSE IF (TRIM(KeyWord).eq.'ADJNAME') THEN
+          ELSE IF (TRIM(KeyWord).eq.'ADJNAME'.or.TRIM(KeyWord).eq.'adjname') THEN
             label='ADM - adjoint model history fields'
             Npts=load_s1d(Nval, Cval, line, label, igrid, Nfiles, ADM)
-          ELSE IF (TRIM(KeyWord).eq.'AVGNAME') THEN
+          ELSE IF (TRIM(KeyWord).eq.'AVGNAME'.or.TRIM(KeyWord).eq.'avgname') THEN
             label='AVG - time-averaged history fields'
             Npts=load_s1d(Nval, Cval, line, label, igrid, Nfiles, AVG)
-          ELSE IF (TRIM(KeyWord).eq.'DIANAME') THEN
+          ELSE IF (TRIM(KeyWord).eq.'DIANAME'.or.TRIM(KeyWord).eq.'dianame') THEN
             label='DIA - time-averaged diagnostics fields'
             Npts=load_s1d(Nval, Cval, line, label, igrid, Nfiles, DIA)
-          ELSE IF (TRIM(KeyWord).eq.'STANAME') THEN
+          ELSE IF (TRIM(KeyWord).eq.'STANAME'.or.TRIM(KeyWord).eq.'staname') THEN
             label='STA - stations time-series'
             Npts=load_s1d(Nval, Cval, line, label, igrid, Nfiles, STA)
-          ELSE IF (TRIM(KeyWord).eq.'FLTNAME') THEN
+          ELSE IF (TRIM(KeyWord).eq.'FLTNAME'.or.TRIM(KeyWord).eq.'fltname') THEN
             label='FLT - Lagragian particles trajectories'
             Npts=load_s1d(Nval, Cval, line, label, igrid, Nfiles, FLT)
-          ELSE IF (TRIM(KeyWord).eq.'GRDNAME') THEN
+          ELSE IF (TRIM(KeyWord).eq.'GRDNAME'.or.TRIM(KeyWord).eq.'grdname') THEN
             label='GRD - application grid'
             Npts=load_s1d(Nval, Cval, line, label, igrid, Nfiles, GRD)
-          ELSE IF (TRIM(KeyWord).eq.'ININAME') THEN
+          ELSE IF (TRIM(KeyWord).eq.'ININAME'.or.TRIM(KeyWord).eq.'ininame') THEN
             label='INI - nonlinear model initial conditions'
             Npts=load_s1d(Nval, Cval, line, label, igrid, Nfiles, INI)
-          ELSE IF (TRIM(KeyWord).eq.'IRPNAME') THEN
+          ELSE IF (TRIM(KeyWord).eq.'IRPNAME'.or.TRIM(KeyWord).eq.'irpname') THEN
             label='IRP - representer model initial conditions'
             Npts=load_s1d(Nval, Cval, line, label, igrid, Nfiles, IRP)
-          ELSE IF (TRIM(KeyWord).eq.'ITLNAME') THEN
+          ELSE IF (TRIM(KeyWord).eq.'ITLNAME'.or.TRIM(KeyWord).eq.'itlname') THEN
             label='ITL - tangent linear model initial conditions'
             Npts=load_s1d(Nval, Cval, line, label, igrid, Nfiles, ITL)
-          ELSE IF (TRIM(KeyWord).eq.'IADNAME') THEN
+          ELSE IF (TRIM(KeyWord).eq.'IADNAME'.or.TRIM(KeyWord).eq.'iadname') THEN
             label='IAD - adjoint model initial conditions'
             Npts=load_s1d(Nval, Cval, line, label, igrid, Nfiles, IAD)
-          ELSE IF (TRIM(KeyWord).eq.'NFFILES') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NFFILES'.or.TRIM(KeyWord).eq.'nffiles') THEN
             Npts=load_i(Nval, Rval, Ngrids, nFfiles)
             DO ng=1,Ngrids
               IF (nFfiles(ng).le.0) THEN
@@ -3271,48 +3288,48 @@
             allocate ( Ncount(mFfiles,Ngrids) )
             FRCids(1:mFfiles,1:Ngrids)=-1
             Ncount(1:mFfiles,1:Ngrids)=0
-          ELSE IF (TRIM(KeyWord).eq.'FRCNAME') THEN
+          ELSE IF (TRIM(KeyWord).eq.'FRCNAME'.or.TRIM(KeyWord).eq.'frcname') THEN
             label='FRC - forcing fields'
             Npts=load_s2d(Nval, Cval, line, label, ifile, igrid,        &
      &                    Ncount, mFfiles, FRC)
-          ELSE IF (TRIM(KeyWord).eq.'CLMNAME') THEN
+          ELSE IF (TRIM(KeyWord).eq.'CLMNAME'.or.TRIM(KeyWord).eq.'clmname') THEN
             label='CLM - climatology fields'
             Npts=load_s1d(Nval, Cval, line, label, igrid, Nfiles, CLM)
-          ELSE IF (TRIM(KeyWord).eq.'BRYNAME') THEN
+          ELSE IF (TRIM(KeyWord).eq.'BRYNAME'.or.TRIM(KeyWord).eq.'bryname') THEN
             label='BRY - lateral open boundary conditions'
             Npts=load_s1d(Nval, Cval, line, label, igrid, Nfiles, BRY)
-          ELSE IF (TRIM(KeyWord).eq.'FWDNAME') THEN
+          ELSE IF (TRIM(KeyWord).eq.'FWDNAME'.or.TRIM(KeyWord).eq.'fwdname') THEN
             label='FWD - basic state forward trajectory'
             Npts=load_s1d(Nval, Cval, line, label, igrid, Nfiles, FWD)
-          ELSE IF (TRIM(KeyWord).eq.'ADSNAME') THEN
+          ELSE IF (TRIM(KeyWord).eq.'ADSNAME'.or.TRIM(KeyWord).eq.'adsname') THEN
             label='ADS - adjoint sensitivity functional'
             Npts=load_s1d(Nval, Cval, line, label, igrid, Nfiles, ADS)
-          ELSE IF (TRIM(KeyWord).eq.'APARNAM') THEN
+          ELSE IF (TRIM(KeyWord).eq.'APARNAM'.or.TRIM(KeyWord).eq.'aparnam') THEN
             DO i=1,LEN(aparnam)
               aparnam(i:i)=blank
             END DO
             aparnam=TRIM(ADJUSTL(Cval(Nval)))
-          ELSE IF (TRIM(KeyWord).eq.'SPOSNAM') THEN
+          ELSE IF (TRIM(KeyWord).eq.'SPOSNAM'.or.TRIM(KeyWord).eq.'sposnam') THEN
             DO i=1,LEN(sposnam)
               sposnam(i:i)=blank
             END DO
             sposnam=TRIM(ADJUSTL(Cval(Nval)))
-          ELSE IF (TRIM(KeyWord).eq.'FPOSNAM') THEN
+          ELSE IF (TRIM(KeyWord).eq.'FPOSNAM'.or.TRIM(KeyWord).eq.'fposnam') THEN
             DO i=1,LEN(fposnam)
               fposnam(i:i)=blank
             END DO
             fposnam=TRIM(ADJUSTL(Cval(Nval)))
-          ELSE IF (TRIM(KeyWord).eq.'BPARNAM') THEN
+          ELSE IF (TRIM(KeyWord).eq.'BPARNAM'.or.TRIM(KeyWord).eq.'bparnam') THEN
             DO i=1,LEN(bparnam)
               bparnam(i:i)=blank
             END DO
             bparnam=TRIM(ADJUSTL(Cval(Nval)))
-          ELSE IF (TRIM(KeyWord).eq.'SPARNAM') THEN
+          ELSE IF (TRIM(KeyWord).eq.'SPARNAM'.or.TRIM(KeyWord).eq.'sparnam') THEN
             DO i=1,LEN(sparnam)
               sparnam(i:i)=blank
             END DO
             sparnam=TRIM(ADJUSTL(Cval(Nval)))
-          ELSE IF (TRIM(KeyWord).eq.'USRNAME') THEN
+          ELSE IF (TRIM(KeyWord).eq.'USRNAME'.or.TRIM(KeyWord).eq.'usrname') THEN
             DO i=1,LEN(USRname)
               USRname(i:i)=blank
             END DO
@@ -3325,7 +3342,6 @@
       exit_flag=4
       RETURN
   20  CLOSE (inp)
-
 #if defined BULK_FLUXES && defined NL_BULK_FLUXES
 !
 !  Allocate and initialize BLK I/O structure with the same values as
@@ -5494,83 +5510,84 @@
 !-----------------------------------------------------------------------
 !
       DO WHILE (.TRUE.)
+!        if(master) READ (inp,'(a)',ERR=10,END=20) line
         READ (inp,'(a)',ERR=10,END=20) line
         status=decode_line(line, KeyWord, Nval, Cval, Rval)
         IF (status.gt.0) THEN
-          IF (TRIM(KeyWord).eq.'dTdz_min') THEN
+          IF (TRIM(KeyWord).eq.'dTdz_min'.or.TRIM(KeyWord).eq.'dtdz_min') THEN
             Npts=load_r(Nval, Rval, Ngrids, dTdz_min)
-          ELSE IF (TRIM(KeyWord).eq.'ml_depth') THEN
+          ELSE IF (TRIM(KeyWord).eq.'ml_depth'.or.TRIM(KeyWord).eq.'ml_depth') THEN
             Npts=load_r(Nval, Rval, Ngrids, ml_depth)
             DO ng=1,Ngrids
               ml_depth(ng)=ABS(ml_depth(ng))
             END DO
 #  if defined BALANCE_OPERATOR && defined ZETA_ELLIPTIC
-          ELSE IF (TRIM(KeyWord).eq.'Nbico') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Nbico'.or.TRIM(KeyWord).eq.'nbico') THEN
             Npts=load_i(Nval, Rval, Ngrids, Nbico)
 #  endif
-          ELSE IF (TRIM(KeyWord).eq.'LNM_depth') THEN
+          ELSE IF (TRIM(KeyWord).eq.'LNM_depth'.or.TRIM(KeyWord).eq.'lnm_depth') THEN
             Npts=load_r(Nval, Rval, Ngrids, LNM_depth)
             DO ng=1,Ngrids
               LNM_depth(ng)=ABS(LNM_depth(ng))
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'LNM_flag') THEN
+          ELSE IF (TRIM(KeyWord).eq.'LNM_flag'.or.TRIM(KeyWord).eq.'lnm_flag') THEN
             Npts=load_i(Nval, Rval, 1, LNM_flag)
 #  if defined WEAK_CONSTRAINT && \
      (defined ARRAY_MODES     || defined CLIPPING)
-          ELSE IF (TRIM(KeyWord).eq.'Nvct') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Nvct'.or.TRIM(KeyWord).eq.'nvct') THEN
             Npts=load_i(Nval, Rval, 1, Nvct)
 #  endif
-          ELSE IF (TRIM(KeyWord).eq.'GradErr') THEN
+          ELSE IF (TRIM(KeyWord).eq.'GradErr'.or.TRIM(KeyWord).eq.'graderr') THEN
             Npts=load_r(Nval, Rval, 1, GradErr)
-          ELSE IF (TRIM(KeyWord).eq.'HevecErr') THEN
+          ELSE IF (TRIM(KeyWord).eq.'HevecErr'.or.TRIM(KeyWord).eq.'hevecerr') THEN
             Npts=load_r(Nval, Rval, 1, HevecErr)
-          ELSE IF (TRIM(KeyWord).eq.'LhessianEV') THEN
+          ELSE IF (TRIM(KeyWord).eq.'LhessianEV'.or.TRIM(KeyWord).eq.'lhessianev') THEN
             Npts=load_l(Nval, Cval, 1, LhessianEV)
-          ELSE IF (TRIM(KeyWord).eq.'LhotStart') THEN
+          ELSE IF (TRIM(KeyWord).eq.'LhotStart'.or.TRIM(KeyWord).eq.'lhotstart') THEN
             Npts=load_l(Nval, Cval, 1, LhotStart)
-          ELSE IF (TRIM(KeyWord).eq.'Lprecond') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Lprecond'.or.TRIM(KeyWord).eq.'lprecond') THEN
             Npts=load_l(Nval, Cval, 1, Lprecond)
 #  if defined WEAK_CONSTRAINT
             IF ( LhessianEV.and.Lprecond ) THEN
               LhessianEV=.FALSE.
             END IF
 #  endif
-          ELSE IF (TRIM(KeyWord).eq.'Lritz') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Lritz'.or.TRIM(KeyWord).eq.'lritz') THEN
             Npts=load_l(Nval, Cval, 1, Lritz)
-          ELSE IF (TRIM(KeyWord).eq.'NritzEV') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NritzEV'.or.TRIM(KeyWord).eq.'nritzev') THEN
             Npts=load_i(Nval, Rval, 1, NritzEV)
-          ELSE IF (TRIM(KeyWord).eq.'NpostI') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NpostI'.or.TRIM(KeyWord).eq.'nposti') THEN
             Npts=load_i(Nval, Rval, 1, NpostI)
-          ELSE IF (TRIM(KeyWord).eq.'tl_M2diff') THEN
+          ELSE IF (TRIM(KeyWord).eq.'tl_M2diff'.or.TRIM(KeyWord).eq.'tl_m2diff') THEN
             Npts=load_r(Nval, Rval, Ngrids, tl_M2diff)
-          ELSE IF (TRIM(KeyWord).eq.'tl_M3diff') THEN
+          ELSE IF (TRIM(KeyWord).eq.'tl_M3diff'.or.TRIM(KeyWord).eq.'tl_m3diff') THEN
             Npts=load_r(Nval, Rval, Ngrids, tl_M3diff)
-          ELSE IF (TRIM(KeyWord).eq.'tl_Tdiff') THEN
+          ELSE IF (TRIM(KeyWord).eq.'tl_Tdiff'.or.TRIM(KeyWord).eq.'tl_tdiff') THEN
             Npts=load_r(Nval, Rval, MT*Ngrids, Rtracer)
             DO ng=1,Ngrids
               DO itrc=1,NT(ng)
                 tl_Tdiff(itrc,ng)=Rtracer(itrc,ng)
               END DO
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'LdefNRM') THEN
+          ELSE IF (TRIM(KeyWord).eq.'LdefNRM'.or.TRIM(KeyWord).eq.'ldefnrm') THEN
             Npts=load_l(Nval, Cval, 4*Ngrids, LdefNRM)
-          ELSE IF (TRIM(KeyWord).eq.'LwrtNRM') THEN
+          ELSE IF (TRIM(KeyWord).eq.'LwrtNRM'.or.TRIM(KeyWord).eq.'lwrtnrm') THEN
             Npts=load_l(Nval, Cval, 4*Ngrids, LwrtNRM)
-          ELSE IF (TRIM(KeyWord).eq.'CnormM(isFsur)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'CnormM(isFsur)'.or.TRIM(KeyWord).eq.'cnormm(isfsur)') THEN
             IF (isFsur.eq.0) THEN
               IF (Master) WRITE (out,190) 'isFsur'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, 1, Cnorm(2,isFsur))
-          ELSE IF (TRIM(KeyWord).eq.'CnormM(isUbar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'CnormM(isUbar)'.or.TRIM(KeyWord).eq.'cnormm(isubar)') THEN
             IF (isUbar.eq.0) THEN
               IF (Master) WRITE (out,190) 'isUbar'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, 1, Cnorm(2,isUbar))
-          ELSE IF (TRIM(KeyWord).eq.'CnormM(isVbar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'CnormM(isVbar)'.or.TRIM(KeyWord).eq.'cnormm(isvbar)') THEN
             IF (isVbar.eq.0) THEN
               IF (Master) WRITE (out,190) 'isVbar'
               exit_flag=5
@@ -5578,21 +5595,21 @@
             END IF
             Npts=load_l(Nval, Cval, 1, Cnorm(2,isVbar))
 #  ifdef SOLVE3D
-          ELSE IF (TRIM(KeyWord).eq.'CnormM(isUvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'CnormM(isUvel)'.or.TRIM(KeyWord).eq.'cnormm(isuvel)') THEN
             IF (isUvel.eq.0) THEN
               IF (Master) WRITE (out,190) 'isUvel'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, 1, Cnorm(2,isUvel))
-          ELSE IF (TRIM(KeyWord).eq.'CnormM(isVvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'CnormM(isVvel)'.or.TRIM(KeyWord).eq.'cnormm(isvvel)') THEN
             IF (isVvel.eq.0) THEN
               IF (Master) WRITE (out,190) 'isVvel'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, 1, Cnorm(2,isVvel))
-          ELSE IF (TRIM(KeyWord).eq.'CnormM(isTvar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'CnormM(isTvar)'.or.TRIM(KeyWord).eq.'cnormm(istvar)') THEN
             IF (MAXVAL(isTvar).eq.0) THEN
               IF (Master) WRITE (out,190) 'isTvar'
               exit_flag=5
@@ -5604,18 +5621,18 @@
               Cnorm(2,i)=Ltracer(itrc)
             END DO
 #  endif
-          ELSE IF (TRIM(KeyWord).eq.'CnormI(isFsur)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'CnormI(isFsur)'.or.TRIM(KeyWord).eq.'cnormi(isfsur)') THEN
             Npts=load_l(Nval, Cval, 1, Cnorm(1,isFsur))
-          ELSE IF (TRIM(KeyWord).eq.'CnormI(isUbar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'CnormI(isUbar)'.or.TRIM(KeyWord).eq.'cnormi(isubar)') THEN
             Npts=load_l(Nval, Cval, 1, Cnorm(1,isUbar))
-          ELSE IF (TRIM(KeyWord).eq.'CnormI(isVbar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'CnormI(isVbar)'.or.TRIM(KeyWord).eq.'cnormi(isvbar)') THEN
             Npts=load_l(Nval, Cval, 1, Cnorm(1,isVbar))
 #  ifdef SOLVE3D
-          ELSE IF (TRIM(KeyWord).eq.'CnormI(isUvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'CnormI(isUvel)'.or.TRIM(KeyWord).eq.'cnormi(isuvel)') THEN
             Npts=load_l(Nval, Cval, 1, Cnorm(1,isUvel))
-          ELSE IF (TRIM(KeyWord).eq.'CnormI(isVvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'CnormI(isVvel)'.or.TRIM(KeyWord).eq.'cnormi(isvvel)') THEN
             Npts=load_l(Nval, Cval, 1, Cnorm(1,isVvel))
-          ELSE IF (TRIM(KeyWord).eq.'CnormI(isTvar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'CnormI(isTvar)'.or.TRIM(KeyWord).eq.'cnormi(istvar)') THEN
             Npts=load_l(Nval, Cval, MT, Ltracer)
             DO itrc=1,MT
               i=isTvar(itrc)
@@ -5623,18 +5640,18 @@
             END DO
 #  endif
 #  ifdef ADJUST_BOUNDARY
-          ELSE IF (TRIM(KeyWord).eq.'CnormB(isFsur)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'CnormB(isFsur)'.or.TRIM(KeyWord).eq.'cnormb(isfsur)') THEN
             Npts=load_l(Nval, Cval, 4, CnormB(isFsur,:))
-          ELSE IF (TRIM(KeyWord).eq.'CnormB(isUbar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'CnormB(isUbar)'.or.TRIM(KeyWord).eq.'cnormb(isubar)') THEN
             Npts=load_l(Nval, Cval, 4, CnormB(isUbar,:))
-          ELSE IF (TRIM(KeyWord).eq.'CnormB(isVbar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'CnormB(isVbar)'.or.TRIM(KeyWord).eq.'cnormb(isvbar)') THEN
             Npts=load_l(Nval, Cval, 4, CnormB(isVbar,:))
 #   ifdef SOLVE3D
-          ELSE IF (TRIM(KeyWord).eq.'CnormB(isUvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'CnormB(isUvel)'.or.TRIM(KeyWord).eq.'cnormb(isuvel)') THEN
             Npts=load_l(Nval, Cval, 4, CnormB(isUvel,:))
-          ELSE IF (TRIM(KeyWord).eq.'CnormB(isVvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'CnormB(isVvel)'.or.TRIM(KeyWord).eq.'cnormb(isvvel)') THEN
             Npts=load_l(Nval, Cval, 4, CnormB(isVvel,:))
-          ELSE IF (TRIM(KeyWord).eq.'CnormB(isTvar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'CnormB(isTvar)'.or.TRIM(KeyWord).eq.'cnormb(istvar)') THEN
             Npts=load_l(Nval, Cval, MT*4, Lboundary)
             DO ib=1,4
               DO itrc=1,MT
@@ -5645,14 +5662,14 @@
 #   endif
 #  endif
 #  ifdef ADJUST_WSTRESS
-          ELSE IF (TRIM(KeyWord).eq.'CnormF(isUstr)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'CnormF(isUstr)'.or.TRIM(KeyWord).eq.'cnormf(isustr)') THEN
             IF (isUstr.eq.0) THEN
               IF (Master) WRITE (out,190) 'isUstr'
               exit_flag=5
               RETURN
             END IF
             Npts=load_l(Nval, Cval, 1, Cnorm(1,isUstr))
-          ELSE IF (TRIM(KeyWord).eq.'CnormF(isVstr)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'CnormF(isVstr)'.or.TRIM(KeyWord).eq.'cnormf(isvstr)') THEN
             IF (isVstr.eq.0) THEN
               IF (Master) WRITE (out,190) 'isVstr'
               exit_flag=5
@@ -5661,7 +5678,7 @@
             Npts=load_l(Nval, Cval, 1, Cnorm(1,isVstr))
 #  endif
 #  if defined ADJUST_STFLUX && defined SOLVE3D
-          ELSE IF (TRIM(KeyWord).eq.'CnormF(isTsur)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'CnormF(isTsur)'.or.TRIM(KeyWord).eq.'cnormf(istsur)') THEN
             IF (MAXVAL(isTsur).eq.0) THEN
               IF (Master) WRITE (out,190) 'isTsur'
               exit_flag=5
@@ -5673,49 +5690,49 @@
               Cnorm(1,i)=Ltracer(itrc)
             END DO
 #  endif
-          ELSE IF (TRIM(KeyWord).eq.'balance(isSalt)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'balance(isSalt)'.or.TRIM(KeyWord).eq.'balance(issalt)') THEN
             Npts=load_l(Nval, Cval, 1, balance(isTvar(isalt)))
-          ELSE IF (TRIM(KeyWord).eq.'balance(isFsur)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'balance(isFsur)'.or.TRIM(KeyWord).eq.'balance(isfsur)') THEN
             Npts=load_l(Nval, Cval, 1, balance(isFsur))
-          ELSE IF (TRIM(KeyWord).eq.'balance(isVbar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'balance(isVbar)'.or.TRIM(KeyWord).eq.'balance(isvbar)') THEN
             Npts=load_l(Nval, Cval, 1, balance(isVbar))
-          ELSE IF (TRIM(KeyWord).eq.'balance(isVvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'balance(isVvel)'.or.TRIM(KeyWord).eq.'balance(isvvel)') THEN
             Npts=load_l(Nval, Cval, 1, balance(isVvel))
-          ELSE IF (TRIM(KeyWord).eq.'Nmethod') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Nmethod'.or.TRIM(KeyWord).eq.'nmethod') THEN
             Npts=load_i(Nval, Rval, Ngrids, Nmethod)
-          ELSE IF (TRIM(KeyWord).eq.'Rscheme') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Rscheme'.or.TRIM(KeyWord).eq.'rscheme') THEN
             Npts=load_i(Nval, Rval, Ngrids, Rscheme)
-          ELSE IF (TRIM(KeyWord).eq.'Nrandom') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Nrandom'.or.TRIM(KeyWord).eq.'nrandom') THEN
             Npts=load_i(Nval, Rval, 1, Nrandom)
-          ELSE IF (TRIM(KeyWord).eq.'Hgamma') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Hgamma'.or.TRIM(KeyWord).eq.'hgamma') THEN
             Npts=load_r(Nval, Rval, 4, Hgamma)
 #  ifdef SOLVE3D
-          ELSE IF (TRIM(KeyWord).eq.'Vgamma') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Vgamma'.or.TRIM(KeyWord).eq.'vgamma') THEN
             Npts=load_r(Nval, Rval, 4, Vgamma)
 #  endif
-          ELSE IF (TRIM(KeyWord).eq.'HdecayM(isFsur)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'HdecayM(isFsur)'.or.TRIM(KeyWord).eq.'hdecaym(isfsur)') THEN
             Npts=load_r(Nval, Rval, Ngrids, Hdecay(2,isFsur,:))
-          ELSE IF (TRIM(KeyWord).eq.'HdecayM(isUbar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'HdecayM(isUbar)'.or.TRIM(KeyWord).eq.'hdecaym(isubar)') THEN
             Npts=load_r(Nval, Rval, Ngrids, Hdecay(2,isUbar,:))
-          ELSE IF (TRIM(KeyWord).eq.'HdecayM(isVbar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'HdecayM(isVbar)'.or.TRIM(KeyWord).eq.'hdecaym(isvbar)') THEN
             Npts=load_r(Nval, Rval, Ngrids, Hdecay(2,isVbar,:))
 #  ifdef SOLVE3D
-          ELSE IF (TRIM(KeyWord).eq.'HdecayM(isUvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'HdecayM(isUvel)'.or.TRIM(KeyWord).eq.'hdecaym(isuvel)') THEN
             Npts=load_r(Nval, Rval, Ngrids, Hdecay(2,isUvel,:))
-          ELSE IF (TRIM(KeyWord).eq.'HdecayM(isVvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'HdecayM(isVvel)'.or.TRIM(KeyWord).eq.'hdecaym(isvvel)') THEN
             Npts=load_r(Nval, Rval, Ngrids, Hdecay(2,isVvel,:))
-          ELSE IF (TRIM(KeyWord).eq.'HdecayM(isTvar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'HdecayM(isTvar)'.or.TRIM(KeyWord).eq.'hdecaym(istvar)') THEN
             Npts=load_r(Nval, Rval, MT*Ngrids, Rtracer)
             DO ng=1,Ngrids
               DO itrc=1,NT(ng)
                 Hdecay(2,isTvar(itrc),ng)=Rtracer(itrc,ng)
               END DO
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'VdecayM(isUvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'VdecayM(isUvel)'.or.TRIM(KeyWord).eq.'vdecaym(isuvel)') THEN
             Npts=load_r(Nval, Rval, Ngrids, Vdecay(2,isUvel,:))
-          ELSE IF (TRIM(KeyWord).eq.'VdecayM(isVvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'VdecayM(isVvel)'.or.TRIM(KeyWord).eq.'vdecaym(isvvel)') THEN
             Npts=load_r(Nval, Rval, Ngrids, Vdecay(2,isVvel,:))
-          ELSE IF (TRIM(KeyWord).eq.'VdecayM(isTvar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'VdecayM(isTvar)'.or.TRIM(KeyWord).eq.'vdecaym(istvar)') THEN
             Npts=load_r(Nval, Rval, MT*Ngrids, Rtracer)
             DO ng=1,Ngrids
               DO itrc=1,NT(ng)
@@ -5723,29 +5740,29 @@
               END DO
             END DO
 #  endif
-          ELSE IF (TRIM(KeyWord).eq.'HdecayI(isFsur)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'HdecayI(isFsur)'.or.TRIM(KeyWord).eq.'hdecayi(isfsur)') THEN
             Npts=load_r(Nval, Rval, Ngrids, Hdecay(1,isFsur,:))
-          ELSE IF (TRIM(KeyWord).eq.'HdecayI(isUbar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'HdecayI(isUbar)'.or.TRIM(KeyWord).eq.'hdecayi(isubar)') THEN
             Npts=load_r(Nval, Rval, Ngrids, Hdecay(1,isUbar,:))
-          ELSE IF (TRIM(KeyWord).eq.'HdecayI(isVbar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'HdecayI(isVbar)'.or.TRIM(KeyWord).eq.'hdecayi(isvbar)') THEN
             Npts=load_r(Nval, Rval, Ngrids, Hdecay(1,isVbar,:))
 #  ifdef SOLVE3D
-          ELSE IF (TRIM(KeyWord).eq.'HdecayI(isUvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'HdecayI(isUvel)'.or.TRIM(KeyWord).eq.'hdecayi(isuvel)') THEN
             Npts=load_r(Nval, Rval, Ngrids, Hdecay(1,isUvel,:))
-          ELSE IF (TRIM(KeyWord).eq.'HdecayI(isVvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'HdecayI(isVvel)'.or.TRIM(KeyWord).eq.'hdecayi(isvvel)') THEN
             Npts=load_r(Nval, Rval, Ngrids, Hdecay(1,isVvel,:))
-          ELSE IF (TRIM(KeyWord).eq.'HdecayI(isTvar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'HdecayI(isTvar)'.or.TRIM(KeyWord).eq.'hdecayi(istvar)') THEN
             Npts=load_r(Nval, Rval, MT*Ngrids, Rtracer)
             DO ng=1,Ngrids
               DO itrc=1,NT(ng)
                 Hdecay(1,isTvar(itrc),ng)=Rtracer(itrc,ng)
               END DO
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'VdecayI(isUvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'VdecayI(isUvel)'.or.TRIM(KeyWord).eq.'vdecayi(isuvel)') THEN
             Npts=load_r(Nval, Rval, Ngrids, Vdecay(1,isUvel,:))
-          ELSE IF (TRIM(KeyWord).eq.'VdecayI(isVvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'VdecayI(isVvel)'.or.TRIM(KeyWord).eq.'vdecayi(isvvel)') THEN
             Npts=load_r(Nval, Rval, Ngrids, Vdecay(1,isVvel,:))
-          ELSE IF (TRIM(KeyWord).eq.'VdecayI(isTvar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'VdecayI(isTvar)'.or.TRIM(KeyWord).eq.'vdecayi(istvar)') THEN
             Npts=load_r(Nval, Rval, MT*Ngrids, Rtracer)
             DO ng=1,Ngrids
               DO itrc=1,NT(ng)
@@ -5754,18 +5771,18 @@
             END DO
 #  endif
 #  ifdef ADJUST_BOUNDARY
-          ELSE IF (TRIM(KeyWord).eq.'HdecayB(isFsur)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'HdecayB(isFsur)'.or.TRIM(KeyWord).eq.'hdecayb(isfsur)') THEN
             Npts=load_r(Nval, Rval, 4*Ngrids, HdecayB(isFsur,:,:))
-          ELSE IF (TRIM(KeyWord).eq.'HdecayB(isUbar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'HdecayB(isUbar)'.or.TRIM(KeyWord).eq.'hdecayb(isubar)') THEN
             Npts=load_r(Nval, Rval, 4*Ngrids, HdecayB(isUbar,:,:))
-          ELSE IF (TRIM(KeyWord).eq.'HdecayB(isVbar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'HdecayB(isVbar)'.or.TRIM(KeyWord).eq.'hdecayb(isvbar)') THEN
             Npts=load_r(Nval, Rval, 4*Ngrids, HdecayB(isVbar,:,:))
 #   ifdef SOLVE3D
-          ELSE IF (TRIM(KeyWord).eq.'HdecayB(isUvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'HdecayB(isUvel)'.or.TRIM(KeyWord).eq.'hdecayb(isuvel)') THEN
             Npts=load_r(Nval, Rval, 4*Ngrids, HdecayB(isUvel,:,:))
-          ELSE IF (TRIM(KeyWord).eq.'HdecayB(isVvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'HdecayB(isVvel)'.or.TRIM(KeyWord).eq.'hdecayb(isvvel)') THEN
             Npts=load_r(Nval, Rval, 4*Ngrids, HdecayB(isVvel,:,:))
-          ELSE IF (TRIM(KeyWord).eq.'HdecayB(isTvar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'HdecayB(isTvar)'.or.TRIM(KeyWord).eq.'hdecayb(istvar)') THEN
             Npts=load_r(Nval, Rval, 4*MT*Ngrids, Rboundary)
             DO ng=1,Ngrids
               DO ib=1,4
@@ -5774,11 +5791,11 @@
                 END DO
               END DO
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'VdecayB(isUvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'VdecayB(isUvel)'.or.TRIM(KeyWord).eq.'vdecayb(isuvel)') THEN
             Npts=load_r(Nval, Rval, 4*Ngrids, VdecayB(isUvel,:,:))
-          ELSE IF (TRIM(KeyWord).eq.'VdecayB(isVvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'VdecayB(isVvel)'.or.TRIM(KeyWord).eq.'vdecayb(isvvel)') THEN
             Npts=load_r(Nval, Rval, 4*Ngrids, VdecayB(isVvel,:,:))
-          ELSE IF (TRIM(KeyWord).eq.'VdecayB(isTvar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'VdecayB(isTvar)'.or.TRIM(KeyWord).eq.'vdecayb(istvar)') THEN
             Npts=load_r(Nval, Rval, 4*MT*Ngrids, Rboundary)
             DO ng=1,Ngrids
               DO ib=1,4
@@ -5790,13 +5807,13 @@
 #   endif
 #  endif
 #  ifdef ADJUST_WSTRESS
-          ELSE IF (TRIM(KeyWord).eq.'HdecayF(isUstr)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'HdecayF(isUstr)'.or.TRIM(KeyWord).eq.'hdecayf(isustr)') THEN
             Npts=load_r(Nval, Rval, Ngrids, Hdecay(1,isUstr,:))
-          ELSE IF (TRIM(KeyWord).eq.'HdecayF(isVstr)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'HdecayF(isVstr)'.or.TRIM(KeyWord).eq.'hdecayf(isvstr)') THEN
             Npts=load_r(Nval, Rval, Ngrids, Hdecay(1,isVstr,:))
 #  endif
 #  if defined ADJUST_STFLUX && defined SOLVE3D
-          ELSE IF (TRIM(KeyWord).eq.'HdecayF(isTsur)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'HdecayF(isTsur)'.or.TRIM(KeyWord).eq.'hdecayf(istsur)') THEN
             Npts=load_r(Nval, Rval, MT*Ngrids, Rtracer)
             DO ng=1,Ngrids
               DO itrc=1,NT(ng)
@@ -5805,7 +5822,7 @@
             END DO
 #  endif
 #  if defined ADJUST_STFLUX && defined SOLVE3D
-          ELSE IF (TRIM(KeyWord).eq.'Lstflux') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Lstflux'.or.TRIM(KeyWord).eq.'lstflux') THEN
             Npts=load_l(Nval, Cval, MT*Ngrids, Ltsur)
             DO ng=1,Ngrids
               DO itrc=1,NT(ng)
@@ -5814,21 +5831,21 @@
             END DO
 #  endif
 #  ifdef ADJUST_BOUNDARY
-          ELSE IF (TRIM(KeyWord).eq.'Lobc(isFsur)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Lobc(isFsur)'.or.TRIM(KeyWord).eq.'lobc(isfsur)') THEN
             Npts=load_l(Nval, Cval, 4*Ngrids, Lbry)
             DO ng=1,Ngrids
               DO ib=1,4
                 Lobc(ib,isFsur,ng)=Lbry(ib,ng)
               END DO
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Lobc(isUbar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Lobc(isUbar)'.or.TRIM(KeyWord).eq.'lobc(isubar)') THEN
             Npts=load_l(Nval, Cval, 4*Ngrids, Lbry)
             DO ng=1,Ngrids
               DO ib=1,4
                 Lobc(ib,isUbar,ng)=Lbry(ib,ng)
               END DO
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Lobc(isVbar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Lobc(isVbar)'.or.TRIM(KeyWord).eq.'lobc(isvbar)') THEN
             Npts=load_l(Nval, Cval, 4*Ngrids, Lbry)
             DO ng=1,Ngrids
               DO ib=1,4
@@ -5836,21 +5853,21 @@
               END DO
             END DO
 #   ifdef SOLVE3D
-          ELSE IF (TRIM(KeyWord).eq.'Lobc(isUvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Lobc(isUvel)'.or.TRIM(KeyWord).eq.'lobc(isuvel)') THEN
             Npts=load_l(Nval, Cval, 4*Ngrids, Lbry)
             DO ng=1,Ngrids
               DO ib=1,4
                 Lobc(ib,isUvel,ng)=Lbry(ib,ng)
               END DO
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Lobc(isVvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Lobc(isVvel)'.or.TRIM(KeyWord).eq.'lobc(isvvel)') THEN
             Npts=load_l(Nval, Cval, 4*Ngrids, Lbry)
             DO ng=1,Ngrids
               DO ib=1,4
                 Lobc(ib,isVvel,ng)=Lbry(ib,ng)
               END DO
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Lobc(isTvar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Lobc(isTvar)'.or.TRIM(KeyWord).eq.'lobc(istvar)') THEN
             Npts=load_l(Nval, Cval, 4*MT*Ngrids, Lbry_trc)
             DO ng=1,Ngrids
               DO itrc=1,NT(ng)
@@ -5862,51 +5879,51 @@
             END DO
 #   endif
 #  endif
-          ELSE IF (TRIM(KeyWord).eq.'STDnameI') THEN
+          ELSE IF (TRIM(KeyWord).eq.'STDnameI'.or.TRIM(KeyWord).eq.'stdnamei') THEN
             label='STD - initial conditions standard deviation'
             Npts=load_s1d(Nval, Cval, line, label, igrid, Nfiles,       &
      &                    STD(1,:))
-          ELSE IF (TRIM(KeyWord).eq.'STDnameM') THEN
+          ELSE IF (TRIM(KeyWord).eq.'STDnameM'.or.TRIM(KeyWord).eq.'stdnamem') THEN
             label='STD - model error standard deviation'
             Npts=load_s1d(Nval, Cval, line, label, igrid, Nfiles,       &
      &                    STD(2,:))
-          ELSE IF (TRIM(KeyWord).eq.'STDnameB') THEN
+          ELSE IF (TRIM(KeyWord).eq.'STDnameB'.or.TRIM(KeyWord).eq.'stdnameb') THEN
             label='STD - boundary conditions standard deviation'
             Npts=load_s1d(Nval, Cval, line, label, igrid, Nfiles,       &
      &                    STD(3,:))
-          ELSE IF (TRIM(KeyWord).eq.'STDnameF') THEN
+          ELSE IF (TRIM(KeyWord).eq.'STDnameF'.or.TRIM(KeyWord).eq.'stdnamef') THEN
             label='STD - surface forcing standard deviation'
             Npts=load_s1d(Nval, Cval, line, label, igrid, Nfiles,       &
      &                    STD(4,:))
-          ELSE IF (TRIM(KeyWord).eq.'NRMnameI') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NRMnameI'.or.TRIM(KeyWord).eq.'nrmnamei') THEN
             label='NRM - initial conditions normalization'
             Npts=load_s1d(Nval, Cval, line, label, igrid, Nfiles,       &
      &                    NRM(1,:))
-          ELSE IF (TRIM(KeyWord).eq.'NRMnameM') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NRMnameM'.or.TRIM(KeyWord).eq.'nrmnamem') THEN
             label='NRM - model error normalization'
             Npts=load_s1d(Nval, Cval, line, label, igrid, Nfiles,       &
      &                    NRM(2,:))
-          ELSE IF (TRIM(KeyWord).eq.'NRMnameB') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NRMnameB'.or.TRIM(KeyWord).eq.'nrmnameb') THEN
             label='NRM - boundary conditions normalization'
             Npts=load_s1d(Nval, Cval, line, label, igrid, Nfiles,       &
      &                    NRM(3,:))
-          ELSE IF (TRIM(KeyWord).eq.'NRMnameF') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NRMnameF'.or.TRIM(KeyWord).eq.'nrmnamef') THEN
             label='NRM - surface forcing normalization'
             Npts=load_s1d(Nval, Cval, line, label, igrid, Nfiles,       &
      &                    NRM(4,:))
-          ELSE IF (TRIM(KeyWord).eq.'OBSname') THEN
+          ELSE IF (TRIM(KeyWord).eq.'OBSname'.or.TRIM(KeyWord).eq.'obsname') THEN
             label='OBS - data assimilation observations'
             Npts=load_s1d(Nval, Cval, line, label, igrid, Nfiles, OBS)
-          ELSE IF (TRIM(KeyWord).eq.'HSSname') THEN
+          ELSE IF (TRIM(KeyWord).eq.'HSSname'.or.TRIM(KeyWord).eq.'hssname') THEN
             label='HSS - Hessian eigenvectors'
             Npts=load_s1d(Nval, Cval, line, label, igrid, Nfiles, HSS)
-          ELSE IF (TRIM(KeyWord).eq.'LCZname') THEN
+          ELSE IF (TRIM(KeyWord).eq.'LCZname'.or.TRIM(KeyWord).eq.'lczname') THEN
             label='LCZ - Lanczos vectors'
             Npts=load_s1d(Nval, Cval, line, label, igrid, Nfiles, LCZ)
-          ELSE IF (TRIM(KeyWord).eq.'MODname') THEN
+          ELSE IF (TRIM(KeyWord).eq.'MODname'.or.TRIM(KeyWord).eq.'modname') THEN
             label='DAV - 4D-Var data assimilation variables'
             Npts=load_s1d(Nval, Cval, line, label, igrid, Nfiles, DAV)
-          ELSE IF (TRIM(KeyWord).eq.'ERRname') THEN
+          ELSE IF (TRIM(KeyWord).eq.'ERRname'.or.TRIM(KeyWord).eq.'errname') THEN
             label='ERR - 4D-Var posterior error covariance'
             Npts=load_s1d(Nval, Cval, line, label, igrid, Nfiles, ERR)
           END IF
@@ -6597,16 +6614,17 @@
 !  which signal termination of input data.
 !
       DO WHILE (.TRUE.)
-        READ (inp,'(a)',ERR=20,END=30) line
+!        if(master) READ (inp,'(a)',ERR=20,END=30) line
+         READ (inp,'(a)',ERR=20,END=30) line
         status=decode_line(line, KeyWord, Nval, Cval, Rval)
         IF (status.gt.0) THEN
-          IF (TRIM(KeyWord).eq.'Lfloats') THEN
+          IF (TRIM(KeyWord).eq.'Lfloats'.or.TRIM(KeyWord).eq.'lfloats') THEN
             Npts=load_l(Nval, Cval, Ngrids, Lfloats)
-          ELSE IF (TRIM(KeyWord).eq.'FRREC') THEN
+          ELSE IF (TRIM(KeyWord).eq.'FRREC'.or.TRIM(KeyWord).eq.'frrec') THEN
             Npts=load_i(Nval, Rval, Ngrids, frrec)
-          ELSE IF (TRIM(KeyWord).eq.'NFLOATS') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NFLOATS'.or.TRIM(KeyWord).eq.'nfloats') THEN
             Npts=load_i(Nval, Rval, Ngrids, Nfloats)
-          ELSE IF (TRIM(KeyWord).eq.'POS') THEN
+          ELSE IF (TRIM(KeyWord).eq.'POS'.or.TRIM(KeyWord).eq.'pos') THEN
             Npts=Nfloats(1)+1
             IF (Ngrids.gt.1) Npts=MAXVAL(Nfloats)+1
             IF (.not.allocated(Fcoor))  allocate ( Fcoor (Npts,Ngrids) )
@@ -6858,168 +6876,169 @@
 !-----------------------------------------------------------------------
 !
       DO WHILE (.TRUE.)
+!        if(master) READ (inp,'(a)',ERR=20,END=30) line
         READ (inp,'(a)',ERR=20,END=30) line
         status=decode_line(line, KeyWord, Nval, Cval, Rval)
         IF (status.gt.0) THEN
-          IF (TRIM(KeyWord).eq.'Lstations') THEN
+          IF (TRIM(KeyWord).eq.'Lstations'.or.TRIM(KeyWord).eq.'lstations') THEN
             Npts=load_l(Nval, Cval, Ngrids, Lstations)
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idUvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idUvel)'.or.TRIM(KeyWord).eq.'sout(iduvel)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idUvel,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idVvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idVvel)'.or.TRIM(KeyWord).eq.'sout(idvvel)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idVvel,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idWvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idWvel)'.or.TRIM(KeyWord).eq.'sout(idwvel)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idWvel,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idOvel)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idOvel)'.or.TRIM(KeyWord).eq.'sout(idovel)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idOvel,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idUbar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idUbar)'.or.TRIM(KeyWord).eq.'sout(idubar)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idUbar,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idVbar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idVbar)'.or.TRIM(KeyWord).eq.'sout(idvbar)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idVbar,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idFsur)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idFsur)'.or.TRIM(KeyWord).eq.'sout(idfsur)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idFsur,:))
 # if defined SEDIMENT && defined SED_MORPH
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idBath)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idBath)'.or.TRIM(KeyWord).eq.'sout(idbath)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idBath,:))
 # endif
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idTvar)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idTvar)'.or.TRIM(KeyWord).eq.'sout(idtvar)') THEN
             Npts=load_l(Nval, Cval, MT*Ngrids, Lsta)
             DO ng=1,Ngrids
               DO itrc=1,NT(ng)
                 Sout(idTvar(itrc),ng)=Lsta(itrc,ng)
               END DO
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idUsms)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idUsms)'.or.TRIM(KeyWord).eq.'sout(idusms)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idUsms,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idVsms)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idVsms)'.or.TRIM(KeyWord).eq.'sout(idvsms)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idVsms,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idUbms)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idUbms)'.or.TRIM(KeyWord).eq.'sout(idubms)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idUbms,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idVbms)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idVbms)'.or.TRIM(KeyWord).eq.'sout(idvbms)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idVbms,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idUbrs)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idUbrs)'.or.TRIM(KeyWord).eq.'sout(idubrs)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idUbrs,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idVbrs)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idVbrs)'.or.TRIM(KeyWord).eq.'sout(idvbrs)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idVbrs,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idUbws)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idUbws)'.or.TRIM(KeyWord).eq.'sout(idubws)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idUbws,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idVbws)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idVbws)'.or.TRIM(KeyWord).eq.'sout(idvbws)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idVbws,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idUbcs)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idUbcs)'.or.TRIM(KeyWord).eq.'sout(idubcs)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idUbcs,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idVbcs)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idVbcs)'.or.TRIM(KeyWord).eq.'sout(idvbcs)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idVbcs,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idUbot)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idUbot)'.or.TRIM(KeyWord).eq.'sout(idubot)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idUbot,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idVbot)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idVbot)'.or.TRIM(KeyWord).eq.'sout(idvbot)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idVbot,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idUbur)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idUbur)'.or.TRIM(KeyWord).eq.'sout(idubur)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idUbur,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idVbvr)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idVbvr)'.or.TRIM(KeyWord).eq.'sout(idvbvr)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idVbvr,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idW2xx)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idW2xx)'.or.TRIM(KeyWord).eq.'sout(idw2xx)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idW2xx,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idW2xy)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idW2xy)'.or.TRIM(KeyWord).eq.'sout(idw2xy)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idW2xy,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idW2yy)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idW2yy)'.or.TRIM(KeyWord).eq.'sout(idw2yy)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idW2yy,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idU2rs)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idU2rs)'.or.TRIM(KeyWord).eq.'sout(idu2rs)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idU2rs,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idV2rs)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idV2rs)'.or.TRIM(KeyWord).eq.'sout(idv2rs)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idV2rs,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idU2Sd)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idU2Sd)'.or.TRIM(KeyWord).eq.'sout(idu2sd)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idU2Sd,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idV2Sd)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idV2Sd)'.or.TRIM(KeyWord).eq.'sout(idv2sd)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idV2Sd,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idW3xx)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idW3xx)'.or.TRIM(KeyWord).eq.'sout(idw3xx)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idW3xx,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idW3xy)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idW3xy)'.or.TRIM(KeyWord).eq.'sout(idw3xy)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idW3xy,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idW3yy)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idW3yy)'.or.TRIM(KeyWord).eq.'sout(idw3yy)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idW3yy,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idW3zx)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idW3zx)'.or.TRIM(KeyWord).eq.'sout(idw3zx)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idW3zx,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idW3zy)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idW3zy)'.or.TRIM(KeyWord).eq.'sout(idw3zy)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idW3zy,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idU3rs)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idU3rs)'.or.TRIM(KeyWord).eq.'sout(idu3rs)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idU3rs,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idV3rs)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idV3rs)'.or.TRIM(KeyWord).eq.'sout(idv3rs)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idV3rs,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idU3Sd)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idU3Sd)'.or.TRIM(KeyWord).eq.'sout(idu3sd)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idU3Sd,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idV3Sd)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idV3Sd)'.or.TRIM(KeyWord).eq.'sout(idv3sd)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idV3Sd,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idWamp)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idWamp)'.or.TRIM(KeyWord).eq.'sout(idwamp)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idWamp,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idWlen)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idWlen)'.or.TRIM(KeyWord).eq.'sout(idwlen)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idWlen,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idWdir)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idWdir)'.or.TRIM(KeyWord).eq.'sout(idwdir)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idWdir,:))
 # ifdef WAVES_TOP_PERIOD
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idWptp)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idWptp)'.or.TRIM(KeyWord).eq.'sout(idwptp)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idWptp,:))
 # endif
 # ifdef WAVES_BOT_PERIOD
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idWpbt)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idWpbt)'.or.TRIM(KeyWord).eq.'sout(idwpbt)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idWpbt,:))
 # endif
 # ifdef WAVES_UB
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idWorb)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idWorb)'.or.TRIM(KeyWord).eq.'sout(idworb)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idWorb,:))
 # endif
 # if defined TKE_WAVEDISS || defined WAVES_OCEAN
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idWdis)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idWdis)'.or.TRIM(KeyWord).eq.'sout(idwdis)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idWdis,:))
 # endif
 # ifdef SOLVE3D
 #  if defined BULK_FLUXES || defined ECOSIM || defined ATM_PRESS
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idPair)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idPair)'.or.TRIM(KeyWord).eq.'sout(idpair)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idPair,:))
 #  endif
 #  if defined BULK_FLUXES || defined ECOSIM
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idUair)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idUair)'.or.TRIM(KeyWord).eq.'sout(iduair)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idUair,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idVair)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idVair)'.or.TRIM(KeyWord).eq.'sout(idvair)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idVair,:))
 #  endif
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idTsur)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idTsur)'.or.TRIM(KeyWord).eq.'sout(idtsur)') THEN
             Npts=load_l(Nval, Cval, NAT*Ngrids, Lsta)
             DO ng=1,Ngrids
               DO itrc=1,NAT
                 Sout(idTsur(itrc),ng)=Lsta(itrc,ng)
               END DO
             END DO
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idLhea)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idLhea)'.or.TRIM(KeyWord).eq.'sout(idlhea)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idLhea,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idShea)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idShea)'.or.TRIM(KeyWord).eq.'sout(idshea)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idShea,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idLrad)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idLrad)'.or.TRIM(KeyWord).eq.'sout(idlrad)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idLrad,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idSrad)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idSrad)'.or.TRIM(KeyWord).eq.'sout(idsrad)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idSrad,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idEmPf)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idEmPf)'.or.TRIM(KeyWord).eq.'sout(idempf)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idEmPf,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idevap)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idevap)'.or.TRIM(KeyWord).eq.'sout(idevap)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idevap,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idrain)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idrain)'.or.TRIM(KeyWord).eq.'sout(idrain)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idrain,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idDano)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idDano)'.or.TRIM(KeyWord).eq.'sout(iddano)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idDano,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idVvis)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idVvis)'.or.TRIM(KeyWord).eq.'sout(idvvis)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idVvis,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idTdif)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idTdif)'.or.TRIM(KeyWord).eq.'sout(idtdif)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idTdif,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idSdif)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idSdif)'.or.TRIM(KeyWord).eq.'sout(idsdif)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idSdif,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idHsbl)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idHsbl)'.or.TRIM(KeyWord).eq.'sout(idhsbl)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idHsbl,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idHbbl)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idHbbl)'.or.TRIM(KeyWord).eq.'sout(idhbbl)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idHbbl,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idMtke)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idMtke)'.or.TRIM(KeyWord).eq.'sout(idmtke)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idMtke,:))
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idMtls)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idMtls)'.or.TRIM(KeyWord).eq.'sout(idmtls)') THEN
             Npts=load_l(Nval, Cval, Ngrids, Sout(idMtls,:))
 #  if defined BBL_MODEL || defined SEDIMENT
-          ELSE IF (TRIM(KeyWord).eq.'Sout(idBott)') THEN
+          ELSE IF (TRIM(KeyWord).eq.'Sout(idBott)'.or.TRIM(KeyWord).eq.'sout(idbott)') THEN
             Npts=load_l(Nval, Cval, MBOTP*Ngrids, Lbottom)
             DO ng=1,Ngrids
               DO itrc=1,MBOTP
@@ -7029,9 +7048,9 @@
             END DO
 #  endif
 # endif
-          ELSE IF (TRIM(KeyWord).eq.'NSTATION') THEN
+          ELSE IF (TRIM(KeyWord).eq.'NSTATION'.or.TRIM(KeyWord).eq.'nstation') THEN
             Npts=load_i(Nval, Rval, Ngrids, Nstation)
-          ELSE IF (TRIM(KeyWord).eq.'POS') THEN
+          ELSE IF (TRIM(KeyWord).eq.'POS'.or.TRIM(KeyWord).eq.'pos') THEN
             DO ng=1,Ngrids
               allocate ( SCALARS(ng) % Sflag(Nstation(ng)) )
               allocate ( SCALARS(ng) % SposX(Nstation(ng)) )
@@ -7367,6 +7386,7 @@
 !=======================================================================
 !
       USE mod_kinds
+      use mod_parallel, only : master, ocn_comm_world, mymaster, mpi_double, mpi_char, mpi_integer
 !
       implicit none
 !
@@ -7413,79 +7433,79 @@
 !
       Linp=LEN(line_text)
       IF ((Linp.gt.0).and.(line_text(1:1).ne.CHAR(33))) THEN
-        Icomm=INDEX(line_text,CHAR(33),BACK=.FALSE.)
-        IF (Icomm.gt.0) Linp=Icomm-1
-        line=TRIM(ADJUSTL(line_text(1:Linp)))
-        Linp=LEN_TRIM(line)
+         Icomm=INDEX(line_text,CHAR(33),BACK=.FALSE.)
+         IF (Icomm.gt.0) Linp=Icomm-1
+         line=TRIM(ADJUSTL(line_text(1:Linp)))
+         Linp=LEN_TRIM(line)
       ELSE
-        line=TRIM(ADJUSTL(line_text))
-        Linp=LEN_TRIM(line)
+         line=TRIM(ADJUSTL(line_text))
+         Linp=LEN_TRIM(line)
       END IF
-!
+!     
 !  If not a blank or comment line [char(33)=!], decode and extract input
 !  values.  Find equal sign [char(61)].
 !
       status=-1
       nested=.FALSE.
       IF ((Linp.gt.0).and.(line(1:1).ne.CHAR(33))) THEN
-        status=1
-        Kstr=1
-        Kend=INDEX(line,CHAR(61),BACK=.FALSE.)-1
-        Lstr=INDEX(line,CHAR(61),BACK=.TRUE.)+1
+         status=1
+         Kstr=1
+         Kend=INDEX(line,CHAR(61),BACK=.FALSE.)-1
+         Lstr=INDEX(line,CHAR(61),BACK=.TRUE.)+1
 !
 ! Determine if KEYWORD is followed by double equal sign (==) indicating
 ! nested parameter.
 !
-        IF ((Lstr-Kend).eq.3) nested=.TRUE.
+         IF ((Lstr-Kend).eq.3) nested=.TRUE.
 !
 ! Extract KEYWORD, trim leading and trailing blanks.
 !
-        Kextract=.FALSE.
-        IF (Kend.gt.0) THEN
-          Lend=Linp
-          KeyWord=line(Kstr:Kend)
-          Nval=0
-          Kextract=.TRUE.
-        ELSE
-          Lstr=1
-          Lend=Linp
-          Kextract=.TRUE.
-        END IF
-!
+         Kextract=.FALSE.
+         IF (Kend.gt.0) THEN
+            Lend=Linp
+            KeyWord=line(Kstr:Kend)
+            Nval=0
+            Kextract=.TRUE.
+         ELSE
+            Lstr=1
+            Lend=Linp
+            Kextract=.TRUE.
+         END IF
+!     
 ! Extract parameter values string.  Remove continuation symbol
 ! [char(92)=\] or multi-line value [char(124)=|], if any.  Trim
 ! leading trailing blanks.
 !
-        IF (Kextract) THEN
-          Icont=INDEX(line,CHAR(92 ),BACK=.FALSE.)
-          Ipipe=INDEX(line,CHAR(124),BACK=.FALSE.)
-          IF (Icont.gt.0) Lend=Icont-1
-          IF (Ipipe.gt.0) Lend=Ipipe-1
-          Vstring=ADJUSTL(line(Lstr:Lend))
-          Lval=LEN_TRIM(Vstring)
-!
+         IF (Kextract) THEN
+            Icont=INDEX(line,CHAR(92 ),BACK=.FALSE.)
+            Ipipe=INDEX(line,CHAR(124),BACK=.FALSE.)
+            IF (Icont.gt.0) Lend=Icont-1
+            IF (Ipipe.gt.0) Lend=Ipipe-1
+            Vstring=ADJUSTL(line(Lstr:Lend))
+            Lval=LEN_TRIM(Vstring)
+!     
 ! The TITLE KEYWORD is a special one since it can include strings,
 ! numbers, spaces, and continuation symbol.
 !
-          IsString=.FALSE.
-          IF (TRIM(KeyWord).eq.'TITLE') THEN
+            IsString=.FALSE.
+            IF (TRIM(KeyWord).eq.'TITLE'.or.TRIM(KeyWord).eq.'title') THEN
             Nval=Nval+1
             Cval(Nval)=Vstring(1:Lval)
             IsString=.TRUE.
-          ELSE
+         ELSE
 !
 ! Check if there is a multiplication symbol [char(42)=*] in the variable
 ! string indicating repetition of input values.
 !
             Nmul=0
             DO i=1,Lval
-              IF (Vstring(i:i).eq.CHAR(42)) THEN
-                Nmul=Nmul+1
-                Imul(Nmul)=i
-              END IF
+               IF (Vstring(i:i).eq.CHAR(42)) THEN
+                  Nmul=Nmul+1
+                  Imul(Nmul)=i
+               END IF
             END DO
             ic=1
-!
+!     
 ! Check for blank spaces [char(32)=' '] between entries and decode.
 !
             is=1
@@ -7493,79 +7513,77 @@
             Iblank=0
             decode=.FALSE.
             DO i=1,Lval
-              IF (Vstring(i:i).eq.CHAR(32)) THEN
-                IF (Vstring(i+1:i+1).ne.CHAR(32)) decode=.TRUE.
-                Iblank=i
-              ELSE
-                ie=i
-              ENDIF
-              IF (decode.or.(i.eq.Lval)) THEN
-                Nval=Nval+1
-!
+               IF (Vstring(i:i).eq.CHAR(32)) THEN
+                  IF (Vstring(i+1:i+1).ne.CHAR(32)) decode=.TRUE.
+                  Iblank=i
+               ELSE
+                  ie=i
+               ENDIF
+               IF (decode.or.(i.eq.Lval)) THEN
+                  Nval=Nval+1
+!     
 ! Processing numeric values.  Check starting character to determine
 ! if numeric or character values. It is possible to have both when
 ! processing repetitions via the multiplication symbol.
 !
-                Schar=ICHAR(Vstring(is:is))
-                IF (((48.le.Schar).and.(Schar.le.57)).or.               &
-     &              (Schar.eq.43).or.(Schar.eq.45)) THEN
-                  IF ((Nmul.gt.0).and.                                  &
-     &                (is.lt.Imul(ic)).and.(Imul(ic).lt.ie)) THEN
-                    READ (Vstring(is:Imul(ic)-1),*) copies
-                    Schar=ICHAR(Vstring(Imul(ic)+1:Imul(ic)+1))
-                    IF ((43.le.Schar).and.(Schar.le.57)) THEN
-                      READ (Vstring(Imul(ic)+1:ie),*) Rval(Nval)
-                      DO j=1,copies-1
-                        Rval(Nval+j)=Rval(Nval)
-                      END DO
-                    ELSE
-                      string=Vstring(Imul(ic)+1:ie)
-                      LenS=LEN_TRIM(string)
-                      Cval(Nval)=string(1:LenS)
-                      DO j=1,copies-1
-                        Cval(Nval+j)=Cval(Nval)
-                      END DO
-                    END IF
-                    Nval=Nval+copies-1
-                    ic=ic+1
+                  Schar=ICHAR(Vstring(is:is))
+                  IF (((48.le.Schar).and.(Schar.le.57)).or.(Schar.eq.43).or.(Schar.eq.45)) THEN
+                     IF ((Nmul.gt.0).and.(is.lt.Imul(ic)).and.(Imul(ic).lt.ie)) THEN
+                        READ (Vstring(is:Imul(ic)-1),*) copies
+                        Schar=ICHAR(Vstring(Imul(ic)+1:Imul(ic)+1))
+                        IF ((43.le.Schar).and.(Schar.le.57)) THEN
+                           READ (Vstring(Imul(ic)+1:ie),*) Rval(Nval)
+                           DO j=1,copies-1
+                              Rval(Nval+j)=Rval(Nval)
+                           END DO
+                        ELSE
+                           string=Vstring(Imul(ic)+1:ie)
+                           LenS=LEN_TRIM(string)
+                           Cval(Nval)=string(1:LenS)
+                           DO j=1,copies-1
+                              Cval(Nval+j)=Cval(Nval)
+                           END DO
+                        END IF
+                        Nval=Nval+copies-1
+                        ic=ic+1
+                     ELSE
+                        string=Vstring(is:ie)
+                        LenS=LEN_TRIM(string)
+                        READ (string(1:LenS),*) Rval(Nval)
+                     END IF
                   ELSE
-                    string=Vstring(is:ie)
-                    LenS=LEN_TRIM(string)
-                    READ (string(1:LenS),*) Rval(Nval)
-                  END IF
-                ELSE
-!
+!     
 ! Processing character values (logicals and strings).
 !
-                  IF ((Nmul.gt.0).and.                                  &
-     &                (is.lt.Imul(ic)).and.(Imul(ic).lt.ie)) THEN
-                    READ (Vstring(is:Imul(ic)-1),*) copies
-                    Cval(Nval)=Vstring(Imul(ic)+1:ie)
-                    DO j=1,copies-1
-                      Cval(Nval+j)=Cval(Nval)
-                    END DO
-                    Nval=Nval+copies-1
-                    ic=ic+1
-                  ELSE
-                    string=Vstring(is:ie)
-                    Cval(Nval)=TRIM(ADJUSTL(string))
+                     IF ((Nmul.gt.0).and.                                  &
+                          &                (is.lt.Imul(ic)).and.(Imul(ic).lt.ie)) THEN
+                        READ (Vstring(is:Imul(ic)-1),*) copies
+                        Cval(Nval)=Vstring(Imul(ic)+1:ie)
+                        DO j=1,copies-1
+                           Cval(Nval+j)=Cval(Nval)
+                        END DO
+                        Nval=Nval+copies-1
+                        ic=ic+1
+                     ELSE
+                        string=Vstring(is:ie)
+                        Cval(Nval)=TRIM(ADJUSTL(string))
+                     END IF
+                     IsString=.TRUE.
                   END IF
-                  IsString=.TRUE.
-                END IF
-                is=Iblank+1
-                ie=Lval
-                decode=.FALSE.
-              END IF
+                  is=Iblank+1
+                  ie=Lval
+                  decode=.FALSE.
+               END IF
             END DO
-          END IF
-        END IF
-        status=Nval
+         END IF
       END IF
-      decode_line=status
-      RETURN
-      END FUNCTION decode_line
-
-      FUNCTION find_file (ng, fname) RESULT (foundit)
+      status=Nval
+   END IF
+   decode_line=status
+   RETURN
+ END FUNCTION decode_line
+ 
+ FUNCTION find_file (ng, fname) RESULT (foundit)
 !
 !=======================================================================
 !                                                                      !
@@ -7771,7 +7789,6 @@
         END DO
       END IF
       load_l=ic
-
       RETURN
       END FUNCTION load_l
 
@@ -7809,6 +7826,7 @@
 !
       integer :: i, ic
       integer :: load_r
+      integer :: ierr
 !
 !-----------------------------------------------------------------------
 !  Load integer variable with input values.
@@ -7834,7 +7852,6 @@
         END DO
       END IF
       load_r=ic
-
       RETURN
       END FUNCTION load_r
 

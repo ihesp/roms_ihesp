@@ -235,7 +235,6 @@ contains
         !
         call mpi_comm_rank (OCN_COMM_WORLD, irank, ierr)
         call mpi_comm_size (OCN_COMM_WORLD, isize, ierr)
-        print *, 'MPI task: ',irank,'/',isize
 
         IF (Master) THEN
           WRITE (stdout,10)

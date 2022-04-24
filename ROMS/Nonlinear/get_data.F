@@ -38,6 +38,7 @@
       USE mod_sources
 #endif
       USE mod_stepping
+      use mod_parallel, only : master
 !
       implicit none
 !
@@ -75,7 +76,7 @@
       newdata = BOUNDARY_OCPL(ng) % newdata
       BOUNDARY_OCPL(ng) % newdata = .false.
 
-      IF (debug>0) THEN
+      IF (master .or. debug>0) THEN
          write(stdout,'(2a,L2,a,L2,a,i2))') subName, &
             "Enter, CESM ocpl: newdata = ",newdata , &
             ", bypass = ",bypass, ", debug = ",debug 
@@ -691,7 +692,7 @@
             write(stdout,'(2a,2es12.4)') subName,&
                 "old west  zeta: min,max=",BC_min,BC_max
          END IF
-         IF (bypass) THEN
+         IF (bypass .and. master) THEN
             write(stdout,'(2a)') subName,"bypass west  zeta"
          ELSE
             Tindex  = Iinfo(8,idZbry(iwest ),ng) 
@@ -730,7 +731,7 @@
             write(stdout,'(2a,2es12.4)') subName,&
                 "old east  zeta: min,max=",BC_min,BC_max
          END IF
-         IF (bypass) THEN
+         IF (bypass .and. master) THEN
             write(stdout,'(2a)') subName,"bypass east  zeta"
          ELSE
             Tindex  = Iinfo(8,idZbry(ieast ),ng) 
@@ -769,7 +770,7 @@
             write(stdout,'(2a,2es12.4)') subName,&
                 "old south zeta: min,max=",BC_min,BC_max
          END IF
-         IF (bypass) THEN
+         IF (bypass .and. master) THEN
             write(stdout,'(2a)') subName,"bypass south zeta"
          ELSE
             Tindex  = Iinfo(8,idZbry(isouth),ng) 
@@ -808,7 +809,7 @@
             write(stdout,'(2a,2es12.4)') subName,&
                 "old north zeta: min,max=",BC_min,BC_max
          END IF
-         IF (bypass) THEN
+         IF (bypass .and. master) THEN
             write(stdout,'(2a)') subName,"bypass north zeta"
          ELSE
             Tindex  = Iinfo(8,idZbry(inorth),ng) 
@@ -849,7 +850,7 @@
             write(stdout,'(2a,2es12.4)') subName,&
                 "old west  ubar: min,max=",BC_min,BC_max
          END IF
-         IF (bypass) THEN
+         IF (bypass .and. master) THEN
             write(stdout,'(2a)') subName,"bypass west  ubar"
          ELSE
             Tindex  = Iinfo(8,idU2bc(iwest ),ng) 
@@ -886,7 +887,7 @@
             write(stdout,'(2a,2es12.4)') subName,&
                 "old west  vbar: min,max=",BC_min,BC_max
          END IF
-         IF (bypass) THEN
+         if (bypass .and. master) THEN
             write(stdout,'(2a)') subName,"bypass west  vbar"
          ELSE
             Tindex  = Iinfo(8,idV2bc(iwest ),ng) 
@@ -925,7 +926,7 @@
             write(stdout,'(2a,2es12.4)') subName,&
                 "old east  ubar: min,max=",BC_min,BC_max
          END IF
-         IF (bypass) THEN
+         if (bypass .and. master) THEN
             write(stdout,'(2a)') subName,"bypass east  ubar"
          ELSE
             Tindex  = Iinfo(8,idU2bc(ieast ),ng) 
@@ -962,7 +963,7 @@
             write(stdout,'(2a,2es12.4)') subName,&
                 "old east  vbar: min,max=",BC_min,BC_max
          END IF
-         IF (bypass) THEN
+         if (bypass .and. master) THEN
             write(stdout,'(2a)') subName,"bypass east  vbar"
          ELSE
             Tindex  = Iinfo(8,idV2bc(ieast ),ng) 
@@ -1001,7 +1002,7 @@
             write(stdout,'(2a,2es12.4)') subName,&
                 "old south ubar: min,max=",BC_min,BC_max
          END IF
-         IF (bypass) THEN
+         if (bypass .and. master) THEN
             write(stdout,'(2a)') subName,"bypass south ubar"
          ELSE
             Tindex  = Iinfo(8,idU2bc(isouth),ng) 
@@ -1038,7 +1039,7 @@
             write(stdout,'(2a,2es12.4)') subName,&
                 "old south vbar: min,max=",BC_min,BC_max
          END IF
-         IF (bypass) THEN
+         if (bypass .and. master) THEN
             write(stdout,'(2a)') subName,"bypass south vbar"
          ELSE
             Tindex  = Iinfo(8,idV2bc(isouth),ng) 
@@ -1077,7 +1078,7 @@
             write(stdout,'(2a,2es12.4)') subName,&
                 "old north ubar: min,max=",BC_min,BC_max
          END IF
-         IF (bypass) THEN
+         if (bypass .and. master) THEN
             write(stdout,'(2a)') subName,"bypass north ubar"
          ELSE
             Tindex  = Iinfo(8,idU2bc(inorth),ng) 
@@ -1114,7 +1115,7 @@
             write(stdout,'(2a,2es12.4)') subName,&
                 "old north vbar: min,max=",BC_min,BC_max
          END IF
-         IF (bypass) THEN
+         if (bypass .and. master) THEN
             write(stdout,'(2a)') subName,"bypass north vbar"
          ELSE
             Tindex  = Iinfo(8,idV2bc(inorth),ng) 
@@ -1156,7 +1157,7 @@
             write(stdout,'(2a,2es12.4)') subName,&
                 "old west  u   : min,max=",BC_min,BC_max
          END IF
-         IF (bypass) THEN
+         if (bypass .and. master) THEN
             write(stdout,'(2a)') subName,"bypass west  u"
          ELSE
             Tindex  = Iinfo(8,idU3bc(iwest ),ng) 
@@ -1193,7 +1194,7 @@
             write(stdout,'(2a,2es12.4)') subName,&
                 "old west  v   : min,max=",BC_min,BC_max
          END IF
-         IF (bypass) THEN
+         if (bypass .and. master) THEN
             write(stdout,'(2a)') subName,"bypass west  vbar"
          ELSE
             Tindex  = Iinfo(8,idV3bc(iwest ),ng) 
@@ -1232,7 +1233,7 @@
             write(stdout,'(2a,2es12.4)') subName,&
                 "old east  u   : min,max=",BC_min,BC_max
          END IF
-         IF (bypass) THEN
+         if (bypass .and. master) THEN
             write(stdout,'(2a)') subName,"bypass east  u"
          ELSE
             Tindex  = Iinfo(8,idU3bc(ieast ),ng) 
@@ -1269,7 +1270,7 @@
             write(stdout,'(2a,2es12.4)') subName,&
                 "old east  v   : min,max=",BC_min,BC_max
          END IF
-         IF (bypass) THEN
+         if (bypass .and. master) THEN
             write(stdout,'(2a)') subName,"bypass east  vbar"
          ELSE
             Tindex  = Iinfo(8,idV3bc(ieast ),ng) 
@@ -1308,7 +1309,7 @@
             write(stdout,'(2a,2es12.4)') subName,&
                 "old south u   : min,max=",BC_min,BC_max
          END IF
-         IF (bypass) THEN
+         if (bypass .and. master) THEN
             write(stdout,'(2a)') subName,"bypass south u"
          ELSE
             Tindex  = Iinfo(8,idU3bc(isouth),ng) 
@@ -1345,7 +1346,7 @@
             write(stdout,'(2a,2es12.4)') subName,&
                 "old south v   : min,max=",BC_min,BC_max
          END IF
-         IF (bypass) THEN
+         if (bypass .and. master) THEN
             write(stdout,'(2a)') subName,"bypass south vbar"
          ELSE
             Tindex  = Iinfo(8,idV3bc(isouth),ng) 
@@ -1384,7 +1385,7 @@
             write(stdout,'(2a,2es12.4)') subName,&
                 "old north u   : min,max=",BC_min,BC_max
          END IF
-         IF (bypass) THEN
+         if (bypass .and. master) THEN
             write(stdout,'(2a)') subName,"bypass north u"
          ELSE
             Tindex  = Iinfo(8,idU3bc(inorth),ng) 
@@ -1421,7 +1422,7 @@
             write(stdout,'(2a,2es12.4)') subName,&
                 "old north v   : min,max=",BC_min,BC_max
          END IF
-         IF (bypass) THEN
+         if (bypass .and. master) THEN
             write(stdout,'(2a)') subName,"bypass north vbar"
          ELSE
             Tindex  = Iinfo(8,idV3bc(inorth),ng) 
@@ -1464,7 +1465,7 @@
               write(stdout,'(2a,2es12.4)') subName,&
                   trim(str)                 ,BC_min,BC_max
            END IF
-           IF (bypass) THEN
+           if (bypass .and. master) THEN
               write(stdout,'(2a,i2)') subName,"bypass west  T(i),i=",i
            ELSE  ! clobber BC data
               Tindex  = Iinfo(8,idTbry(iwest ,i),ng) 
@@ -1514,7 +1515,7 @@
               write(stdout,'(2a,2es12.4)') subName,&
                   trim(str)                 ,BC_min,BC_max
            END IF
-           IF (bypass) THEN
+           if (bypass .and. master) THEN
               write(stdout,'(2a,i2)') subName,"bypass east  T(i),i=",i
            ELSE  ! clobber BC data
               Tindex  = Iinfo(8,idTbry(ieast ,i),ng) 
@@ -1564,7 +1565,7 @@
               write(stdout,'(2a,2es12.4)') subName,&
                   trim(str)                 ,BC_min,BC_max
            END IF
-           IF (bypass) THEN
+           if (bypass .and. master) THEN
               write(stdout,'(2a,i2)') subName,"bypass south T(i),i=",i
            ELSE  ! clobber BC data
               Tindex  = Iinfo(8,idTbry(isouth,i),ng) 
@@ -1613,7 +1614,7 @@
               write(stdout,'(2a,2es12.4)') subName,&
                   trim(str)                 ,BC_min,BC_max
            END IF
-           IF (bypass) THEN
+           if (bypass .and. master) THEN
               write(stdout,'(2a,i2)') subName,"bypass north T(i),i=",i
            ELSE  ! clobber BC data
               Tindex  = Iinfo(8,idTbry(inorth,i),ng) 

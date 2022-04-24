@@ -42,7 +42,39 @@ def _build_roms():
         mpilib = case.get_value("MPILIB")
         debug = case.get_value("DEBUG")
         
+        objroot = case.get_value("OBJROOT")
+        objpath = os.path.join(objroot, "ocn", "obj.roms")
+        if not os.path.isdir(objpath):
+            os.makedirs(objpath)
+        filepath_file = os.path.join(objpath, "Filepath")
+        if os.path.isfile(filepath_file):
+            os.unlink(filepath_file)
+        pathroot = os.path.join(srcroot, "components", "roms")
+        paths = ["Master", "ROMS/Modules", "ROMS/Utility", "ROMS/Include", 
+                 "ROMS/Nonlinear","ROMS/Functionals", "drivers/cpl_mct", "drivers/cpl_share"]
+        srcmods = os.path.join(caseroot, "SourceMods", "src.roms")
+        if not os.path.exists(srcmods):
+            os.makedirs(srcmods)
+        with open(filepath_file, "w") as filepath:
+            filepath.write(srcmods + "\n")
+            for path in paths:
+                filepath.write(os.path.join(pathroot, path)+"\n")
+            filepath.write("\n")
+            
+        with open(os.path.join(objpath, "Depends"),"w", encoding="utf-8") as D:
+                  D.write("abort.o: ocean_control.o\n")
+                  D.write("ocean_control.o: mod_ncparam.o\n")
+                  D.write("master.o: mod_iounits.o mod_parallel.o ocean_control.o\n")
+                  D.write("prsgrd.o: mod_ncparam.o\n")
+                  D.write("uv3dmix.o: mod_scalars.o mod_grid.o\n")
+                  D.write("step2d.o: mp_exchange.o obc_volcons.o\n")
+                  D.write("t3dmix.o: mod_ncparam.o\n")
+                  D.write("analytical.o: mod_forces.o mod_ncparam.o distribute.o\n")
+                  D.write("ocn_utils.o: ocean_control.o\n")
 
+        cppflags = '-I. -I{} -I{} -I{}'\
+            .format( os.path.join(pathroot, "Apps", "gst03"), os.path.join(pathroot,"ROMS", "Drivers"),
+                     os.path.join(pathroot,"ROMS", "Include"))
         os.environ['NINST_VALUE'] = str(ninst)
         os.environ['BUILD_THREADED'] = str(bld_thrdd)
         os.environ['SHAREDLIBROOT'] = str(shrdlibroot)
@@ -58,11 +90,18 @@ def _build_roms():
         #-------------------------------------------------------
         # Call roms's buildexe.csh
         #-------------------------------------------------------
-        cmdst = os.path.join(os.path.join(srcroot,"components","roms","bld","roms.buildexe.csh"))
-        cmd = "%s -objroot %s -coderoot %s -ocn_grid %s -gmakej %s -casetools %s -caseroot %s -mach %s" \
-                  % (cmdst, bldroot, srcroot, ocn_grid, gmake_j, casetools, caseroot, mach)
-        logger.info("     ...calling roms buildexe to build library")
-        rc, out, err = run_cmd(cmd)
+#        cmdst = os.path.join(os.path.join(srcroot,"components","roms","bld","roms.buildexe.csh"))
+#        cmd = "%s -objroot %s -coderoot %s -ocn_grid %s -gmakej %s -casetools %s -caseroot %s -mach %s" \
+#                  % (cmdst, bldroot, srcroot, ocn_grid, gmake_j, casetools, caseroot, mach)
+#        logger.info("     ...calling roms buildexe to build library")
+#        rc, out, err = run_cmd(cmd)
+        makefile = os.path.join(casetools, "Makefile")
+        cmd = "{} complib -j {} COMP_NAME=roms COMPLIB=libroms.a USER_CPPDEFS=\"{}\" -f {}" \
+              .format(gmake, gmake_j, cppflags, makefile)
+
+        rc, out, err = run_cmd(cmd, from_dir=objpath)
+        expect(rc == 0, "Command %s failed rc=%d\nout=%s\nerr=%s" % (cmd, rc, out, err))
+
         logger.info("%s: \n\n output:\n %s \n\n err:\n\n%s\n"%(cmd,out,err))
         expect(rc == 0, "Command %s failed with rc=%s" % (cmd, rc))
 
