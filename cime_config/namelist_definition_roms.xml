@@ -531,7 +531,7 @@
   </entry>
 
 
-  <entry id="lcycletadj">
+  <entry id="lcycleadj">
     <type>logical(8)</type>
     <category>roms</category>
     <group>ocean.in6</group>
@@ -637,7 +637,7 @@
     <group>ocean.in6</group>
    <desc>Harmonic/biharmonic horizontal diffusion of tracer for nonlinear model and adjoint-based algorithms </desc>
     <values>
-      <value>15.0</value>
+      <value>15.0,15.0,4*15.0</value>
     </values>
   </entry>
 
@@ -647,7 +647,7 @@
     <group>ocean.in6</group>
     <desc>Harmonic/biharmonic horizontal diffusion of tracer for nonlinear model and adjoint-based algorithms </desc>
     <values>
-      <value>500.0</value>
+      <value>2*500.0, 2*500.0</value>
     </values>
   </entry>
 
@@ -742,7 +742,7 @@
     </values>
   </entry>
 
-  <entry id="avk_bak">
+  <entry id="akv_bak">
     <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in6</group>
@@ -754,7 +754,7 @@
     </values>
   </entry>
 
-  <entry id="ad_avk_fac">
+  <entry id="ad_akv_fac">
     <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in6</group>
@@ -1221,7 +1221,7 @@
     <desc>model reference time for netcdf output
     </desc>
     <values>
-      <value>201001010.0</value>
+      <value>20100101.0</value>
     </values>
   </entry>
 
@@ -1232,7 +1232,7 @@
     <desc>Nudging/relaxation time scales, inverse scales will be computed
     </desc>
     <values>
-      <value>2.0</value>
+      <value>2.0,2.0</value>
     </values>
   </entry>
 
@@ -1566,7 +1566,7 @@
           which Forcing Singular Vectors or Stochastic Optimals is required.
     </desc>
     <values>
-      <value>F</value>
+      <value>T</value>
     </values>
   </entry>
 
@@ -1579,7 +1579,7 @@
           which Forcing Singular Vectors or Stochastic Optimals is required.
     </desc>
     <values>
-      <value>F</value>
+      <value>T</value>
     </values>
   </entry>
 
@@ -1640,7 +1640,7 @@
       <value>1.0d0</value>
     </values>
   </entry>
-  <entry id="so_sdev(iuvel)">
+  <entry id="so_sdev(isuvel)">
     <type>real(8)</type>
     <category>roms</category>
     <group>ocean.in6</group>
@@ -1670,7 +1670,7 @@
             dimensionalization.
     </desc>
     <values>
-      <value>1.0d0</value>
+      <value>1.0d0,1.0d0</value>
     </values>
   </entry>
   <entry id="so_sdev(isustr)">
@@ -1705,7 +1705,7 @@
             dimensionalization.
     </desc>
     <values>
-      <value>1.0d0</value>
+      <value>1.0d0,1.0d0</value>
     </values>
   </entry>
 
@@ -2778,7 +2778,7 @@
     <desc>  surface net heat and salt flux
     </desc>
     <values>
-      <value>T, T</value>
+      <value>F, F</value>
     </values>
   </entry>
 
@@ -2789,7 +2789,7 @@
     <desc> latent heat flux
     </desc>
     <values>
-      <value>T</value>
+      <value>F</value>
     </values>
   </entry>
   <entry id="aout(idshea)">
@@ -2799,7 +2799,7 @@
     <desc> sensible heat flux
     </desc>
     <values>
-      <value>T</value>
+      <value>F</value>
     </values>
   </entry>
 
@@ -2810,7 +2810,7 @@
     <desc> longwave radiation flux
     </desc>
     <values>
-      <value>T</value>
+      <value>F</value>
     </values>
   </entry>
 
@@ -2821,7 +2821,7 @@
     <desc>  shortwave radiation flux
     </desc>
     <values>
-      <value>T</value>
+      <value>F</value>
     </values>
   </entry>
 
@@ -2832,7 +2832,7 @@
     <desc>E-P flux
     </desc>
     <values>
-      <value>T</value>
+      <value>F</value>
     </values>
   </entry>
   <entry id="aout(idevap)">
@@ -2862,7 +2862,7 @@
     <desc> density anomaly
     </desc>
     <values>
-      <value>T</value>
+      <value>F</value>
     </values>
   </entry>
 
@@ -2873,7 +2873,7 @@
     <desc> vertical viscosity
     </desc>
     <values>
-      <value>T</value>
+      <value>F</value>
     </values>
   </entry>
   <entry id="aout(idtdif)">
@@ -2883,7 +2883,7 @@
     <desc> vertical T-diffusion
     </desc>
     <values>
-      <value>T</value>
+      <value>F</value>
     </values>
   </entry>
   <entry id="aout(idsdif)">
@@ -2903,7 +2903,7 @@
     <desc> depth of surface boundary layer
     </desc>
     <values>
-      <value>T</value>
+      <value>F</value>
     </values>
   </entry>
   <entry id="aout(idhbbl)">
